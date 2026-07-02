@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IoT Intelligent Mosquito Trap — Lucas Pin</title>
+  <meta name="description" content="IoT architecture based on HTTP and PostgreSQL for intelligent mosquito traps.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="../home.html" class="nav-logo"><span class="nav-logo-icon">LP</span>Lucas Pin</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navLinks">
+      <a href="../home.html">Home</a>
+      <a href="../projects.html" class="active">Projects</a>
+      <a href="../research.html">Research</a>
+      <a href="../teaching.html">Teaching</a>
+    </div>
+  </nav>
+  <div class="proj-breadcrumb">
+    <a href="../projects.html">← Projects</a><span>/</span><span>IoT Intelligent Mosquito Trap</span>
+  </div>
+  <section class="proj-hero">
+    <div class="proj-hero-inner">
+      <div class="proj-hero-left">
+        <span class="proj-category-tag">IoT · Backend · Data</span>
+        <h1 class="proj-title">IoT Intelligent Mosquito Trap</h1>
+        <div class="proj-status-row">
+          <span class="project-status project-status--active">Active</span>
+          <span class="proj-year">2025 – 2026</span>
+        </div>
+        <div class="proj-cover"><div class="proj-cover-placeholder">📡</div></div>
+      </div>
+      <div class="proj-hero-right">
+        <h2 class="proj-section-heading">Overview</h2>
+        <p class="proj-overview">
+          Design and implementation of an IoT architecture based on HTTP and PostgreSQL for the
+          registration, storage, and analysis of biological detections in intelligent mosquito traps.
+          The system supports remote data collection and real-time monitoring.
+        </p>
+        <div class="proj-tech-row">
+          <span class="pill">Python</span><span class="pill">PostgreSQL</span><span class="pill">HTTP API</span><span class="pill">IoT</span><span class="pill">FastAPI</span>
+        </div>
+        <div class="proj-links-block">
+          <a href="https://github.com/Spin7" target="_blank" class="btn-outline btn-sm">GitHub →</a>
+        </div>
+        <div class="proj-meta-grid">
+          <div class="proj-meta-item"><span class="proj-meta-label">Institution</span><span class="proj-meta-val">Universidad Nacional de Asunción</span></div>
+          <div class="proj-meta-item"><span class="proj-meta-label">Context</span><span class="proj-meta-val">Research Assistant · LCIAE</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="proj-detail">
+    <div class="proj-detail-inner">
+      <h2 class="proj-section-heading">Detailed Description</h2>
+      <div class="proj-detail-content">
+        <p>The intelligent mosquito trap integrates edge computing hardware that captures biological data from the trap environment. This data is transmitted via HTTP to a central server and stored in a PostgreSQL database for analysis.</p>
+        <p>The backend provides REST API endpoints for data ingestion, querying, and visualization. The system is designed to scale across multiple traps deployed in different locations simultaneously.</p>
+        <div class="proj-highlights">
+          <div class="proj-highlight"><span class="proj-highlight-icon">🗄️</span><div><strong>PostgreSQL Backend</strong><p>Structured storage for time-series biological detection data.</p></div></div>
+          <div class="proj-highlight"><span class="proj-highlight-icon">🌐</span><div><strong>HTTP API</strong><p>RESTful interface for data ingestion and remote querying.</p></div></div>
+          <div class="proj-highlight"><span class="proj-highlight-icon">📈</span><div><strong>Real-time Monitoring</strong><p>Live dashboards for biological detection events across trap network.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="proj-media">
+    <div class="proj-detail-inner">
+      <h2 class="proj-section-heading">Media</h2>
+      <div class="proj-media-placeholder"><span>📹</span><p>Video or images coming soon.</p></div>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="footer-inner"><span>© 2025 Lucas Pin</span>
+      <div class="footer-links">
+        <a href="https://github.com/Spin7" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank">LinkedIn</a>
+        <a href="mailto:lucaspinf@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById('hamburger').addEventListener('click',()=>{document.getElementById('hamburger').classList.toggle('open');document.getElementById('navLinks').classList.toggle('open');});</script>
+</body>
+</html>

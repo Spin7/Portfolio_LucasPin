@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Egg Inspection Gantry Robot — Lucas Pin</title>
+  <meta name="description" content="Three-DOF gantry robot with computer vision for automatic detection and classification of defective eggs.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="../home.html" class="nav-logo"><span class="nav-logo-icon">LP</span>Lucas Pin</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navLinks">
+      <a href="../home.html">Home</a><a href="../projects.html" class="active">Projects</a>
+      <a href="../research.html">Research</a><a href="../teaching.html">Teaching</a>
+    </div>
+  </nav>
+  <div class="proj-breadcrumb"><a href="../projects.html">← Projects</a><span>/</span><span>Egg Inspection Gantry Robot</span></div>
+  <section class="proj-hero">
+    <div class="proj-hero-inner">
+      <div class="proj-hero-left">
+        <span class="proj-category-tag">Robotics · Computer Vision · Control</span>
+        <h1 class="proj-title">Egg Inspection Gantry Robot</h1>
+        <div class="proj-status-row"><span class="project-status project-status--done">Completed</span><span class="proj-year">2024</span></div>
+        <div class="proj-cover"><div class="proj-cover-placeholder">🥚</div></div>
+      </div>
+      <div class="proj-hero-right">
+        <h2 class="proj-section-heading">Overview</h2>
+        <p class="proj-overview">Development of a three-degree-of-freedom gantry robot equipped with computer vision for the automatic detection and classification of defective eggs on a conveyor belt. The system performs quality control autonomously.</p>
+        <div class="proj-tech-row">
+          <span class="pill">C++</span><span class="pill">OpenCV</span><span class="pill">Computer Vision</span><span class="pill">Gantry Robot</span><span class="pill">Control Systems</span>
+        </div>
+        <div class="proj-links-block"><a href="https://github.com/Spin7" target="_blank" class="btn-outline btn-sm">GitHub →</a></div>
+        <div class="proj-meta-grid">
+          <div class="proj-meta-item"><span class="proj-meta-label">DOF</span><span class="proj-meta-val">3 degrees of freedom</span></div>
+          <div class="proj-meta-item"><span class="proj-meta-label">Application</span><span class="proj-meta-val">Automated quality control</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="proj-detail">
+    <div class="proj-detail-inner">
+      <h2 class="proj-section-heading">Detailed Description</h2>
+      <div class="proj-detail-content">
+        <p>The gantry robot moves along three axes (X, Y, Z) over a conveyor belt. A camera mounted on the end-effector captures images of each egg. Computer vision algorithms analyze color, shape, and surface anomalies to classify eggs as good or defective.</p>
+        <p>When a defective egg is detected, the robot arm moves to the target position and activates a removal mechanism. The system was designed and built from scratch, including mechanical structure, electronics, and software.</p>
+        <div class="proj-highlights">
+          <div class="proj-highlight"><span class="proj-highlight-icon">🔧</span><div><strong>3-DOF Gantry</strong><p>Custom-built mechanical structure with precision linear actuators.</p></div></div>
+          <div class="proj-highlight"><span class="proj-highlight-icon">🎯</span><div><strong>Vision-based Quality Control</strong><p>Automated defect detection using image processing algorithms.</p></div></div>
+          <div class="proj-highlight"><span class="proj-highlight-icon">⚙️</span><div><strong>End-to-end Design</strong><p>Mechanical, electronic, and software integration from scratch.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="proj-media">
+    <div class="proj-detail-inner"><h2 class="proj-section-heading">Media</h2><div class="proj-media-placeholder"><span>📹</span><p>Video or images coming soon.</p></div></div>
+  </section>
+  <footer class="footer"><div class="footer-inner"><span>© 2025 Lucas Pin</span><div class="footer-links"><a href="https://github.com/Spin7" target="_blank">GitHub</a><a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank">LinkedIn</a><a href="mailto:lucaspinf@gmail.com">Email</a></div></div></footer>
+  <script>document.getElementById('hamburger').addEventListener('click',()=>{document.getElementById('hamburger').classList.toggle('open');document.getElementById('navLinks').classList.toggle('open');});</script>
+</body>
+</html>

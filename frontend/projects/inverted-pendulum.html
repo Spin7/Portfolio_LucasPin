@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Self-Balancing Inverted Pendulum — Lucas Pin</title>
+  <meta name="description" content="State-feedback controller for a self-balancing inverted pendulum robot.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav class="navbar"><a href="../home.html" class="nav-logo"><span class="nav-logo-icon">LP</span>Lucas Pin</a><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button><div class="nav-links" id="navLinks"><a href="../home.html">Home</a><a href="../projects.html" class="active">Projects</a><a href="../research.html">Research</a><a href="../teaching.html">Teaching</a></div></nav>
+  <div class="proj-breadcrumb"><a href="../projects.html">← Projects</a><span>/</span><span>Self-Balancing Inverted Pendulum</span></div>
+  <section class="proj-hero">
+    <div class="proj-hero-inner">
+      <div class="proj-hero-left">
+        <span class="proj-category-tag">Control Systems · Embedded · MATLAB</span>
+        <h1 class="proj-title">Self-Balancing Inverted Pendulum</h1>
+        <div class="proj-status-row"><span class="project-status project-status--done">Completed</span><span class="proj-year">2023</span></div>
+        <div class="proj-cover"><div class="proj-cover-placeholder">⚖️</div></div>
+      </div>
+      <div class="proj-hero-right">
+        <h2 class="proj-section-heading">Overview</h2>
+        <p class="proj-overview">Design, modeling, and implementation of a state-feedback controller for a self-balancing inverted pendulum robot. The system uses LQR (Linear Quadratic Regulator) control derived from a linearized state-space model, validated in MATLAB/Simulink before embedded implementation.</p>
+        <div class="proj-tech-row"><span class="pill">MATLAB/Simulink</span><span class="pill">C++</span><span class="pill">LQR Control</span><span class="pill">Embedded</span><span class="pill">IMU</span></div>
+        <div class="proj-links-block"><a href="https://github.com/Spin7" target="_blank" class="btn-outline btn-sm">GitHub →</a></div>
+        <div class="proj-meta-grid">
+          <div class="proj-meta-item"><span class="proj-meta-label">Control</span><span class="proj-meta-val">LQR State Feedback</span></div>
+          <div class="proj-meta-item"><span class="proj-meta-label">Validation</span><span class="proj-meta-val">MATLAB/Simulink</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="proj-detail">
+    <div class="proj-detail-inner">
+      <h2 class="proj-section-heading">Detailed Description</h2>
+      <div class="proj-detail-content">
+        <p>The inverted pendulum is linearized around its upright equilibrium. A state-space model is derived from Newton-Euler equations, and LQR is used to compute optimal feedback gains that minimize a weighted cost function of state deviations and control effort.</p>
+        <p>An IMU (MPU6050) provides angle and angular velocity feedback. The computed control signal drives DC motors via an H-bridge. The controller runs on a microcontroller at fixed sample rate.</p>
+        <div class="proj-highlights">
+          <div class="proj-highlight"><span class="proj-highlight-icon">📐</span><div><strong>State-Space Modeling</strong><p>Linearized dynamics derived from Newton-Euler equations.</p></div></div>
+          <div class="proj-highlight"><span class="proj-highlight-icon">🎛️</span><div><strong>LQR Control</strong><p>Optimal state-feedback gains computed via MATLAB.</p></div></div>
+          <div class="proj-highlight"><span class="proj-highlight-icon">📡</span><div><strong>IMU Feedback</strong><p>MPU6050 provides real-time angle and angular rate measurements.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="proj-media"><div class="proj-detail-inner"><h2 class="proj-section-heading">Media</h2><div class="proj-media-placeholder"><span>📹</span><p>Video or images coming soon.</p></div></div></section>
+  <footer class="footer"><div class="footer-inner"><span>© 2025 Lucas Pin</span><div class="footer-links"><a href="https://github.com/Spin7" target="_blank">GitHub</a><a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank">LinkedIn</a><a href="mailto:lucaspinf@gmail.com">Email</a></div></div></footer>
+  <script>document.getElementById('hamburger').addEventListener('click',()=>{document.getElementById('hamburger').classList.toggle('open');document.getElementById('navLinks').classList.toggle('open');});</script>
+</body>
+</html>

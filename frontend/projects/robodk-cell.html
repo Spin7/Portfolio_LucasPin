@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Industrial Cell Simulation — Lucas Pin</title>
+  <meta name="description" content="Simulation and validation of an industrial cell with three robots using RoboDK.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav class="navbar"><a href="../home.html" class="nav-logo"><span class="nav-logo-icon">LP</span>Lucas Pin</a><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button><div class="nav-links" id="navLinks"><a href="../home.html">Home</a><a href="../projects.html" class="active">Projects</a><a href="../research.html">Research</a><a href="../teaching.html">Teaching</a></div></nav>
+  <div class="proj-breadcrumb"><a href="../projects.html">← Projects</a><span>/</span><span>Industrial Cell Simulation</span></div>
+  <section class="proj-hero">
+    <div class="proj-hero-inner">
+      <div class="proj-hero-left">
+        <span class="proj-category-tag">Simulation · Industrial Robotics</span>
+        <h1 class="proj-title">Industrial Cell Simulation</h1>
+        <div class="proj-status-row"><span class="project-status project-status--done">Completed</span><span class="proj-year">2024</span></div>
+        <div class="proj-cover"><div class="proj-cover-placeholder">🏭</div></div>
+      </div>
+      <div class="proj-hero-right">
+        <h2 class="proj-section-heading">Overview</h2>
+        <p class="proj-overview">Simulation and validation of an industrial manufacturing cell composed of three industrial robots using RoboDK. The project covers task allocation, collision avoidance, cycle time optimization, and offline programming.</p>
+        <div class="proj-tech-row"><span class="pill">RoboDK</span><span class="pill">Python</span><span class="pill">Industrial Robots</span><span class="pill">Offline Programming</span></div>
+        <div class="proj-links-block"><a href="https://github.com/Spin7" target="_blank" class="btn-outline btn-sm">GitHub →</a></div>
+        <div class="proj-meta-grid">
+          <div class="proj-meta-item"><span class="proj-meta-label">Tool</span><span class="proj-meta-val">RoboDK</span></div>
+          <div class="proj-meta-item"><span class="proj-meta-label">Robots</span><span class="proj-meta-val">3 industrial manipulators</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="proj-detail">
+    <div class="proj-detail-inner">
+      <h2 class="proj-section-heading">Detailed Description</h2>
+      <div class="proj-detail-content">
+        <p>The industrial cell was designed and validated entirely in RoboDK. Three robotic manipulators coordinate to perform pick-and-place, assembly, and inspection tasks. Collision detection ensures safe operation, and cycle time is optimized by parallelizing robot movements.</p>
+        <p>Offline programming allows code generation for real robot controllers directly from the simulation, reducing commissioning time significantly.</p>
+        <div class="proj-highlights">
+          <div class="proj-highlight"><span class="proj-highlight-icon">🤝</span><div><strong>Multi-robot Coordination</strong><p>Three robots operating collaboratively with collision avoidance.</p></div></div>
+          <div class="proj-highlight"><span class="proj-highlight-icon">⏱️</span><div><strong>Cycle Time Optimization</strong><p>Parallelized motions to minimize overall manufacturing cycle time.</p></div></div>
+          <div class="proj-highlight"><span class="proj-highlight-icon">📝</span><div><strong>Offline Programming</strong><p>Automatic code generation for real industrial robot controllers.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="proj-media"><div class="proj-detail-inner"><h2 class="proj-section-heading">Media</h2><div class="proj-media-placeholder"><span>📹</span><p>Video or images coming soon.</p></div></div></section>
+  <footer class="footer"><div class="footer-inner"><span>© 2025 Lucas Pin</span><div class="footer-links"><a href="https://github.com/Spin7" target="_blank">GitHub</a><a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank">LinkedIn</a><a href="mailto:lucaspinf@gmail.com">Email</a></div></div></footer>
+  <script>document.getElementById('hamburger').addEventListener('click',()=>{document.getElementById('hamburger').classList.toggle('open');document.getElementById('navLinks').classList.toggle('open');});</script>
+</body>
+</html>

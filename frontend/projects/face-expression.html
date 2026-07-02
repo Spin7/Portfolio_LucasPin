@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Face Expression & Tracking — Lucas Pin</title>
+  <meta name="description" content="Facial expression recognition and person tracking using YOLO and MediaPipe Face Landmarks.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="../home.html" class="nav-logo"><span class="nav-logo-icon">LP</span>Lucas Pin</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navLinks">
+      <a href="../home.html">Home</a>
+      <a href="../projects.html" class="active">Projects</a>
+      <a href="../research.html">Research</a>
+      <a href="../teaching.html">Teaching</a>
+    </div>
+  </nav>
+
+  <div class="proj-breadcrumb">
+    <a href="../projects.html">← Projects</a>
+    <span>/</span>
+    <span>Face Expression &amp; Tracking</span>
+  </div>
+
+  <section class="proj-hero">
+    <div class="proj-hero-inner">
+      <div class="proj-hero-left">
+        <span class="proj-category-tag">AI · Computer Vision</span>
+        <h1 class="proj-title">Face Expression &amp; Tracking</h1>
+        <div class="proj-status-row">
+          <span class="project-status project-status--done">Completed</span>
+          <span class="proj-year">2024</span>
+        </div>
+        <div class="proj-cover">
+          <div class="proj-cover-placeholder">😶</div>
+        </div>
+      </div>
+      <div class="proj-hero-right">
+        <h2 class="proj-section-heading">Overview</h2>
+        <p class="proj-overview">
+          System for real-time facial expression recognition and person tracking using YOLO (ONNX Runtime)
+          for detection and MediaPipe Face Landmarks for expression classification. The system can identify
+          emotions and track multiple persons simultaneously in a live video stream.
+        </p>
+        <div class="proj-tech-row">
+          <span class="pill">YOLO</span>
+          <span class="pill">ONNX Runtime</span>
+          <span class="pill">MediaPipe</span>
+          <span class="pill">Python</span>
+          <span class="pill">OpenCV</span>
+        </div>
+        <div class="proj-links-block">
+          <a href="https://github.com/Spin7" target="_blank" class="btn-outline btn-sm">GitHub →</a>
+        </div>
+        <div class="proj-meta-grid">
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Category</span>
+            <span class="proj-meta-val">Computer Vision · AI</span>
+          </div>
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Runtime</span>
+            <span class="proj-meta-val">Real-time (ONNX)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-detail">
+    <div class="proj-detail-inner">
+      <h2 class="proj-section-heading">Detailed Description</h2>
+      <div class="proj-detail-content">
+        <p>
+          The system uses YOLO exported to ONNX format for efficient, cross-platform person detection.
+          ONNX Runtime provides fast inference without framework dependencies, making the system
+          portable and performant on both CPU and GPU.
+        </p>
+        <p>
+          MediaPipe Face Landmarks extracts 468 facial keypoints per face, enabling a lightweight
+          classifier to distinguish between emotional states such as neutral, happy, surprised,
+          and others. Person tracking maintains consistent IDs across frames.
+        </p>
+        <div class="proj-highlights">
+          <div class="proj-highlight">
+            <span class="proj-highlight-icon">⚡</span>
+            <div><strong>ONNX Runtime</strong><p>Efficient cross-platform inference for real-time performance.</p></div>
+          </div>
+          <div class="proj-highlight">
+            <span class="proj-highlight-icon">🗺️</span>
+            <div><strong>468 Face Landmarks</strong><p>MediaPipe provides dense facial geometry for expression analysis.</p></div>
+          </div>
+          <div class="proj-highlight">
+            <span class="proj-highlight-icon">👥</span>
+            <div><strong>Multi-person Tracking</strong><p>Simultaneous detection and tracking of multiple individuals.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-media">
+    <div class="proj-detail-inner">
+      <h2 class="proj-section-heading">Media</h2>
+      <div class="proj-media-placeholder"><span>📹</span><p>Video or images coming soon.</p></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>© 2025 Lucas Pin</span>
+      <div class="footer-links">
+        <a href="https://github.com/Spin7" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank">LinkedIn</a>
+        <a href="mailto:lucaspinf@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('hamburger').classList.toggle('open');
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

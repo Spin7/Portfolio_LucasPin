@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects — Lucas Pin</title>
-  <meta name="description" content="Engineering and research projects by Lucas Pin — AI, embedded systems, and software.">
+  <meta name="description" content="Engineering and research projects by Lucas Pin — AI, computer vision, robotics, IoT, and software.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -34,103 +34,248 @@
     <p class="section-label">Portfolio</p>
     <h1 class="section-title">Projects</h1>
     <p class="section-sub">
-      A collection of engineering, AI, and software projects — from prototypes to production-ready systems.
+      A collection of engineering, AI, robotics, and software projects — from prototypes to production-ready systems.
     </p>
   </div>
 
-  <!-- ===== PROJECT FILTERS ===== -->
+  <!-- ===== FILTER BAR ===== -->
   <div class="filter-bar">
     <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="ai">AI / ML</button>
-    <button class="filter-btn" data-filter="embedded">Embedded</button>
+    <button class="filter-btn" data-filter="ai">AI / Vision</button>
+    <button class="filter-btn" data-filter="robotics">Robotics</button>
+    <button class="filter-btn" data-filter="simulation">Simulation</button>
     <button class="filter-btn" data-filter="software">Software</button>
+    <button class="filter-btn" data-filter="iot">IoT</button>
   </div>
 
   <!-- ===== PROJECTS GRID ===== -->
   <section class="projects-section">
     <div class="projects-grid">
 
-      <!-- Project Card Template -->
-      <div class="project-card" data-category="ai">
+      <!-- 1. Mosquito ABM -->
+      <a href="projects/mosquito-abm.html" class="project-card" data-category="simulation">
         <div class="project-card-header">
-          <div class="project-icon">🤖</div>
+          <div class="project-icon">🦟</div>
           <div class="project-status project-status--active">Active</div>
         </div>
-        <h2 class="project-title">Project Title One</h2>
+        <h2 class="project-title">Mosquito Population ABM</h2>
         <p class="project-desc">
-          Brief description of this project. What problem does it solve? What technologies were used?
-          What was the outcome or impact?
+          Agent-based model for spatio-temporal simulation of mosquito populations, incorporating sex differentiation and local behavioral rules.
         </p>
         <div class="project-tags">
           <span class="pill">Python</span>
-          <span class="pill">TensorFlow</span>
-          <span class="pill">Edge AI</span>
+          <span class="pill">Agent-Based Modeling</span>
+          <span class="pill">Simulation</span>
         </div>
-        <div class="project-links">
-          <a href="#" class="btn-outline btn-sm">GitHub →</a>
-          <a href="#" class="btn-primary btn-sm">Demo →</a>
-        </div>
-      </div>
+        <div class="project-card-footer">View Project →</div>
+      </a>
 
-      <div class="project-card" data-category="embedded">
+      <!-- 2. Hexapod Robot -->
+      <a href="projects/hexapod-robot.html" class="project-card" data-category="robotics">
         <div class="project-card-header">
-          <div class="project-icon">⚙️</div>
+          <div class="project-icon">🤖</div>
           <div class="project-status project-status--done">Completed</div>
         </div>
-        <h2 class="project-title">Project Title Two</h2>
+        <h2 class="project-title">Autonomous Hexapod Robot</h2>
         <p class="project-desc">
-          Brief description of this project. What problem does it solve? What technologies were used?
-          What was the outcome or impact?
+          Autonomous hexapod integrating computer vision, autonomous navigation via ROS2, and physical simulation in Gazebo.
         </p>
         <div class="project-tags">
+          <span class="pill">ROS2</span>
+          <span class="pill">Gazebo</span>
+          <span class="pill">Computer Vision</span>
           <span class="pill">C++</span>
-          <span class="pill">Raspberry Pi</span>
-          <span class="pill">IoT</span>
         </div>
-        <div class="project-links">
-          <a href="#" class="btn-outline btn-sm">GitHub →</a>
-        </div>
-      </div>
+        <div class="project-card-footer">View Project →</div>
+      </a>
 
-      <div class="project-card" data-category="software">
+      <!-- 3. Face Expression Recognition -->
+      <a href="projects/face-expression.html" class="project-card" data-category="ai">
         <div class="project-card-header">
-          <div class="project-icon">💻</div>
+          <div class="project-icon">😶</div>
           <div class="project-status project-status--done">Completed</div>
         </div>
-        <h2 class="project-title">Project Title Three</h2>
+        <h2 class="project-title">Face Expression &amp; Tracking</h2>
         <p class="project-desc">
-          Brief description of this project. What problem does it solve? What technologies were used?
-          What was the outcome or impact?
+          System for facial expression recognition and person tracking using YOLO (ONNX Runtime) and MediaPipe Face Landmarks.
+        </p>
+        <div class="project-tags">
+          <span class="pill">YOLO</span>
+          <span class="pill">MediaPipe</span>
+          <span class="pill">Python</span>
+          <span class="pill">ONNX</span>
+        </div>
+        <div class="project-card-footer">View Project →</div>
+      </a>
+
+      <!-- 4. License Plate Recognition -->
+      <a href="projects/license-plate.html" class="project-card" data-category="ai">
+        <div class="project-card-header">
+          <div class="project-icon">🚗</div>
+          <div class="project-status project-status--done">Completed</div>
+        </div>
+        <h2 class="project-title">License Plate Recognition</h2>
+        <p class="project-desc">
+          Real-time automatic license plate recognition system using YOLO for detection and EasyOCR for character extraction.
+        </p>
+        <div class="project-tags">
+          <span class="pill">YOLO</span>
+          <span class="pill">EasyOCR</span>
+          <span class="pill">Python</span>
+          <span class="pill">Real-time</span>
+        </div>
+        <div class="project-card-footer">View Project →</div>
+      </a>
+
+      <!-- 5. IoT Mosquito Trap -->
+      <a href="projects/iot-mosquito-trap.html" class="project-card" data-category="iot">
+        <div class="project-card-header">
+          <div class="project-icon">📡</div>
+          <div class="project-status project-status--active">Active</div>
+        </div>
+        <h2 class="project-title">IoT Intelligent Mosquito Trap</h2>
+        <p class="project-desc">
+          IoT architecture based on HTTP and PostgreSQL for registration, storage, and analysis of biological detections in intelligent traps.
+        </p>
+        <div class="project-tags">
+          <span class="pill">IoT</span>
+          <span class="pill">PostgreSQL</span>
+          <span class="pill">HTTP</span>
+          <span class="pill">Python</span>
+        </div>
+        <div class="project-card-footer">View Project →</div>
+      </a>
+
+      <!-- 6. Gantry Robot Egg Inspection -->
+      <a href="projects/gantry-robot.html" class="project-card" data-category="robotics">
+        <div class="project-card-header">
+          <div class="project-icon">🥚</div>
+          <div class="project-status project-status--done">Completed</div>
+        </div>
+        <h2 class="project-title">Egg Inspection Gantry Robot</h2>
+        <p class="project-desc">
+          Three-DOF gantry robot with computer vision for automatic detection and classification of defective eggs.
+        </p>
+        <div class="project-tags">
+          <span class="pill">Computer Vision</span>
+          <span class="pill">Robotics</span>
+          <span class="pill">C++</span>
+          <span class="pill">OpenCV</span>
+        </div>
+        <div class="project-card-footer">View Project →</div>
+      </a>
+
+      <!-- 7. Web App -->
+      <a href="projects/web-app.html" class="project-card" data-category="software">
+        <div class="project-card-header">
+          <div class="project-icon">🌐</div>
+          <div class="project-status project-status--done">Completed</div>
+        </div>
+        <h2 class="project-title">Full-Stack Web Application</h2>
+        <p class="project-desc">
+          Client-server web application with frontend and backend, deployed on Vercel and Railway.
         </p>
         <div class="project-tags">
           <span class="pill">JavaScript</span>
-          <span class="pill">Node.js</span>
-          <span class="pill">PostgreSQL</span>
+          <span class="pill">Python</span>
+          <span class="pill">Vercel</span>
+          <span class="pill">Railway</span>
         </div>
-        <div class="project-links">
-          <a href="#" class="btn-outline btn-sm">GitHub →</a>
-          <a href="#" class="btn-primary btn-sm">Live →</a>
-        </div>
-      </div>
+        <div class="project-card-footer">View Project →</div>
+      </a>
 
-      <div class="project-card" data-category="ai">
+      <!-- 8. Diff-Drive Simulator -->
+      <a href="projects/diff-drive-sim.html" class="project-card" data-category="simulation">
         <div class="project-card-header">
-          <div class="project-icon">🔬</div>
-          <div class="project-status project-status--active">In Progress</div>
+          <div class="project-icon">🎮</div>
+          <div class="project-status project-status--done">Completed</div>
         </div>
-        <h2 class="project-title">Project Title Four</h2>
+        <h2 class="project-title">Differential-Drive Robot Simulator</h2>
         <p class="project-desc">
-          Brief description of this project. What problem does it solve? What technologies were used?
-          What was the outcome or impact?
+          Simulator for differential-drive robots using PyGame and PyMunk, with trajectory planning via RRT (Rapidly-exploring Random Trees).
         </p>
         <div class="project-tags">
+          <span class="pill">PyGame</span>
+          <span class="pill">PyMunk</span>
+          <span class="pill">RRT</span>
           <span class="pill">Python</span>
+        </div>
+        <div class="project-card-footer">View Project →</div>
+      </a>
+
+      <!-- 9. Inverted Pendulum -->
+      <a href="projects/inverted-pendulum.html" class="project-card" data-category="robotics">
+        <div class="project-card-header">
+          <div class="project-icon">⚖️</div>
+          <div class="project-status project-status--done">Completed</div>
+        </div>
+        <h2 class="project-title">Self-Balancing Inverted Pendulum</h2>
+        <p class="project-desc">
+          Design, modeling, and implementation of a state-feedback controller for a self-balancing inverted pendulum robot.
+        </p>
+        <div class="project-tags">
+          <span class="pill">Control Systems</span>
+          <span class="pill">MATLAB</span>
+          <span class="pill">Embedded</span>
+          <span class="pill">C++</span>
+        </div>
+        <div class="project-card-footer">View Project →</div>
+      </a>
+
+      <!-- 10. GPS Navigation -->
+      <a href="projects/gps-navigation.html" class="project-card" data-category="robotics">
+        <div class="project-card-header">
+          <div class="project-icon">🧭</div>
+          <div class="project-status project-status--done">Completed</div>
+        </div>
+        <h2 class="project-title">GPS + IMU Navigation System</h2>
+        <p class="project-desc">
+          Navigation system based on GPS, IMU, and compass for localization and orientation of differential-drive robots.
+        </p>
+        <div class="project-tags">
+          <span class="pill">GPS</span>
+          <span class="pill">IMU</span>
+          <span class="pill">Embedded</span>
+          <span class="pill">C++</span>
+        </div>
+        <div class="project-card-footer">View Project →</div>
+      </a>
+
+      <!-- 11. RoboDK Industrial Cell -->
+      <a href="projects/robodk-cell.html" class="project-card" data-category="simulation">
+        <div class="project-card-header">
+          <div class="project-icon">🏭</div>
+          <div class="project-status project-status--done">Completed</div>
+        </div>
+        <h2 class="project-title">Industrial Cell Simulation</h2>
+        <p class="project-desc">
+          Simulation and validation of an industrial cell composed of three robots using RoboDK.
+        </p>
+        <div class="project-tags">
+          <span class="pill">RoboDK</span>
           <span class="pill">Simulation</span>
+          <span class="pill">Industrial Robots</span>
         </div>
-        <div class="project-links">
-          <a href="#" class="btn-outline btn-sm">Details →</a>
+        <div class="project-card-footer">View Project →</div>
+      </a>
+
+      <!-- 12. Minisumo Robot -->
+      <a href="projects/minisumo-robot.html" class="project-card" data-category="robotics">
+        <div class="project-card-header">
+          <div class="project-icon">🥊</div>
+          <div class="project-status project-status--done">Completed</div>
         </div>
-      </div>
+        <h2 class="project-title">Autonomous Minisumo Robot</h2>
+        <p class="project-desc">
+          Mechanical design and 3D modeling of the chassis and internal assemblies of an autonomous minisumo robot using SolidWorks.
+        </p>
+        <div class="project-tags">
+          <span class="pill">SolidWorks</span>
+          <span class="pill">CAD</span>
+          <span class="pill">Robotics</span>
+        </div>
+        <div class="project-card-footer">View Project →</div>
+      </a>
 
     </div>
   </section>
@@ -140,15 +285,14 @@
     <div class="footer-inner">
       <span>© 2025 Lucas Pin</span>
       <div class="footer-links">
-        <a href="https://github.com/" target="_blank">GitHub</a>
-        <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
-        <a href="mailto:lucas@example.com">Email</a>
+        <a href="https://github.com/Spin7" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank">LinkedIn</a>
+        <a href="mailto:lucaspinf@gmail.com">Email</a>
       </div>
     </div>
   </footer>
 
   <script>
-    // Hamburger menu
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('navLinks');
     hamburger.addEventListener('click', () => {
@@ -156,7 +300,6 @@
       navLinks.classList.toggle('open');
     });
 
-    // Filter buttons
     const filterBtns = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
     filterBtns.forEach(btn => {
