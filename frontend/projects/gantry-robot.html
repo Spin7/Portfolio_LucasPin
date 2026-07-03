@@ -1015,86 +1015,66 @@
         <span class="section-label-line"></span>
       </div>
 
-      <p class="section-intro">
-        The entire perception-to-action pipeline runs on the PC (<code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">main5.py</code>).
-        A <strong>PyQt5</strong> GUI (<code style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">MainWindow</code>) orchestrates three managers:
-        <strong>VitionManager</strong> (vision + ArUco), <strong>GcodeManager</strong> (robot motion), and <strong>ESPManager</strong> (gripper).
-        The control loop runs in a background thread at 50 ms intervals, keeping the GUI fully responsive.
-      </p>
+      <!-- 3 short paragraphs -->
+      <div style="max-width:780px; margin-bottom:2.5rem;">
+        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">YOLOv8 Egg Detection</h3>
+        <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:1.5rem;">
+          Each camera frame is processed in real time by a custom-trained <strong>YOLOv8</strong> model that classifies
+          every egg as <em>good</em> or <em>broken</em>. The model uses <strong>ByteTrack</strong> to maintain a persistent
+          identity across frames, so the robot can continue tracking a target even if it is temporarily occluded.
+          Detected bounding boxes are overlaid on the live feed together with the class label and track ID.
+        </p>
 
-      <!-- Pipeline description -->
-      <div class="arch-flow" style="margin-bottom:2rem;">
-        <p class="arch-flow-title">Software pipeline &mdash; per frame at 50 ms (20 Hz)</p>
-        <p style="font-size:0.84rem;color:var(--text);line-height:1.85;margin:0;">
-          <strong>1. Capture</strong> &mdash; OpenCV reads frame from smartphone camera (USB/Wi-Fi) &nbsp;&middot;&nbsp;
-          <strong>2. ArUco detect</strong> &mdash; <code>cv2.aruco</code> finds 4 markers, builds homography H via <code>findHomography</code> &nbsp;&middot;&nbsp;
-          <strong>3. YOLO track</strong> &mdash; <code>YOLOv8</code> + ByteTrack detects <em>good-egg</em> / <em>broken-egg</em> classes with persistent IDs &nbsp;&middot;&nbsp;
-          <strong>4. Localize</strong> &mdash; bounding-box centre &rarr; <code>perspectiveTransform(H)</code> &rarr; workspace (X, Y) in cm &nbsp;&middot;&nbsp;
-          <strong>5. Pick target</strong> &mdash; control loop selects the egg closest to the current robot position &nbsp;&middot;&nbsp;
-          <strong>6. Execute</strong> &mdash; G-code sent to GRBL (move XY &rarr; lower Z &rarr; <code>$on</code> grip &rarr; raise Z &rarr; move to discard &rarr; <code>$off</code> release)
+        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">Homographic Projection</h3>
+        <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:1.5rem;">
+          The centre of each detected bounding box is transformed into real-world workspace coordinates (in centimetres)
+          using a <strong>homography matrix</strong> computed from the four ArUco markers.
+          The same matrix is also used to produce a <strong>top-down perspective reconstruction</strong> of the belt,
+          giving an undistorted, metric view of the workspace that is independent of camera angle or position.
+        </p>
+
+        <h3 class="design-text" style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">Control GUI</h3>
+        <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:0;">
+          A <strong>PyQt5</strong> desktop application ties everything together. It shows the live annotated camera feed,
+          a <strong>2D map</strong> of the 27.6&thinsp;&times;&thinsp;11&thinsp;cm workspace with the robot position, detected eggs,
+          and ArUco marker status drawn in real time, plus a terminal log of every command sent to the robot.
+          A <em>Run / Stop</em> button triggers the full autonomous cycle: homing, vision startup, and the pick-and-place loop.
         </p>
       </div>
 
-      <!-- 3-column image gallery -->
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2.5rem;">
+      <!-- Row 1: Detection + Homography side by side -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
         <div class="gallery-item">
-          <img src="../static/Projects/GantryRobot/Interfaz_Grafica.png"
-               alt="PyQt5 GUI — live camera feed, 2D workspace map and terminal log"
-               loading="lazy">
-          <p class="design-caption" style="background:#fff;padding:0.5rem 0.6rem 0.6rem;">
-            PyQt5 GUI &mdash; live camera, 2D workspace map &amp; terminal log
+          <img src="../static/Projects/GantryRobot/Test1.png"
+               alt="YOLOv8 egg detection — good/broken classification with workspace coordinate assignment"
+               loading="lazy" style="width:100%;height:340px;object-fit:cover;display:block;">
+          <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
+            Detection test &mdash; good/broken egg classification &amp; coordinate assignment
           </p>
         </div>
         <div class="gallery-item">
           <img src="../static/Projects/GantryRobot/Reconstrucci%C3%B3n_Homografica.png"
                alt="Top-down homographic reconstruction of the conveyor belt workspace"
-               loading="lazy">
-          <p class="design-caption" style="background:#fff;padding:0.5rem 0.6rem 0.6rem;">
+               loading="lazy" style="width:100%;height:340px;object-fit:cover;display:block;">
+          <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
             Homographic reconstruction &mdash; top-down workspace projection
-          </p>
-        </div>
-        <div class="gallery-item">
-          <img src="../static/Projects/GantryRobot/Test1.png"
-               alt="YOLOv8 egg detection with good/broken classification and coordinate assignment"
-               loading="lazy">
-          <p class="design-caption" style="background:#fff;padding:0.5rem 0.6rem 0.6rem;">
-            Detection test &mdash; good/broken egg classification &amp; workspace coordinate assignment
           </p>
         </div>
       </div>
 
-      <!-- Key implementation notes -->
-      <div class="proj-table-wrap">
-        <table class="proj-table">
-          <thead>
-            <tr><th>Module</th><th>File</th><th>Key responsibility</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>VisionManager</strong></td>
-              <td><code>vition_manager3.py</code></td>
-              <td>ArUco detection, homography computation, YOLOv8 tracking, egg localization in cm</td>
-            </tr>
-            <tr>
-              <td><strong>GcodeManager</strong></td>
-              <td><code>gcode_manager2.py</code></td>
-              <td>Serial G-code interface to GRBL; <code>move_cm()</code>, <code>moveZ_cm()</code>, <code>calibrate()</code>, position readback</td>
-            </tr>
-            <tr>
-              <td><strong>ESPManager</strong></td>
-              <td><code>espManager2.py</code></td>
-              <td>Serial bridge to Arduino Mega; <code>turn_on()</code> / <code>turn_off()</code> gripper commands</td>
-            </tr>
-            <tr>
-              <td><strong>MainWindow + WorkspaceView</strong></td>
-              <td><code>main5.py</code></td>
-              <td>PyQt5 GUI: 640&times;480 live video, 720&times;480 2D workspace canvas, terminal log, Run/Stop control</td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Row 2: GUI full width -->
+      <div class="gallery-item" style="margin-bottom:2rem;">
+        <img src="../static/Projects/GantryRobot/Interfaz_Grafica.png"
+             alt="PyQt5 GUI — live camera feed, 2D workspace map and terminal log"
+             loading="lazy" style="width:100%;height:420px;object-fit:cover;display:block;">
+        <p class="design-caption" style="background:#fff;padding:0.5rem 0.7rem 0.65rem;margin:0;">
+          PyQt5 GUI &mdash; live camera feed, 2D workspace map &amp; terminal log
+        </p>
       </div>
+
     </div>
   </section>
+
 
   <footer class="footer">
     <div class="footer-inner">
