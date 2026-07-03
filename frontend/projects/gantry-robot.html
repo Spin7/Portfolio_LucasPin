@@ -844,63 +844,60 @@
   </section>
 
   <!-- ══════════════════════════════════════
-       MECHANICAL DESIGN
+       MECHANICAL DESIGN & HARDWARE
        ══════════════════════════════════════ -->
   <section class="design-section">
     <div class="section-inner">
       <div class="section-label">
         <span class="section-label-line"></span>
-        <span class="section-label-text">Mechanical Design</span>
+        <span class="section-label-text">Mechanical Design &amp; Hardware</span>
         <span class="section-label-line"></span>
       </div>
 
       <div class="design-grid">
         <div class="design-text">
-          <h3>Cartesian Frame</h3>
+          <h3>Welded Aluminum Frame</h3>
           <p>
-            The robot frame is a welded steel structure supporting three linear axes.
-            Each axis is driven by a <strong>NEMA 17 stepper motor</strong> through a belt-and-pulley transmission,
-            giving a resolution of <strong>7000 steps/mm</strong> and repeatability in the sub-millimetre range.
+            The robot structure is a <strong>custom-welded aluminum frame</strong> designed to be rigid,
+            lightweight, and easy to mount on a standard conveyor belt line.
+            The three Cartesian axes (X, Y, Z) are built with aluminum extrusion profiles and guided
+            by linear rails, ensuring smooth and repeatable motion across the 27.6&thinsp;&times;&thinsp;11&thinsp;cm workspace.
           </p>
           <p>
-            The Z-axis carries the <strong>3D-printed gripper</strong> — a parallel-jaw mechanism actuated by
-            an <strong>MG995</strong> servo and controlled via serial from the Arduino Mega.
-            The gripper was designed from scratch and is fully printable on an FDM printer.
-          </p>
-
-          <h3>Conveyor Belt Integration</h3>
-          <p>
-            The gantry spans the full width of the conveyor belt (27.6&thinsp;cm &times; 11&thinsp;cm workspace).
-            Four <strong>ArUco markers</strong> placed at the belt corners define the homography; the camera only
-            needs to see them once at startup to calibrate the pixel-to-cm mapping automatically.
+            Each axis is driven by a <strong>NEMA 17 stepper motor</strong> through a belt-and-pulley
+            transmission at <strong>7000 steps/mm</strong> resolution &mdash; providing sub-millimetre
+            positioning accuracy for reliable pick-and-place operations.
           </p>
 
-          <h3>Electronics</h3>
+          <h3>Hardware Architecture</h3>
+          <p>
+            The system uses a two-microcontroller architecture connected to a host PC:
+          </p>
           <ul>
-            <li><strong>Arduino UNO + GRBL 0.9j</strong> &mdash; open-loop stepper motion via G-code</li>
-            <li><strong>3&times; A4988 drivers</strong> &mdash; microstepped current control for each axis</li>
-            <li><strong>Arduino Mega</strong> &mdash; dedicated gripper controller (serial bridge)</li>
-            <li><strong>PC</strong> &mdash; all vision and planning logic; communicates via USB serial</li>
+            <li><strong>Arduino UNO + GRBL 0.9j</strong> &mdash; interprets G-code and drives 3&times; NEMA 17 steppers via A4988 drivers</li>
+            <li><strong>Arduino Mega</strong> &mdash; dedicated end-effector controller; receives serial commands from the PC</li>
+            <li><strong>A4988 drivers</strong> &mdash; microstepped current control for precise, smooth motion on each axis</li>
+            <li><strong>PC (Python)</strong> &mdash; runs all vision, planning, and GUI logic; sends G-code to GRBL over USB serial</li>
+            <li><strong>Smartphone camera</strong> &mdash; overhead-mounted; streams live frames to the PC vision pipeline</li>
           </ul>
         </div>
 
         <div class="design-img-col">
-          <div class="gallery-item" style="border-radius:var(--radius-md);">
-            <div class="gallery-placeholder" style="height:320px;">
-              <span class="ph-label">Robot on conveyor belt<br><em style="font-weight:400;opacity:0.7;">(add image
-                  here)</em></span>
-            </div>
+          <div class="design-img-wrap">
+            <img src="../static/Projects/GantryRobot/Estructura_Soldada.jpg"
+                 alt="Welded aluminum frame of the gantry robot">
+            <p class="design-caption">Welded aluminum Cartesian frame with linear rails</p>
           </div>
-          <div class="gallery-item" style="border-radius:var(--radius-md);">
-            <div class="gallery-placeholder" style="height:200px;">
-              <span class="ph-label">3D-printed gripper detail<br><em style="font-weight:400;opacity:0.7;">(add image
-                  here)</em></span>
-            </div>
+          <div class="design-img-wrap">
+            <img src="../static/Projects/GantryRobot/R1_Hardware_Block_Diagram.png"
+                 alt="R1 hardware block diagram">
+            <p class="design-caption">Hardware architecture &mdash; PC, Arduino UNO (GRBL), Arduino Mega, drivers</p>
           </div>
         </div>
       </div>
     </div>
   </section>
+
 
   <!-- ══════════════════════════════════════
        VISION & SOFTWARE
