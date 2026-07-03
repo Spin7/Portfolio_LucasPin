@@ -1076,6 +1076,79 @@
   </section>
 
 
+  <!-- ══════════════════════════════════════
+       FINAL IMPLEMENTATION & DEMO
+       ══════════════════════════════════════ -->
+  <section class="tech-section" style="background:var(--bg); border-bottom: 2px solid var(--border);">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">Final Implementation &amp; Demo</span>
+        <span class="section-label-line"></span>
+      </div>
+
+      <!-- 2 robot photos side by side -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+        <div class="gallery-item">
+          <img src="../static/Projects/GantryRobot/Robot_Final_Frontal.jpg"
+               alt="R1 gantry robot — frontal view of the final build"
+               loading="lazy" style="width:100%;height:380px;object-fit:cover;display:block;">
+          <p class="design-caption" style="background:var(--bg);padding:0.5rem 0.7rem 0.65rem;margin:0;">
+            Final build &mdash; frontal view
+          </p>
+        </div>
+        <div class="gallery-item">
+          <img src="../static/Projects/GantryRobot/Robot_Final_Lateral.jpg"
+               alt="R1 gantry robot — lateral view of the final build"
+               loading="lazy" style="width:100%;height:380px;object-fit:cover;display:block;">
+          <p class="design-caption" style="background:var(--bg);padding:0.5rem 0.7rem 0.65rem;margin:0;">
+            Final build &mdash; lateral view
+          </p>
+        </div>
+      </div>
+
+      <!-- YouTube demo video card -->
+      <div class="video-duo" style="grid-template-columns:1fr;max-width:680px;">
+        <div class="video-card">
+          <a class="video-thumb-wrap" href="https://youtu.be/wMggKcSIY9M" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/wMggKcSIY9M/hqdefault.jpg"
+                 alt="R1 Gantry Robot &mdash; Full Autonomous Demo"
+                 loading="lazy">
+            <span class="video-part-badge">Full Demo</span>
+            <span class="video-play-btn">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
+                <path d="M45 24L27 14v20" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+          <div class="video-card-body">
+            <p class="video-card-title">R1 Gantry Robot &mdash; Full Autonomous Sorting Demo</p>
+            <p class="video-card-desc">
+              End-to-end autonomous run on the real robot: the vision system detects and classifies eggs on the moving
+              conveyor belt, the homography maps their positions to workspace coordinates, and the gantry picks up
+              and discards defective eggs &mdash; all without human intervention.
+            </p>
+            <div class="video-card-tags">
+              <span class="video-card-tag">YOLOv8</span>
+              <span class="video-card-tag">ArUco</span>
+              <span class="video-card-tag">GRBL</span>
+              <span class="video-card-tag">PyQt5</span>
+              <span class="video-card-tag">Arduino</span>
+            </div>
+            <a href="https://youtu.be/wMggKcSIY9M" target="_blank" rel="noopener" class="video-card-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+              </svg>
+              Watch on YouTube
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="footer-inner">
       <span>&copy; 2026 Lucas Pin</span>
