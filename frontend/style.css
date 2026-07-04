@@ -2025,3 +2025,8 @@ section {
     grid-template-columns: 1fr;
   }
 }
+
+.btn-outline i {
+  margin-right: 8px;
+  font-size: 1rem;
+}
