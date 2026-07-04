@@ -741,10 +741,6 @@
             <i class="fab fa-github"></i>
             GitHub &rarr;
           </a>
-          <a href="https://youtu.be/gurtF5G5MJY" target="_blank" class="btn-outline" style="margin-left:0.5rem;">
-            <i class="fab fa-youtube"></i>
-            Demo &rarr;
-          </a>
         </div>
         <div class="proj-meta-grid">
           <div class="proj-meta-item">
@@ -831,12 +827,14 @@
             <tr>
               <td><strong>Station 3 &mdash; Palletizer</strong></td>
               <td>UR3e &middot; RobotiQ EPick vacuum gripper</td>
-              <td>Vision-guided pick: detects color &amp; angle via OpenCV HSV + <code>minAreaRect</code>, compensates wrist (J6), sorts into 3 color pallets</td>
+              <td>Vision-guided pick: detects color &amp; angle via OpenCV HSV + <code>minAreaRect</code>, compensates
+                wrist (J6), sorts into 3 color pallets</td>
             </tr>
             <tr>
               <td><strong>Computer Vision</strong></td>
               <td>OpenCV &middot; NumPy &middot; RoboDK virtual camera</td>
-              <td>Captures frame from virtual camera; HSV masking &rarr; color ID; <code>minAreaRect</code> &rarr; orientation angle</td>
+              <td>Captures frame from virtual camera; HSV masking &rarr; color ID; <code>minAreaRect</code> &rarr;
+                orientation angle</td>
             </tr>
             <tr>
               <td><strong>Conveyor belt</strong></td>
@@ -852,9 +850,12 @@
         <p class="arch-flow-title">Master orchestration pipeline &mdash; SECUENCIA_COMPLETA</p>
         <p style="font-size:0.84rem;color:var(--text);line-height:1.8;margin:0;">
           <strong>Init</strong> &mdash; <code>POSICIONAR_ESTACIONES</code> sets all object poses &nbsp;&middot;&nbsp;
-          <strong>Background</strong> &mdash; <code>Run_Conveyor</code> &amp; <code>SECUENCIA_ESTACION3</code> start concurrently &nbsp;&middot;&nbsp;
-          <strong>Loop</strong> &mdash; <code>SECUENCIA_ESTACION1</code> picks from wheel &rarr; <code>SECUENCIA_ESTACION2</code> machines &amp; loads belt &rarr; repeat &nbsp;&middot;&nbsp;
-          <strong>Vision sort</strong> &mdash; Station 3 captures frame, detects color &amp; angle, compensates wrist, palletizes
+          <strong>Background</strong> &mdash; <code>Run_Conveyor</code> &amp; <code>SECUENCIA_ESTACION3</code> start
+          concurrently &nbsp;&middot;&nbsp;
+          <strong>Loop</strong> &mdash; <code>SECUENCIA_ESTACION1</code> picks from wheel &rarr;
+          <code>SECUENCIA_ESTACION2</code> machines &amp; loads belt &rarr; repeat &nbsp;&middot;&nbsp;
+          <strong>Vision sort</strong> &mdash; Station 3 captures frame, detects color &amp; angle, compensates wrist,
+          palletizes
         </p>
       </div>
     </div>
@@ -883,10 +884,14 @@
             <strong>inverse-kinematics-based TCP positioning</strong>.
           </p>
           <ul>
-            <li><strong>Wheel advance</strong> &mdash; the feeder wheel rotates <strong>15°</strong> after each pick to present the next piece.</li>
-            <li><strong>IK positioning</strong> &mdash; the robot's tool-center-point is solved dynamically against a target frame at each pick and place location.</li>
-            <li><strong>Pick &amp; place</strong> &mdash; the vacuum gripper attaches the cube for transport and releases it precisely onto the work table.</li>
-            <li><strong>Home return</strong> &mdash; the robot moves back to its safe home configuration after every completed cycle.</li>
+            <li><strong>Wheel advance</strong> &mdash; the feeder wheel rotates <strong>15°</strong> after each pick to
+              present the next piece.</li>
+            <li><strong>IK positioning</strong> &mdash; the robot's tool-center-point is solved dynamically against a
+              target frame at each pick and place location.</li>
+            <li><strong>Pick &amp; place</strong> &mdash; the vacuum gripper attaches the cube for transport and
+              releases it precisely onto the work table.</li>
+            <li><strong>Home return</strong> &mdash; the robot moves back to its safe home configuration after every
+              completed cycle.</li>
           </ul>
         </div>
         <div class="design-img-col">
@@ -909,9 +914,12 @@
           </p>
           <ul>
             <li><strong>Pick</strong> &mdash; the gripper collects the workpiece from the feeding work table.</li>
-            <li><strong>Machine</strong> &mdash; the robot switches to the spindle and executes a <strong>5-waypoint milling trajectory</strong> over the piece.</li>
-            <li><strong>Orientation randomization</strong> &mdash; a random rotation (0°–90°) is applied to the piece before release, simulating real-world orientation variability on the belt.</li>
-            <li><strong>Conveyor drop</strong> &mdash; the robot re-grabs the machined piece and deposits it onto the conveyor belt at the designated entry point.</li>
+            <li><strong>Machine</strong> &mdash; the robot switches to the spindle and executes a <strong>5-waypoint
+                milling trajectory</strong> over the piece.</li>
+            <li><strong>Orientation randomization</strong> &mdash; a random rotation (0°–90°) is applied to the piece
+              before release, simulating real-world orientation variability on the belt.</li>
+            <li><strong>Conveyor drop</strong> &mdash; the robot re-grabs the machined piece and deposits it onto the
+              conveyor belt at the designated entry point.</li>
           </ul>
         </div>
         <div class="design-img-col">
@@ -933,10 +941,15 @@
             orientation before grasping it.
           </p>
           <ul>
-            <li><strong>Color detection</strong> &mdash; HSV color-space masking classifies each piece as Red, Green, or Blue.</li>
-            <li><strong>Angle detection</strong> &mdash; a minimum bounding rectangle fit on the piece's contour returns its orientation angle.</li>
-            <li><strong>Wrist compensation</strong> &mdash; the robot pre-rotates its wrist by the detected angle so the gripper aligns perfectly with the piece before grasping.</li>
-            <li><strong>Automatic palletizing</strong> &mdash; pieces are sorted into <strong>3 color-coded pallets</strong>, each filled in a <strong>4×4 grid</strong> with automatic layer advancement as rows complete.</li>
+            <li><strong>Color detection</strong> &mdash; HSV color-space masking classifies each piece as Red, Green, or
+              Blue.</li>
+            <li><strong>Angle detection</strong> &mdash; a minimum bounding rectangle fit on the piece's contour returns
+              its orientation angle.</li>
+            <li><strong>Wrist compensation</strong> &mdash; the robot pre-rotates its wrist by the detected angle so the
+              gripper aligns perfectly with the piece before grasping.</li>
+            <li><strong>Automatic palletizing</strong> &mdash; pieces are sorted into <strong>3 color-coded
+                pallets</strong>, each filled in a <strong>4×4 grid</strong> with automatic layer advancement as rows
+              complete.</li>
           </ul>
         </div>
         <div class="design-img-col">
@@ -954,7 +967,8 @@
           <img src="../static/Projects/3robotsRoboDK/Stations.PNG"
             alt="Overview of all 3 stations in the RoboDK manufacturing cell"
             style="width:100%; height:auto; display:block;">
-          <p class="design-caption">Full cell overview &mdash; Station 1 (Feeder) &middot; Station 2 (Machining) &middot; Station 3 (Palletizer)</p>
+          <p class="design-caption">Full cell overview &mdash; Station 1 (Feeder) &middot; Station 2 (Machining)
+            &middot; Station 3 (Palletizer)</p>
         </div>
       </div>
 
