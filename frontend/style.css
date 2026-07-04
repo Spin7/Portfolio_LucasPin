@@ -1963,3 +1963,28 @@ section {
     border-top: none;
   }
 }
+
+/* Linkedin button in nav bar */
+.linkedin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  margin-left: 6px;
+
+  background: #0077B5;
+  color: #fff;
+  text-decoration: none;
+
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  transition: all .25s ease;
+}
+
+.linkedin-btn:hover {
+  background: #005f8e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 119, 181, .25);
+}
