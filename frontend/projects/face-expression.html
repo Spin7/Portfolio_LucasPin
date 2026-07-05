@@ -588,6 +588,165 @@
       padding: 0 0 64px;
     }
 
+    /* ── PER-FRAME PIPELINE DIAGRAM ── */
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 2.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .pipeline-col-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--acc1);
+      background: var(--acc1-light);
+      padding: 0.28rem 0.7rem;
+      border-radius: 20px;
+      margin-bottom: 1.3rem;
+    }
+
+    .pl-step {
+      display: flex;
+      gap: 1.1rem;
+    }
+
+    .pl-marker {
+      flex-shrink: 0;
+      width: 34px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .pl-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.86rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pl-line {
+      flex: 1;
+      width: 2px;
+      min-height: 30px;
+      background: var(--border);
+      margin-top: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pl-line::after {
+      content: '';
+      position: absolute;
+      left: -2px;
+      top: -14px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--acc1);
+      animation: pl-flow 2.6s linear infinite;
+    }
+
+    .pl-step:nth-child(2) .pl-line::after {
+      animation-delay: 0.4s;
+    }
+
+    .pl-step:nth-child(3) .pl-line::after {
+      animation-delay: 0.8s;
+    }
+
+    .pl-step:nth-child(4) .pl-line::after {
+      animation-delay: 1.2s;
+    }
+
+    @keyframes pl-flow {
+      0% {
+        top: -14px;
+        opacity: 0;
+      }
+
+      15% {
+        opacity: 1;
+      }
+
+      85% {
+        opacity: 1;
+      }
+
+      100% {
+        top: 100%;
+        opacity: 0;
+      }
+    }
+
+    .pl-content {
+      padding-bottom: 1.5rem;
+    }
+
+    .pl-content h4 {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin: 0.3rem 0 0.35rem;
+    }
+
+    .pl-content p {
+      font-size: 0.83rem;
+      color: var(--text);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    .pl-note {
+      display: inline-block;
+      font-size: 0.76rem;
+      color: var(--acc1);
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    .pl-gate-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.7rem;
+    }
+
+    .pl-chip {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+    }
+
+    .pl-chip--in {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .pl-chip--out {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .pipeline-arrow-between {
+      display: none;
+    }
+
     /* ── BREADCRUMB OVERRIDE ── */
     .proj-breadcrumb {
       background: var(--bg);
@@ -659,6 +818,11 @@
 
       .video-duo {
         grid-template-columns: 1fr;
+      }
+
+      .pipeline-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem 0;
       }
     }
 
@@ -1001,6 +1165,143 @@
               style="width:100%;max-height:320px;object-fit:contain;background:#f8f9fb;">
             <p class="design-caption">MediaPipe Hand Mesh &mdash; 21-point reference (governs gesture
               classification)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       PER-FRAME PIPELINE
+       ══════════════════════════════════════ -->
+  <section class="tech-section" style="background:var(--bg); border-bottom: 2px solid var(--border);">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">Per-Frame Pipeline &mdash; Detection, Identity &amp; Landmarks</span>
+        <span class="section-label-line"></span>
+      </div>
+
+      <p class="section-intro">
+        Every face that ends up on the mosaic went through the same chain of steps first &mdash; run on every
+        single frame: detect it, try to recognise it, and &mdash; whether that recognition succeeds or not
+        &mdash; read its behavioural signals anyway. Here's that journey, step by step.
+      </p>
+
+      <div class="pipeline-grid">
+        <!-- STAGE A -->
+        <div class="pipeline-col">
+          <span class="pipeline-col-label">&#9202; Per frame</span>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">1</span>
+              <span class="pl-line"></span>
+            </div>
+            <div class="pl-content">
+              <h4>Input frame</h4>
+              <p>A new frame is read from whichever source is active &mdash; camera, video file, or screen
+                capture.</p>
+            </div>
+          </div>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">2</span>
+              <span class="pl-line"></span>
+            </div>
+            <div class="pl-content">
+              <h4>Face detection (ONNX)</h4>
+              <p>The frame is resized to a fixed input size and passed through a lightweight, CPU-only detector.
+                Low-confidence hits are dropped and overlapping boxes are merged, leaving a clean list of
+                candidate faces.</p>
+            </div>
+          </div>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">3</span>
+              <span class="pl-line"></span>
+            </div>
+            <div class="pl-content">
+              <h4>Crop &amp; descriptor</h4>
+              <p>Each face is cropped using exactly its detected box &mdash; not yet expanded. That crop is
+                normalised for size and lighting and turned into a compact descriptor that blends local texture
+                with colour.</p>
+            </div>
+          </div>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">4</span>
+            </div>
+            <div class="pl-content">
+              <h4>Identity matching</h4>
+              <p>The descriptor is compared against everyone enrolled in the gallery in two passes: a fast
+                similarity check, then a stricter fallback check for borderline cases. If neither confirms an
+                identity, the face carries on as <em>unidentified</em> &mdash; it doesn't leave the pipeline.</p>
+              <span class="pl-note">&#8627; No match found &mdash; continues as "Unknown", same path as everyone
+                else</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAGE B -->
+        <div class="pipeline-col">
+          <span class="pipeline-col-label">&#128100; Per detected face</span>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">5</span>
+              <span class="pl-line"></span>
+            </div>
+            <div class="pl-content">
+              <h4>Expand &amp; smooth the crop</h4>
+              <p>The tight face box is grown outward to approximate the full call tile around the person, using
+                edge and colour cues against the background. That larger crop is then smoothed frame-to-frame so
+                it doesn't jitter.</p>
+            </div>
+          </div>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">6</span>
+              <span class="pl-line"></span>
+            </div>
+            <div class="pl-content">
+              <h4>Face &amp; hand landmarks</h4>
+              <p>The <em>expanded</em> crop &mdash; not the raw detection crop &mdash; is fed to the face and
+                hand landmark models. This runs for every detected face, identified or not, since reading
+                behaviour doesn't depend on knowing who someone is.</p>
+            </div>
+          </div>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">7</span>
+              <span class="pl-line"></span>
+            </div>
+            <div class="pl-content">
+              <h4>Metric extraction</h4>
+              <p>From those landmarks the system derives, all at once: eye state, mouth state, smile/grimace,
+                sustained yawning, gaze/focus, and hand gesture.</p>
+            </div>
+          </div>
+
+          <div class="pl-step">
+            <div class="pl-marker">
+              <span class="pl-num">8</span>
+            </div>
+            <div class="pl-content">
+              <h4>Final mosaic gate</h4>
+              <p>Only faces successfully matched to a real identity earn a visible tile on the mosaic.
+                Unidentified faces were fully analysed anyway &mdash; they simply aren't shown. Every frame does
+                more work than the final mosaic reveals.</p>
+              <div class="pl-gate-chips">
+                <span class="pl-chip pl-chip--in">&#10003; Shown on mosaic</span>
+                <span class="pl-chip pl-chip--out">&mdash; Analysed, not shown</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
