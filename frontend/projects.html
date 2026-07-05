@@ -83,13 +83,22 @@
 
     .proj-card-thumb {
       position: relative;
-      height: 168px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--primary-light) 0%, #ffffff 130%);
-      font-size: 3.4rem;
+      height: 190px;
+      overflow: hidden;
+      background: var(--bg);
       border-bottom: 1px solid var(--border);
+    }
+
+    .proj-card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .proj-card:hover .proj-card-thumb img {
+      transform: scale(1.05);
     }
 
     .proj-card-badge {
@@ -206,7 +215,8 @@
       <a href="projects/face-expression.html" class="proj-card" data-category="ai">
         <div class="proj-card-thumb">
           <span class="proj-card-badge">AI / Vision</span>
-          👥
+          <img src="../static/Projects/VideoCall/Screenshot%202026-07-05%20160336.png"
+            alt="Multi-Person Real-Time Behavioral Tracking System interface" loading="lazy">
         </div>
         <div class="proj-card-body">
           <h3 class="proj-card-title">Multi-Person Real-Time Behavioral Tracking System</h3>
@@ -223,7 +233,8 @@
       <a href="projects/hexapod-robot.html" class="proj-card" data-category="robotics">
         <div class="proj-card-thumb">
           <span class="proj-card-badge">Robotics</span>
-          🤖
+          <img src="../static/Projects/Hexapod/Hexapod_real_and_sim.png"
+            alt="Autonomous Hexapod Robot — real robot and simulation" loading="lazy">
         </div>
         <div class="proj-card-body">
           <h3 class="proj-card-title">Autonomous Hexapod Robot</h3>
@@ -240,7 +251,7 @@
       <a href="projects/gantry-robot.html" class="proj-card" data-category="robotics">
         <div class="proj-card-thumb">
           <span class="proj-card-badge">Robotics</span>
-          🥚
+          <img src="../static/Projects/GantryRobot/Robot_Gantry.jpg" alt="R1 Egg Sorting Gantry Robot" loading="lazy">
         </div>
         <div class="proj-card-body">
           <h3 class="proj-card-title">Egg Sorting Gantry Robot</h3>
@@ -257,7 +268,8 @@
       <a href="projects/robodk-cell.html" class="proj-card" data-category="simulation">
         <div class="proj-card-thumb">
           <span class="proj-card-badge">Simulation</span>
-          🏭
+          <img src="../static/Projects/3robotsRoboDK/RoboDK1.PNG"
+            alt="Industrial cell simulation with 3 robots in RoboDK" loading="lazy">
         </div>
         <div class="proj-card-body">
           <h3 class="proj-card-title">Industrial Cell Simulation — 3 Robots</h3>
