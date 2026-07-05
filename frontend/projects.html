@@ -12,8 +12,46 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
+    /* ── PAGE: white body, gray header banner (matches gantry-robot.html) ── */
+    body {
+      background: #fff;
+    }
+
+    .proj-page-header {
+      background: var(--bg);
+      border-bottom: 2px solid var(--border);
+      padding: 56px 32px 48px;
+      text-align: center;
+    }
+
+    .proj-page-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin: 0 0 0.75rem;
+    }
+
+    .proj-page-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 900;
+      color: var(--dark);
+      line-height: 1.15;
+      margin: 0 0 1rem;
+    }
+
+    .proj-page-sub {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.75;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
     /* ── PROJECT CARDS (style aligned with individual project pages) ── */
     .proj-list-section {
+      background: #fff;
       padding: 8px 0 64px;
     }
 
@@ -154,10 +192,10 @@
     </div>
   </nav>
 
-  <div class="page-header">
-    <p class="section-label">Portfolio</p>
-    <h1 class="section-title">Projects</h1>
-    <p class="section-sub">
+  <div class="proj-page-header">
+    <p class="proj-page-eyebrow">Portfolio</p>
+    <h1 class="proj-page-title">Projects</h1>
+    <p class="proj-page-sub">
       A collection of engineering, AI, robotics, and software projects — from prototypes to production-ready systems.
     </p>
   </div>
