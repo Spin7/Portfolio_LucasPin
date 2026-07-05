@@ -763,10 +763,111 @@
   </section>
 
   <!-- ══════════════════════════════════════
-       PENDIENTE: Technology Stack, Detection Modules (Eyes / Mouth /
-       Smile-Grimace / Yawn / Gaze), Hand Gestures, Identity & Face
-       Gallery, Configuration Reference, Known Limitations, Demo,
-       Footer.
+       TECHNOLOGY STACK
+       ══════════════════════════════════════ -->
+  <section class="tech-section">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">Technology Stack</span>
+        <span class="section-label-line"></span>
+      </div>
+
+      <!-- Key numbers -->
+      <div class="stat-banner">
+        <div class="stat-item">
+          <span class="stat-num">9</span>
+          <span class="stat-unit">Participants</span>
+          <span class="stat-desc">Simultaneous faces tracked in the mosaic grid</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">478</span>
+          <span class="stat-unit">Face Points</span>
+          <span class="stat-desc">MediaPipe landmarks per face, including iris</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">21</span>
+          <span class="stat-unit">Hand Points</span>
+          <span class="stat-desc">MediaPipe landmarks per hand, up to 2 hands</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">5&ndash;15</span>
+          <span class="stat-unit">ms / Face</span>
+          <span class="stat-desc">CPU-only ONNX inference latency, no GPU required</span>
+        </div>
+      </div>
+
+      <!-- Compact spec table -->
+      <div class="proj-table-wrap" style="margin-bottom:2.5rem;">
+        <table class="proj-table">
+          <thead>
+            <tr>
+              <th>Layer</th>
+              <th>Component</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Input &amp; Capture</strong></td>
+              <td>OpenCV &middot; mss</td>
+              <td>Reads frames from a webcam, video file, or screen capture &mdash; no physical camera required</td>
+            </tr>
+            <tr>
+              <td><strong>Face Detection</strong></td>
+              <td>caritas.onnx (YOLOv8) &middot; ONNX Runtime</td>
+              <td>Custom CPU-only detector at 256&times;256 input; letterboxing, NMS and bbox decoding</td>
+            </tr>
+            <tr>
+              <td><strong>Identity Matching</strong></td>
+              <td>Multi-region LBPH + HSV &middot; SVD</td>
+              <td>Two-stage matcher: cosine similarity (centroid + top-K) against the Face Gallery, with an SVD
+                residual fallback</td>
+            </tr>
+            <tr>
+              <td><strong>Facial Expressions</strong></td>
+              <td>MediaPipe Face Landmarker (478 pts)</td>
+              <td>Eye/mouth state via EAR/MAR, smile/grimace via lip curvature, sustained yawn counter, iris-based
+                gaze</td>
+            </tr>
+            <tr>
+              <td><strong>Hand Gestures</strong></td>
+              <td>MediaPipe Hand Landmarker (21 pts)</td>
+              <td>Thumbs Up, Victory (peace sign), and generic hand-detected status, up to 2 hands per person</td>
+            </tr>
+            <tr>
+              <td><strong>Gallery &amp; Persistence</strong></td>
+              <td>gallery_builder.py &middot; pickle</td>
+              <td>Folder-based, live multi-frame, or single-frame enrollment; persists to
+                <code>face_gallery2.pkl</code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- System flow -->
+      <div class="arch-flow">
+        <p class="arch-flow-title">Per-frame pipeline &mdash; detect, identify, analyse, render</p>
+        <p style="font-size:0.84rem;color:var(--text);line-height:1.8;margin:0;">
+          <strong>Detect</strong> &mdash; <code>caritas.onnx</code> (YOLOv8) locates every face in the frame
+          &nbsp;&middot;&nbsp;
+          <strong>Identify</strong> &mdash; multi-region LBPH + HSV embedding matched against the Face Gallery
+          (cosine + SVD residual) &nbsp;&middot;&nbsp;
+          <strong>Analyse</strong> &mdash; MediaPipe Face/Hand Landmarker drives eyes, mouth, smile/grimace, yawn,
+          gaze and gestures &nbsp;&middot;&nbsp;
+          <strong>Smooth</strong> &mdash; every metric passes through an EMA filter to reduce flicker
+          &nbsp;&middot;&nbsp;
+          <strong>Render</strong> &mdash; per-person tiles are assembled into the live 9-tile mosaic
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       PENDIENTE: Detection Modules (Eyes / Mouth / Smile-Grimace /
+       Yawn / Gaze), Hand Gestures, Identity & Face Gallery,
+       Configuration Reference, Known Limitations, Demo, Footer.
        ══════════════════════════════════════ -->
 
 </body>
