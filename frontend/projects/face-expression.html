@@ -865,9 +865,84 @@
   </section>
 
   <!-- ══════════════════════════════════════
+       FACE GALLERY & IDENTITY ENROLLMENT
+       ══════════════════════════════════════ -->
+  <section class="design-section">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">Face Gallery &amp; Identity Enrollment</span>
+        <span class="section-label-line"></span>
+      </div>
+
+      <div class="design-grid">
+        <div class="design-text">
+          <h3>Three Enrollment Modes</h3>
+          <p>
+            The <strong>Face Gallery</strong> stores the reference embeddings used to recognise each participant
+            across frames. Three modes cover different scenarios, selectable from a CLI menu at startup.
+          </p>
+          <ul>
+            <li><strong>Mode A &mdash; Folder</strong> (best accuracy) &mdash; one subfolder per person under
+              <code>Face Gallery/</code>; the system detects a face in each image and builds an <strong>SVD
+                subspace</strong> per person.
+            </li>
+            <li><strong>Mode B &mdash; Live multi-frame</strong> (best for real-time sources) &mdash; a live
+              preview window records <strong>30 frames per person</strong> while they naturally roll and turn
+              their head, capturing pose variation a single photo can't.</li>
+            <li><strong>Mode C &mdash; Single-frame</strong> (legacy / fastest) &mdash; grabs one frame, detects
+              every face, and assigns names through console prompts.</li>
+            <li><strong>Mode S &mdash; Skip</strong> &mdash; reuses a gallery already persisted from a previous
+              session.</li>
+          </ul>
+          <p>
+            Whichever mode is used, the gallery is saved automatically to
+            <code
+              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">face_gallery2.pkl</code>
+            and reloaded at the next startup &mdash; enrollment only needs to happen once per person.
+          </p>
+
+          <h3>Multi-Region Descriptor &amp; Matching</h3>
+          <p>
+            Each enrolled face is resized to a fixed <strong>96&times;96</strong> crop and divided into a
+            <strong>6&times;6 grid</strong> of regions. Every cell contributes a 32-bin <strong>LBP</strong>
+            texture histogram and an HSV colour histogram, blended <strong>80% texture / 20% colour</strong> into
+            a single descriptor &mdash; combining fine skin-texture detail with coarse colour cues that survive
+            small lighting changes.
+          </p>
+          <p>
+            At match time, the descriptor is compared against each person's stored embeddings (up to 50 per
+            person) using cosine similarity, averaging the top-3 closest matches. If the score sits near the
+            <code
+              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">0.72</code>
+            acceptance threshold, an <strong>SVD subspace residual</strong> check (threshold
+            <code
+              style="font-family:monospace;background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;">0.20</code>)
+            acts as a second opinion before confirming or rejecting the identity.
+          </p>
+        </div>
+
+        <div class="design-img-col">
+          <div class="design-img-wrap">
+            <img src="../static/Projects/VideoCall/Before_person_roll.png"
+              alt="Live multi-frame enrollment — initial frontal capture before the person rolls their head">
+            <p class="design-caption">Live multi-frame enrollment &mdash; initial frontal capture</p>
+          </div>
+          <div class="design-img-wrap">
+            <img src="../static/Projects/VideoCall/After_person_roll.png"
+              alt="Live multi-frame enrollment — additional frames captured after the person rolls their head">
+            <p class="design-caption">After the head roll &mdash; additional pose angles added to the person's
+              gallery</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
        PENDIENTE: Detection Modules (Eyes / Mouth / Smile-Grimace /
-       Yawn / Gaze), Hand Gestures, Identity & Face Gallery,
-       Configuration Reference, Known Limitations, Demo, Footer.
+       Yawn / Gaze), Hand Gestures, Configuration Reference, Known
+       Limitations, Demo, Footer.
        ══════════════════════════════════════ -->
 
 </body>
