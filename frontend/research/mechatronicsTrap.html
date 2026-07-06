@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart Mechatronic Trap &mdash; Lucas Pin</title>
   <meta name="description" content="[Descripción breve de Smart Mechatronic Trap — reemplazar antes de publicar].">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
   <style>
@@ -14,6 +15,213 @@
     :root {
       --acc1: #0e7490;
       --acc1-light: #ecfeff;
+    }
+
+    /* ── ACADEMIC OVERRIDES (page-level) ── */
+    body {
+      color: var(--text);
+    }
+
+    h1,
+    h2,
+    h3,
+    .acad-serif {
+      font-family: 'Source Serif 4', Georgia, serif;
+    }
+
+    /* Numbered section headings, paper-style (I, II, III...) */
+    .acad-section {
+      padding: 56px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .acad-section-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .acad-section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      padding-bottom: 1.1rem;
+      margin-bottom: 1.8rem;
+      border-bottom: 2px solid var(--dark);
+    }
+
+    .acad-section-num {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--primary);
+    }
+
+    .acad-section-title {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--dark);
+      letter-spacing: 0.01em;
+    }
+
+    /* Keywords line, IEEEkeywords-style */
+    .acad-keywords {
+      font-size: 0.85rem;
+      color: var(--text);
+      font-style: italic;
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+    }
+
+    .acad-keywords strong {
+      font-style: normal;
+      font-weight: 700;
+      color: var(--dark);
+      font-style: italic;
+    }
+
+    /* Justified academic body copy */
+    .acad-body p {
+      font-size: 0.94rem;
+      line-height: 1.85;
+      color: var(--text);
+      text-align: justify;
+      hyphens: auto;
+      margin-bottom: 1.1rem;
+    }
+
+    .acad-body h4 {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 0 0 0.5rem;
+    }
+
+    /* Image placeholder — reserved space for figures added later */
+    .acad-img-placeholder {
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg);
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1.5rem;
+      text-align: center;
+      color: var(--text);
+    }
+
+    .acad-img-placeholder i {
+      font-size: 1.4rem;
+      opacity: 0.5;
+    }
+
+    .acad-img-placeholder .ph-text {
+      font-size: 0.78rem;
+      max-width: 240px;
+      opacity: 0.75;
+    }
+
+    .acad-fig-caption {
+      font-size: 0.78rem;
+      color: var(--text);
+      text-align: center;
+      padding-top: 0.6rem;
+      line-height: 1.5;
+    }
+
+    .acad-fig-caption strong {
+      color: var(--dark);
+    }
+
+    /* Section 1: Title | Abstract */
+    .acad-hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 3rem;
+      align-items: start;
+      padding: 40px 0 0;
+    }
+
+    .acad-title {
+      font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+
+    .acad-subtitle {
+      font-size: 0.92rem;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.55;
+      margin-bottom: 1.3rem;
+      padding-bottom: 1.3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .acad-authors {
+      font-size: 0.82rem;
+      color: var(--dark);
+      margin-bottom: 1.4rem;
+    }
+
+    .acad-authors .role {
+      color: var(--text);
+      font-style: italic;
+    }
+
+    .acad-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .acad-meta-item {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.8rem;
+    }
+
+    .acad-meta-label {
+      display: block;
+      font-size: 0.66rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 0.15rem;
+    }
+
+    .acad-meta-val {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .acad-resumen-head {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      .acad-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .acad-meta-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     /* ── HERO ── */
@@ -695,6 +903,84 @@
       </span>
     </div>
   </div>
+
+  <!-- ══════════════════════════════════════
+       SECTION I — TITLE & ABSTRACT
+       ══════════════════════════════════════ -->
+  <section class="acad-section" style="border-bottom: 2px solid var(--border);">
+    <div class="acad-section-inner">
+      <div class="acad-hero-grid">
+
+        <!-- Left column: title, authors, meta, cover figure -->
+        <div>
+          <p class="acad-keywords"><strong>Keywords —</strong> mosquito trap, IoT, edge AI, YOLOv8, MobileNetV3,
+            <em>Aedes aegypti</em>, entomological monitoring
+          </p>
+
+          <h1 class="acad-title">Smart Mechatronic Trap</h1>
+          <p class="acad-subtitle">Design and Implementation of an Edge AI&ndash;Based IoT Mosquito Trap for
+            Real-Time Detection and Classification</p>
+
+          <p class="acad-authors">
+            Matteo Martinez &middot; Lucas Pin &middot; Diego Stalder &middot; Christian Schaerer<br>
+            <span class="role">Facultad de Ingenier&iacute;a / Facultad Polit&eacute;cnica &mdash; Universidad
+              Nacional de Asunci&oacute;n</span>
+          </p>
+
+          <div class="acad-meta-grid">
+            <div class="acad-meta-item">
+              <span class="acad-meta-label">Status</span>
+              <span class="acad-meta-val">Field-validated prototype</span>
+            </div>
+            <div class="acad-meta-item">
+              <span class="acad-meta-label">Year</span>
+              <span class="acad-meta-val">2026</span>
+            </div>
+            <div class="acad-meta-item" style="grid-column: 1 / -1;">
+              <span class="acad-meta-label">Context</span>
+              <span class="acad-meta-val">IEEE conference paper &middot; LME&ndash;FIUNA &middot; supported by
+                CONACYT Paraguay &amp; Wolbloc&ndash;Wellcome Trust</span>
+            </div>
+          </div>
+
+          <div class="acad-img-placeholder">
+            <i class="fas fa-image"></i>
+            <span class="ph-text">Foto del prototipo final ensamblado (ej. Trampa_caja_abierta.jpg)</span>
+          </div>
+          <p class="acad-fig-caption"><strong>Fig. 1.</strong> Final assembled prototype of the smart mechatronic
+            trap.</p>
+        </div>
+
+        <!-- Right column: Resumen (Problem + Proposed approach) -->
+        <div class="acad-body">
+          <h2 class="acad-resumen-head">Resumen</h2>
+
+          <h4>Problem&aacute;tica</h4>
+          <p>
+            Dengue surveillance in tropical regions depends on accurate, high-resolution counts of female
+            <em>Aedes aegypti</em>, the sole blood-feeding and disease-transmitting sex. Biological control
+            strategies such as <em>Wolbachia</em>-based releases require continuous, sex-disaggregated monitoring
+            to assess effectiveness, yet traditional traps rely on manual inspection, and existing automated
+            traps either lack artificial-intelligence capabilities or cannot physically separate specimens by
+            sex &mdash; a gap that limits their epidemiological usefulness.
+          </p>
+
+          <h4>Propuesta</h4>
+          <p>
+            This work presents a low-cost, edge&ndash;AI IoT mosquito trap that simultaneously captures,
+            classifies, and physically sorts specimens by sex. A mechatronic rotary mechanism routes each
+            insect into a sex-segregated compartment, guided by a cascaded YOLOv8&thinsp;+&thinsp;MobileNetV3
+            pipeline exported to ONNX and running on a Raspberry&nbsp;Pi&nbsp;5, alongside a three-layer IoT
+            architecture for real-time cloud monitoring. The system reaches mAP@50&nbsp;=&nbsp;0.977 for
+            detection and 97.31% accuracy for sex classification, with a full inference cycle of 133.53&nbsp;ms.
+            Field and semi-field trials confirmed real-world robustness, at a total prototype cost of
+            USD&nbsp;389.50 &mdash; a 6.6&times; reduction relative to the commercial BG-Counter reference.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
 
   <footer class="footer">
     <div class="footer-inner">
