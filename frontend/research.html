@@ -154,65 +154,62 @@
       transform: translateX(4px);
     }
 
-    /* ── PUBLICATIONS ── */
-    .pub-item-top {
+    /* ── PUBLICATIONS: compact list on gray background ── */
+    .pub-section {
+      background: var(--bg);
+      padding: 64px 0 80px;
+    }
+
+    .pub-list {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pub-row {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 0.65rem;
+      gap: 1.5rem;
+      padding: 1.3rem 0;
     }
 
-    .pub-badge {
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--primary);
-      background: var(--primary-light);
-      padding: 0.28rem 0.7rem;
-      border-radius: 20px;
+    .pub-row+.pub-row {
+      border-top: 1px solid var(--border);
     }
 
-    .pub-year {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text);
+    .pub-row-year {
+      flex: 0 0 56px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--dark);
+      padding-top: 0.15rem;
     }
 
-    .pub-title {
-      font-size: 1.05rem;
+    .pub-row-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pub-row-title {
+      font-size: 1rem;
       font-weight: 800;
       color: var(--dark);
       line-height: 1.4;
-      margin: 0 0 0.45rem;
+      margin: 0 0 0.4rem;
     }
 
-    .pub-authors {
+    .pub-row-meta {
       font-size: 0.85rem;
       color: var(--text);
-      margin: 0 0 0.2rem;
+      margin: 0 0 0.5rem;
     }
 
-    .pub-venue {
-      font-size: 0.85rem;
-      font-style: italic;
-      color: var(--text);
-      margin: 0 0 1rem;
-    }
-
-    .pub-links {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .pub-link {
+    .pub-row-link {
       font-size: 0.8rem;
       font-weight: 700;
       color: var(--primary);
       text-decoration: none;
     }
 
-    .pub-link:hover {
+    .pub-row-link:hover {
       text-decoration: underline;
     }
   </style>
@@ -282,75 +279,61 @@
       </div>
 
     </div>
+  </section>
 
-    <div class="research-lines" style="margin-top: 4rem;">
+  <section class="pub-section">
+    <div class="research-lines">
       <h2 class="research-lines-title">Publicaciones</h2>
 
-      <div class="research-line-item">
-        <div class="pub-item-top">
-          <span class="pub-badge">Tesis</span>
-          <span class="pub-year">2026</span>
-        </div>
-        <h3 class="pub-title">[Título del trabajo final de grado]</h3>
-        <p class="pub-authors">Pin, L.</p>
-        <p class="pub-venue">Universidad Nacional de Asunción — Facultad de Ingeniería (FIUNA)</p>
-        <div class="pub-links">
-          <a href="#" class="pub-link">PDF →</a>
-        </div>
-      </div>
+      <div class="pub-list">
 
-      <div class="research-line-item">
-        <div class="pub-item-top">
-          <span class="pub-badge">Conferencia</span>
-          <span class="pub-year">2026</span>
+        <div class="pub-row">
+          <div class="pub-row-year">2026</div>
+          <div class="pub-row-body">
+            <h3 class="pub-row-title">[Título del trabajo final de grado]</h3>
+            <p class="pub-row-meta">Tesis de Grado · Universidad Nacional de Asunción (FIUNA)</p>
+            <a href="#" class="pub-row-link">See publication →</a>
+          </div>
         </div>
-        <h3 class="pub-title">[Título del trabajo presentado]</h3>
-        <p class="pub-authors">Pin, L., et al.</p>
-        <p class="pub-venue">CNMAC 2026</p>
-        <div class="pub-links">
-          <a href="#" class="pub-link">PDF →</a>
-        </div>
-      </div>
 
-      <div class="research-line-item">
-        <div class="pub-item-top">
-          <span class="pub-badge">Conferencia</span>
-          <span class="pub-year">2025</span>
+        <div class="pub-row">
+          <div class="pub-row-year">2026</div>
+          <div class="pub-row-body">
+            <h3 class="pub-row-title">[Título del trabajo presentado]</h3>
+            <p class="pub-row-meta">[Tipo] · CNMAC 2026 · [Ubicación]</p>
+            <a href="#" class="pub-row-link">See publication →</a>
+          </div>
         </div>
-        <h3 class="pub-title">[Título del trabajo presentado]</h3>
-        <p class="pub-authors">Pin, L., et al.</p>
-        <p class="pub-venue">CNMAC 2025</p>
-        <div class="pub-links">
-          <a href="#" class="pub-link">PDF →</a>
-        </div>
-      </div>
 
-      <div class="research-line-item">
-        <div class="pub-item-top">
-          <span class="pub-badge">Conferencia</span>
-          <span class="pub-year">202X</span>
+        <div class="pub-row">
+          <div class="pub-row-year">2025</div>
+          <div class="pub-row-body">
+            <h3 class="pub-row-title">Spatio-Temporal Analysis of Mosquito Populations Through Agent-Based
+              Simulation</h3>
+            <p class="pub-row-meta">Abstract &amp; Poster · CNMAC 2025 · Rio de Janeiro, Brazil</p>
+            <a href="#" class="pub-row-link">See publication →</a>
+          </div>
         </div>
-        <h3 class="pub-title">[Título del trabajo presentado]</h3>
-        <p class="pub-authors">Pin, L., et al.</p>
-        <p class="pub-venue">Coloquio de la Sociedad Matemática de Paraguay</p>
-        <div class="pub-links">
-          <a href="#" class="pub-link">PDF →</a>
-        </div>
-      </div>
 
-      <div class="research-line-item">
-        <div class="pub-item-top">
-          <span class="pub-badge">Conferencia</span>
-          <span class="pub-year">202X</span>
+        <div class="pub-row">
+          <div class="pub-row-year">202X</div>
+          <div class="pub-row-body">
+            <h3 class="pub-row-title">[Título del trabajo presentado]</h3>
+            <p class="pub-row-meta">[Tipo] · Coloquio de la Sociedad Matemática de Paraguay · [Ubicación]</p>
+            <a href="#" class="pub-row-link">See publication →</a>
+          </div>
         </div>
-        <h3 class="pub-title">[Título del trabajo presentado]</h3>
-        <p class="pub-authors">Pin, L., et al.</p>
-        <p class="pub-venue">X Encuentro de Investigadores</p>
-        <div class="pub-links">
-          <a href="#" class="pub-link">PDF →</a>
-        </div>
-      </div>
 
+        <div class="pub-row">
+          <div class="pub-row-year">202X</div>
+          <div class="pub-row-body">
+            <h3 class="pub-row-title">[Título del trabajo presentado]</h3>
+            <p class="pub-row-meta">[Tipo] · X Encuentro de Investigadores · [Ubicación]</p>
+            <a href="#" class="pub-row-link">See publication →</a>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
