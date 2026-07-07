@@ -1276,6 +1276,104 @@
               the servomotor mount and the sorting-mechanism linkage.</p>
           </div>
         </div>
+
+        <h4>Electronic Architecture &amp; Hardware</h4>
+        <p>
+          The electronics follow a master&ndash;slave architecture. A Raspberry&nbsp;Pi&nbsp;5 acts as the
+          master: it captures the frame through the Camera Module&nbsp;3&nbsp;NoIR, runs the
+          detection&ndash;classification pipeline, and sends the resulting sorting order (compartment&nbsp;A or
+          B) to an Arduino&nbsp;UNO&nbsp;R3 over UART. The Arduino acts as the real-time slave, translating that
+          order into a PWM command for the HK15138 servo and logic signals for the relay and status LEDs, while
+          continuously reading back the BME280 environmental sensor and the A3144 Hall sensor used for rotor
+          position feedback.
+        </p>
+        <p>
+          Power is organized into two isolated domains. The raw 12&nbsp;V input is switched directly to the
+          92&nbsp;mm fan through a relay, keeping that noisier, higher-current load off the control electronics;
+          an LM2596 step-down converter derives a regulated 5&nbsp;V rail from the same 12&nbsp;V source to
+          power the Arduino, servo, and relay logic. The Raspberry&nbsp;Pi&nbsp;5 is powered independently
+          through its own USB-C supply, which prevents brownouts or resets caused by the current draw of the
+          fan and servo.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Model</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Master SBC</td>
+                <td>Raspberry Pi 5</td>
+                <td>Inference + IoT client</td>
+              </tr>
+              <tr>
+                <td>Slave MCU</td>
+                <td>Arduino UNO R3</td>
+                <td>Actuator control</td>
+              </tr>
+              <tr>
+                <td>Camera</td>
+                <td>RPi Cam. Module 3 NoIR</td>
+                <td>Image acquisition</td>
+              </tr>
+              <tr>
+                <td>Servo</td>
+                <td>HK15138 (360&deg;)</td>
+                <td>Rotary sorting</td>
+              </tr>
+              <tr>
+                <td>Fan</td>
+                <td>PC 92&nbsp;mm, 40&nbsp;CFM</td>
+                <td>Suction airflow</td>
+              </tr>
+              <tr>
+                <td>Position sensor</td>
+                <td>Hall A3144</td>
+                <td>Rotor feedback</td>
+              </tr>
+              <tr>
+                <td>Env. sensor</td>
+                <td>BME280</td>
+                <td>Temp. / humidity</td>
+              </tr>
+              <tr>
+                <td>Power regulator</td>
+                <td>LM2596</td>
+                <td>12&nbsp;V &rarr; 5&nbsp;V</td>
+              </tr>
+              <tr>
+                <td>Fan switch</td>
+                <td>5&nbsp;V relay module</td>
+                <td>12&nbsp;V fan control</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;II.</strong>
+          Key hardware components.</p>
+
+        <div class="acad-figure-grid">
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/diagrama_bloque_eng.png"
+              alt="Hardware block diagram of the trap">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;4.</strong> Hardware block
+              diagram showing the four functional subsystems: master processor, slave controller, power
+              management, and physical interface.</p>
+          </div>
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/Diagrama_Electrico_bb.png"
+              alt="Electrical wiring diagram of the trap">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;5.</strong> Electrical wiring
+              diagram. Two power domains are clearly separated: 12&nbsp;V (fan, via relay) and 5&nbsp;V regulated
+              (Arduino, servo, relay logic); the Raspberry&nbsp;Pi&nbsp;5 is powered independently via
+              USB-C.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
