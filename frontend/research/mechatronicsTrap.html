@@ -1378,6 +1378,203 @@
     </div>
   </section>
 
+  <!-- ══════════════════════════════════════
+       SECTION IV — DETECTION & SEX CLASSIFICATION PIPELINE
+       ══════════════════════════════════════ -->
+  <section class="acad-section acad-section-alt">
+    <div class="acad-section-inner">
+      <div class="acad-section-head">
+        <span class="acad-section-num">IV.</span>
+        <span class="acad-section-title">Detection &amp; Sex Classification Pipeline</span>
+      </div>
+
+      <div class="acad-body">
+        <p>
+          The vision system follows a two-stage cascaded design: a single-class detector first localises each
+          specimen in the frame, and a lightweight binary classifier then determines its sex from the cropped
+          region. Decoupling the two tasks avoids the class-confusion artefacts of a multi-class detector
+          working at small scale, and allows each stage to be optimised, retrained, or replaced independently.
+          Both stages are exported to ONNX for CPU-only inference on the Raspberry&nbsp;Pi&nbsp;5.
+        </p>
+
+        <h4>Stage 1 &mdash; Detection (YOLOv8s)</h4>
+        <p>
+          The detector was trained on <strong>22,309 images</strong> under a single <em>mosquito</em> class,
+          combining Roboflow Universe data with manually annotated field captures (three augmented variants per
+          image; 87.5&nbsp;/&nbsp;6.3&nbsp;/&nbsp;6.2 train/val/test split). Hyperparameters were tuned with
+          Optuna (TPE sampler, 100&nbsp;trials of 15&nbsp;epochs), and the best configuration was retrained for
+          200&nbsp;epochs, reaching <strong>mAP@50&nbsp;=&nbsp;0.975</strong> with precision and recall of 0.954
+          on the held-out test set.
+        </p>
+
+        <h4>Stage 2 &mdash; Sex Classification (MobileNetV3 Large)</h4>
+        <p>
+          The classification dataset was derived by cropping each detected specimen, yielding
+          <strong>5,343 single-specimen images</strong> (4,403&nbsp;train&nbsp;/&nbsp;493&nbsp;val&nbsp;/
+          447&nbsp;test, near-balanced 50.8% female&nbsp;/&nbsp;49.2% male). MobileNetV3&nbsp;Large was
+          fine-tuned from ImageNet weights with class-weighted cross-entropy and label smoothing, reaching
+          <strong>97.31% accuracy</strong> on the test set &mdash; only 4 false negatives on females and 8 on
+          males across all 447 samples.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Class</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1</th>
+                <th>N</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Female</td>
+                <td>0.97</td>
+                <td>0.98</td>
+                <td>0.97</td>
+                <td>227</td>
+              </tr>
+              <tr>
+                <td>Male</td>
+                <td>0.98</td>
+                <td>0.96</td>
+                <td>0.97</td>
+                <td>220</td>
+              </tr>
+              <tr class="ours-row">
+                <td>Accuracy</td>
+                <td colspan="3">0.9731</td>
+                <td>447</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;III.</strong>
+          MobileNetV3 Large sex-classification metrics on the test set.</p>
+
+        <h4>End-to-End Inference Flow</h4>
+        <p>Each camera frame is processed through the following sequential stages:</p>
+        <ol>
+          <li><strong>Letterbox resize</strong> &mdash; the frame is resized to 256&times;256 preserving aspect
+            ratio via symmetric padding.</li>
+          <li><strong>Detection</strong> &mdash; the YOLOv8s ONNX graph predicts bounding boxes with confidence
+            scores.</li>
+          <li><strong>Decode &amp; NMS</strong> &mdash; predictions are filtered (confidence&nbsp;&ge;&nbsp;0.125)
+            and deduplicated via Non-Maximum Suppression (IoU&nbsp;=&nbsp;0.45).</li>
+          <li><strong>ROI extraction</strong> &mdash; each surviving box is cropped from the original,
+            un-resized frame.</li>
+          <li><strong>Crop preprocessing</strong> &mdash; every crop is resized to 160&times;160 and normalised
+            with ImageNet statistics.</li>
+          <li><strong>Classification</strong> &mdash; the MobileNetV3 ONNX graph produces a Female/Male logit
+            pair for each crop.</li>
+          <li><strong>Argmax</strong> &mdash; the higher-scoring class is assigned as the final sex label.</li>
+        </ol>
+
+        <h4>ONNX Export &amp; Edge Latency</h4>
+        <p>
+          Both models were benchmarked in three execution modes on a development workstation (PyTorch CPU,
+          PyTorch GPU, and the exported ONNX graph on CPU) before deployment. ONNX Runtime cuts YOLOv8s CPU
+          latency by 55% (20.47&nbsp;ms&nbsp;&rarr;&nbsp;9.05&nbsp;ms), with a marginal accuracy trade-off
+          (&minus;2.1&nbsp;pp precision, &minus;5.5&nbsp;pp mAP@50). The classifier fares even better: ONNX is
+          72% faster than PyTorch CPU (20.83&nbsp;ms&nbsp;&rarr;&nbsp;5.83&nbsp;ms) with
+          <strong>zero accuracy degradation</strong> &mdash; identical precision, recall, and F1 across all
+          three modes.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Mode</th>
+                <th>Time (ms)</th>
+                <th>Key metric</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>YOLOv8s</td>
+                <td>PyTorch CPU</td>
+                <td>20.47</td>
+                <td>mAP@50 0.975</td>
+              </tr>
+              <tr>
+                <td>YOLOv8s</td>
+                <td>PyTorch GPU</td>
+                <td>7.34</td>
+                <td>mAP@50 0.975</td>
+              </tr>
+              <tr>
+                <td>YOLOv8s</td>
+                <td>ONNX CPU</td>
+                <td>9.05</td>
+                <td>mAP@50 0.920</td>
+              </tr>
+              <tr>
+                <td>MobileNetV3</td>
+                <td>PyTorch CPU</td>
+                <td>20.83</td>
+                <td>F1 0.972</td>
+              </tr>
+              <tr>
+                <td>MobileNetV3</td>
+                <td>PyTorch GPU</td>
+                <td>11.26</td>
+                <td>F1 0.972</td>
+              </tr>
+              <tr class="ours-row">
+                <td>MobileNetV3</td>
+                <td>ONNX CPU</td>
+                <td>5.83</td>
+                <td>F1 0.972</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;IV.</strong>
+          PyTorch vs. ONNX Runtime latency and accuracy (development workstation).</p>
+
+        <p>
+          On the Raspberry&nbsp;Pi&nbsp;5 itself, the full cascade runs at <strong>133.53&nbsp;ms per frame
+            (&asymp;7.5&nbsp;FPS)</strong>: the YOLOv8s detector accounts for 101.11&nbsp;ms (75.7% of the
+          budget), the MobileNetV3 classifier for 14.77&nbsp;ms (11.1%), and pre/post-processing &mdash;
+          letterboxing, NMS, ROI cropping, normalisation &mdash; for the remaining 17.65&nbsp;ms. This
+          comfortably meets the trap's real-time image-acquisition requirement.
+        </p>
+
+        <div class="acad-img-placeholder">
+          <i class="fas fa-image"></i>
+          <span class="ph-text">Ejemplo de salida de la cascada sobre un frame multi-especimen (ej.
+            Modelo_cascada_output.png)</span>
+        </div>
+        <p class="acad-fig-caption"><strong>Fig.&nbsp;6.</strong> Representative cascade output: YOLOv8s
+          bounding boxes followed by MobileNetV3 sex labels for each detected specimen.</p>
+
+        <h4>Cascade Evaluation &amp; Field Validation</h4>
+        <p>
+          Evaluated end-to-end on the classifier's 447-image test set, the cascade reaches a
+          <strong>conditional classification precision of 94.69%</strong> (321 correct out of 339 valid
+          detections) &mdash; close to the classifier's isolated 97.31%, confirming that MobileNetV3 remains
+          robust on automatically generated crops. Detection recall is lower in this setting (75.84% vs.\
+          93.9% on the detector's native test set), a gap attributable to domain shift between the detector's
+          multi-object training images and the classifier's tight single-specimen crops, rather than any
+          architectural limitation.
+        </p>
+        <p>
+          The complete system was field-deployed autonomously for six consecutive days (Barrio&nbsp;Ycu&aacute;
+          Sat&iacute;, Asunci&oacute;n, Paraguay) on wild <em>Ae.&nbsp;aegypti</em> populations, capturing
+          21&nbsp;events (16 female, 5&nbsp;male) with 2&nbsp;false positives &mdash; a field precision of
+          <strong>90.5%</strong> without any environment-specific retraining. A temperature drop from
+          30&deg;C to 18&deg;C on days&nbsp;4&ndash;6 produced an observable reduction in capture rate,
+          consistent with known <em>Aedes</em> activity patterns, and all detection events were streamed to
+          the cloud dashboard alongside BME280 environmental data throughout the trial.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="footer-inner">
       <span>&copy; 2026 Lucas Pin</span>
