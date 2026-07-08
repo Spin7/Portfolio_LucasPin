@@ -1416,18 +1416,82 @@
           test; 17,140 labelled instances of the mosquito class).
         </p>
         <p>
-          <strong>Training.</strong> Hyperparameters (learning rate, momentum, weight decay, warm-up epochs,
-          loss-term weights, and augmentation strength) were tuned with Optuna's TPE sampler over
-          100&nbsp;trials of 15&nbsp;epochs each, maximising mAP@50 on the validation set; the best trial
-          (mAP@50&nbsp;=&nbsp;0.963) was reached at trial&nbsp;43. The final model was then fine-tuned for
-          200&nbsp;epochs (256&times;256 images, batch&nbsp;16, GPU, early-stopping patience&nbsp;20, mosaic
-          augmentation disabled in the last 10&nbsp;epochs), with deterministic seeding for reproducibility.
-          Training and validation losses decreased steadily with no sign of overfitting, and the model reached
-          <strong>mAP@50&nbsp;=&nbsp;0.975</strong> (precision&nbsp;=&nbsp;recall&nbsp;=&nbsp;0.954,
-          mAP@50-95&nbsp;=&nbsp;0.734) on the held-out test set, with a low false-negative count
-          (1,068&nbsp;TP&nbsp;/&nbsp;57&nbsp;FP&nbsp;/&nbsp;30&nbsp;FN) &mdash; an important property for a
-          monitoring application where missed detections are especially costly.
+          <strong>Hyperparameter Search.</strong> Hyperparameters (learning rate, momentum, weight decay,
+          warm-up epochs, loss-term weights, and augmentation strength) were tuned with Optuna's TPE sampler
+          over 100&nbsp;trials of 15&nbsp;epochs each, maximising mAP@50 on the validation set; the best trial
+          (mAP@50&nbsp;=&nbsp;0.963) was reached at trial&nbsp;43, confirming strong achievable performance
+          ahead of the final training run.
         </p>
+
+        <div class="acad-figure-grid">
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/opt_history.png"
+              alt="Optuna hyperparameter optimisation history over 100 trials">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;6.</strong> Optuna
+              optimisation history over 100&nbsp;TPE trials; the mAP@50 objective on the validation set
+              stabilises after trial&nbsp;43, the best-performing configuration.</p>
+          </div>
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/param_importance.png"
+              alt="Relative hyperparameter importance estimated by Optuna">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;7.</strong> Relative
+              hyperparameter importance estimated by Optuna across the 100&nbsp;search trials, showing each
+              parameter's contribution to the variation in validation mAP@50.</p>
+          </div>
+        </div>
+
+        <p>
+          <strong>PyTorch Results.</strong> Using the optimal configuration, the final YOLOv8s model was
+          fine-tuned for 200&nbsp;epochs (256&times;256 images, batch&nbsp;16, GPU, early-stopping
+          patience&nbsp;20, mosaic augmentation disabled in the last 10&nbsp;epochs), with deterministic
+          seeding for reproducibility. Training and validation losses decreased steadily with no sign of
+          overfitting, and the model reached <strong>mAP@50&nbsp;=&nbsp;0.975</strong>
+          (precision&nbsp;=&nbsp;recall&nbsp;=&nbsp;0.954, mAP@50-95&nbsp;=&nbsp;0.734) on the held-out test
+          set, with a low false-negative count (1,068&nbsp;TP&nbsp;/&nbsp;57&nbsp;FP&nbsp;/&nbsp;30&nbsp;FN)
+          &mdash; an important property for a monitoring application where missed detections are especially
+          costly.
+        </p>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/MechatronicsTrap/trainer_curves_yolo.png"
+            alt="YOLOv8s training curves over 200 epochs">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;8.</strong> YOLOv8s training
+            curves &mdash; box, classification, and DFL losses alongside precision, recall, and mAP@50 &mdash;
+            over 200&nbsp;epochs, showing steady convergence with no divergence between training and
+            validation splits.</p>
+        </div>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Precision</td>
+                <td>0.954</td>
+              </tr>
+              <tr>
+                <td>Recall</td>
+                <td>0.954</td>
+              </tr>
+              <tr>
+                <td>mAP@50</td>
+                <td>0.975</td>
+              </tr>
+              <tr class="ours-row">
+                <td>mAP@50-95</td>
+                <td>0.734</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;IV.</strong>
+          YOLOv8s detection metrics on the held-out test set after 200&nbsp;epochs of fine-tuning (PyTorch).</p>
+
         <p>
           <strong>ONNX Export.</strong> The trained PyTorch model was exported to ONNX (opset&nbsp;12, fixed
           256&times;256 input, static axes) to decouple inference from the training framework and enable
@@ -1473,10 +1537,20 @@
             </tbody>
           </table>
         </div>
-        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;III.</strong>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;V.</strong>
           YOLOv8s inference latency and detection metrics across execution modes. ONNX CPU is the mode deployed
           on the Raspberry&nbsp;Pi&nbsp;5, cutting CPU latency by 55% relative to native PyTorch while closing
           most of the gap to GPU-accelerated inference.</p>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/MechatronicsTrap/yolo_pt_vs_onnx.jpg"
+            alt="Per-sample inference time comparison, PyTorch GPU vs ONNX CPU">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;9.</strong> Per-sample
+            inference-time distribution for YOLOv8s: PyTorch&nbsp;GPU vs.&nbsp;ONNX&nbsp;CPU. ONNX/CPU achieves
+            a mean latency of 9.05&nbsp;ms (&sigma;&nbsp;=&nbsp;0.67&nbsp;ms), closely approaching the
+            7.34&nbsp;ms (&sigma;&nbsp;=&nbsp;0.99&nbsp;ms) of GPU-accelerated inference &mdash; near-GPU
+            performance without hardware acceleration.</p>
+        </div>
 
         <h4>MobileNetV3 Classification Model</h4>
         <p>
@@ -1540,7 +1614,7 @@
             </tbody>
           </table>
         </div>
-        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;IV.</strong>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;VI.</strong>
           MobileNetV3 Large sex-classification metrics on the test set (PyTorch).</p>
 
         <p>
@@ -1588,7 +1662,7 @@
             </tbody>
           </table>
         </div>
-        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;V.</strong>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;VII.</strong>
           MobileNetV3 Large inference latency across execution modes. ONNX CPU is 72% faster than PyTorch CPU
           with no accuracy degradation &mdash; even outperforming PyTorch GPU.</p>
 
@@ -1616,7 +1690,7 @@
           <span class="ph-text">Ejemplo de salida de la cascada sobre un frame multi-especimen (ej.
             Modelo_cascada_output.png)</span>
         </div>
-        <p class="acad-fig-caption"><strong>Fig.&nbsp;6.</strong> Representative cascade output: YOLOv8s
+        <p class="acad-fig-caption"><strong>Fig.&nbsp;10.</strong> Representative cascade output: YOLOv8s
           bounding boxes followed by MobileNetV3 sex labels for each detected specimen.</p>
 
         <p>
@@ -1665,7 +1739,7 @@
             </tbody>
           </table>
         </div>
-        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;VI.</strong>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;VIII.</strong>
           ONNX inference latency measured directly on the Raspberry&nbsp;Pi&nbsp;5 (CPU). The detector accounts
           for 75.7% of total latency; the classifier adds only 11.1%, confirming its lightweight footprint as
           the second stage.</p>
