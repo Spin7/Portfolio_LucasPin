@@ -61,6 +61,31 @@
       }
     }
 
+    /* Three figures in a row */
+    .acad-figure-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.6rem;
+      margin: 1.6rem 0;
+      align-items: start;
+    }
+
+    .acad-figure-grid-3 .acad-figure {
+      margin: 0;
+    }
+
+    @media (max-width: 900px) {
+      .acad-figure-grid-3 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .acad-figure-grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .acad-body ol {
       margin: 0 0 1.1rem 1.3rem;
       padding: 0;
@@ -1881,6 +1906,216 @@
           <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;15.</strong> Web dashboard
             displaying real-time detections, sex classification, and environmental data.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION VI — RESULTS
+       ══════════════════════════════════════ -->
+  <section class="acad-section acad-section-alt">
+    <div class="acad-section-inner">
+      <div class="acad-section-head">
+        <span class="acad-section-num">VI.</span>
+        <span class="acad-section-title">Results</span>
+      </div>
+
+      <div class="acad-body">
+        <p>
+          The final validation stage covered three complementary levels: the assembled physical prototype, two
+          controlled semi-field trials with laboratory-reared specimens, and a six-day field deployment on wild
+          populations in Asunci&oacute;n.
+        </p>
+
+        <h4>Final Prototype</h4>
+        <p>
+          The assembled trap integrates the rotating sorting mechanism, the electronic control and inference
+          modules, and the imaging channel described in previous sections.
+        </p>
+
+        <div class="acad-figure-grid-3">
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/Trampa_caja_abierta.jpg"
+              alt="Assembled trap with the protective case open, showing internal component layout">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;16.</strong> Trap in its
+              protective case, door open, showing the internal component layout.</p>
+          </div>
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/Mecanismo_de_clasificacion.jpg"
+              alt="Rotating sorting mechanism responsible for separating detected mosquitoes">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;17.</strong> Rotating sorting
+              mechanism responsible for separating detected specimens.</p>
+          </div>
+          <div class="acad-figure">
+            <img src="../static/Researh/MechatronicsTrap/Mecanismo_de_clasificacion_circuitos.jpg"
+              alt="Integrated electronic control, processing, and communication modules">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;18.</strong> Integrated
+              electronic modules &mdash; power, actuator control, and the embedded computer running the vision
+              pipeline.</p>
+          </div>
+        </div>
+
+        <div class="acad-figure">
+          <img src="../static/Researh/MechatronicsTrap/sistema_completo_funcionado.jpg"
+            alt="Trap operating on a test specimen, with live cascade output shown on an external monitor">
+          <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;19.</strong> Trap operating on
+            a test specimen: the monitor connected to the Raspberry&nbsp;Pi displays the live detection and
+            sex-classification output, validating end-to-end synchronisation between the vision pipeline and
+            the sorting mechanism.</p>
+        </div>
+
+        <h4>Semi-Field Trials</h4>
+        <p>
+          Two 36-hour trials were run in a sealed, climate-controlled enclosure at FIUNA
+          (21&ndash;25&deg;C, 40&ndash;60% relative humidity), each with 66&nbsp;IICS-supplied
+          <em>Ae.&nbsp;aegypti</em> (33&nbsp;female / 33&nbsp;male, 3&ndash;7 days old) released 30&nbsp;minutes
+          before activation. After each run, specimens were counted manually and cross-checked against the
+          system's automatic log to quantify classification and retention error. Three ratios summarise
+          performance: classification precision (<em>P<sub>class</sub></em>, correct sex assignments over
+          specimens processed), physical retention (<em>R<sub>ret</sub></em>, specimens retained over specimens
+          detected), and capture ratio (<em>R<sub>c</sub></em>, specimens captured over the effective population
+          that actually left the release container).
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Indicator</th>
+                <th>Trial 1</th>
+                <th>Trial 2</th>
+                <th>Variation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>P<sub>class</sub></td>
+                <td>93.75%</td>
+                <td>93.75%</td>
+                <td>0.0%</td>
+              </tr>
+              <tr>
+                <td>R<sub>ret</sub></td>
+                <td>87.5%</td>
+                <td>87.5%</td>
+                <td>0.0%</td>
+              </tr>
+              <tr class="ours-row">
+                <td>R<sub>c</sub></td>
+                <td>26.66%</td>
+                <td>29.09%</td>
+                <td>+2.43%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;X.</strong>
+          Semi-field performance ratios, both 36-hour trials (16 specimens processed each).</p>
+
+        <p>
+          Results were consistent across both trials, with identical classification precision and retention.
+          The one sex-confusion case and all escapes were traced to two specific, addressable causes: partial
+          occlusion or fast transit through the imaging channel for the former, and a small gap between the
+          rotating cylinder and the acrylic plate &mdash; wide enough for the smaller-bodied females to
+          escape through &mdash; for the latter. The moderate capture ratio (27&ndash;29%) reflects that a
+          meaningful share of the effective population never engaged with the trap, pointing to attractant
+          strength as the main lever for future improvement rather than the detection or sorting logic.
+        </p>
+
+        <h4>Field Trial</h4>
+        <p>
+          The prototype was then deployed autonomously for six consecutive days (1&ndash;7&nbsp;May) at a
+          residence in Barrio&nbsp;Ycu&aacute;&nbsp;Sat&iacute;, Asunci&oacute;n, mounted against a wall under
+          eave cover, 8&nbsp;m from the street. It logged 21&nbsp;mosquito detections (16&nbsp;female,
+          5&nbsp;male) plus one non-mosquito (a Geometridae moth, excluded from the precision count) and
+          2&nbsp;verified false positives, giving a field precision of
+          <strong>(21&minus;2)/21&nbsp;&asymp;&nbsp;90.5%</strong> &mdash; achieved with no
+          hyperparameter tuning or retraining for the outdoor environment.
+        </p>
+
+        <div class="acad-table-wrap">
+          <table class="acad-table">
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Female</th>
+                <th>Male</th>
+                <th>Other</th>
+                <th>Temp. (&deg;C)</th>
+                <th>Hum. (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>4</td>
+                <td>1</td>
+                <td>&mdash;</td>
+                <td>29&ndash;30</td>
+                <td>84</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>5</td>
+                <td>0</td>
+                <td>1 (Geometridae)</td>
+                <td>29&ndash;30</td>
+                <td>82</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>3</td>
+                <td>1*</td>
+                <td>&mdash;</td>
+                <td>29&ndash;30</td>
+                <td>85</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>2 (1*)</td>
+                <td>0</td>
+                <td>&mdash;</td>
+                <td>18&ndash;20</td>
+                <td>63</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>0</td>
+                <td>1</td>
+                <td>&mdash;</td>
+                <td>18&ndash;20</td>
+                <td>59</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>2</td>
+                <td>2</td>
+                <td>&mdash;</td>
+                <td>18&ndash;20</td>
+                <td>60</td>
+              </tr>
+              <tr class="ours-row">
+                <td>Total</td>
+                <td>16</td>
+                <td>5</td>
+                <td>1</td>
+                <td>avg&nbsp;24.5</td>
+                <td>avg&nbsp;72</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;XI.</strong>
+          Daily field-test captures and environmental conditions (1&ndash;7&nbsp;May). (*)&nbsp;Verified false
+          positive.</p>
+
+        <p>
+          A temperature drop from 30&deg;C to 18&deg;C on days&nbsp;4&ndash;6 coincided with a visible drop in
+          female captures &mdash; consistent with reduced <em>Aedes</em> flight activity in cold, low-humidity
+          conditions. Across the six days, the trap ran continuously and streamed every detection to the cloud
+          dashboard alongside BME280 environmental readings, confirming the viability of unattended,
+          real-world deployment without any site-specific retraining.
+        </p>
       </div>
     </div>
   </section>
