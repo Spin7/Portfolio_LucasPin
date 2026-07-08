@@ -2456,6 +2456,80 @@
     </div>
   </section>
 
+  <!-- ══════════════════════════════════════
+       SECTION VII — CONCLUSIONS & RECOMMENDATIONS
+       ══════════════════════════════════════ -->
+  <section class="acad-section">
+    <div class="acad-section-inner">
+      <div class="acad-section-head">
+        <span class="acad-section-num">VII.</span>
+        <span class="acad-section-title">Conclusions &amp; Recommendations</span>
+      </div>
+
+      <div class="acad-body">
+        <h4>Conclusions</h4>
+        <p>
+          This work delivered a fully automated data-acquisition pipeline for entomological monitoring,
+          combining a cascaded YOLOv8&thinsp;+&thinsp;MobileNetV3 detection&ndash;classification pipeline
+          &mdash; exported to ONNX and run entirely on CPU aboard a Raspberry&nbsp;Pi&nbsp;5 &mdash; with a
+          purpose-built rotary sorting mechanism and a three-layer IoT architecture for real-time cloud
+          monitoring. Bench measurements confirmed the viability of edge deployment, with the complete
+          inference cycle running at <strong>133.53&nbsp;ms per image (7.49&nbsp;FPS)</strong>, of which the
+          YOLOv8 detector accounts for 101.11&nbsp;ms and the MobileNetV3 classifier adds only
+          14.77&nbsp;ms.
+        </p>
+        <p>
+          Semi-field trials with <em>Aedes aegypti</em> specimens supplied by IICS were consistent across
+          both 36-hour runs, yielding <strong>93.75% classification precision</strong> and an
+          <strong>87.5% physical retention ratio</strong>, with capture ratios of 26.66% and 29.09% of the
+          effective population in the first and second trials, respectively. In the six-day field
+          deployment in Barrio&nbsp;Ycu&aacute;&nbsp;Sat&iacute;, the trap logged 21&nbsp;detections at a
+          <strong>field precision of 90.5%</strong>, operating continuously and autonomously with no
+          hyperparameter tuning for the outdoor environment &mdash; evidence that the system works as a
+          complete, unattended pipeline, from physical capture and sex sorting through to cloud
+          transmission, storage, and visualization.
+        </p>
+        <p>
+          <strong>Design reflections.</strong> The rotary sorting mechanism showed that mechanical
+          simplicity and operational robustness are not at odds: reducing physical classification to a
+          single rotation driven by the vision model's output produced a low-cost, reliable mechanism,
+          whose only structural limitation &mdash; misclassification when two individuals enter
+          simultaneously &mdash; defines a precise operating envelope rather than invalidating the design.
+          Separately, the cascaded pipeline's accuracy drop under integrated evaluation was traced mainly
+          to a domain gap between the detector's training set and the test set rather than to any
+          structural weakness, and extending the cascade with further stages (e.g., a species
+          discriminator) carries a comparatively small training and inference cost, since each added stage
+          only operates on detections already filtered by the previous ones. Development also surfaced a
+          critical engineering lesson: ONNX-exported graphs can silently collapse the output-class layer,
+          producing a model that functionally diverges from its PyTorch source without raising any error
+          &mdash; making dimensional validation of the output layer mandatory before any deployment.
+        </p>
+
+        <h4>Recommendations for Future Work</h4>
+        <ul>
+          <li><strong>Hardware.</strong> Migrate to a cheaper edge device, since ONNX inference has proven
+            highly efficient; design a unified SMD board integrating sensing and power actuation; add
+            further environmental sensors; and include local image storage to cover
+            server-disconnection scenarios.</li>
+          <li><strong>Mechanical design.</strong> Extend the housing with a third compartment to sort
+            other, non-target insects, improving overall selectivity.</li>
+          <li><strong>Physical classification mechanism.</strong> Add a counting sensor to the entry
+            channel, or redesign it to force strictly sequential entry of one individual at a time,
+            removing the simultaneous-entry limitation identified during testing.</li>
+          <li><strong>AI model.</strong> Expand the training dataset with real trap-captured data;
+            incorporate classification-dataset images into detector training to close the observed
+            domain gap; and extend the cascade with a species-discrimination stage.</li>
+          <li><strong>ONNX graph validation.</strong> Compare the exported graph's predictions against
+            the PyTorch source model on a set of known samples before any deployment, as a mandatory
+            step to catch silent output-layer collapses.</li>
+          <li><strong>Trap autonomy.</strong> Add rechargeable batteries, solar power, and mobile-network
+            connectivity to support continuous operation and remote access in more robust field
+            deployments.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="footer-inner">
       <span>&copy; 2026 Lucas Pin</span>
