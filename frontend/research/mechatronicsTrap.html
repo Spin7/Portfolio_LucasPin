@@ -164,12 +164,9 @@
       border-bottom: 1px solid var(--border);
     }
 
-    /* Alternate section background (gray) — matches header's var(--bg).
-       Extra specificity (.acad-section.acad-section-alt) guarantees this
-       wins over the plain white .acad-section rule regardless of source
-       order. */
+    /* Alternate section background — disabled per request; whole body stays white. */
     .acad-section.acad-section-alt {
-      background: var(--bg);
+      background: #fff;
     }
 
     .acad-section-inner {
@@ -1905,7 +1902,8 @@
 
         <div class="acad-figure">
           <img src="../static/Researh/MechatronicsTrap/IoT_protocolo_comunicacion.png"
-            alt="Raspberry Pi client communication protocol: internal, serial, and HTTP levels">
+            alt="Raspberry Pi client communication protocol: internal, serial, and HTTP levels"
+            style="max-width: 480px; width: 100%;">
           <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;14.</strong> Raspberry&nbsp;Pi
             client communication protocol: internal, serial&nbsp;(UART), and HTTP levels operating in
             parallel.</p>
