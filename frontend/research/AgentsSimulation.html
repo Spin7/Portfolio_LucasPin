@@ -11,6 +11,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
+
+  <!-- KaTeX: renders the ABM equations in Section IV -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    crossorigin="anonymous"></script>
   <style>
     /* ── DESIGN TOKENS (page-level) ── */
     :root {
@@ -305,6 +311,90 @@
 
     .acad-fig-caption strong {
       color: var(--dark);
+    }
+
+    /* ── Numbered display-equation blocks (Section IV ABM rules) ── */
+    .eq-group {
+      margin: 1.5rem 0 1.7rem;
+    }
+
+    .eq-tag {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--acc1);
+      margin: 0 0 0.6rem;
+    }
+
+    .eq-box {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      background: var(--acc1-light);
+      border-left: 3px solid var(--acc1);
+      border-radius: var(--radius-md, 10px);
+      padding: 1.15rem 1.5rem;
+      margin: 0 0 0.9rem;
+      overflow-x: auto;
+    }
+
+    .eq-box .eq-tex {
+      flex: 1;
+      min-width: 0;
+      font-size: 1.08rem;
+      color: var(--dark);
+      text-align: center;
+    }
+
+    .eq-box .eq-tex .katex {
+      font-size: 1.12em;
+    }
+
+    .eq-box .eq-num {
+      flex-shrink: 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--acc1);
+    }
+
+    .eq-cite {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: var(--text);
+      text-align: justify;
+      hyphens: auto;
+      margin: 0 0 1.3rem;
+    }
+
+    .eq-cite strong {
+      color: var(--dark);
+    }
+
+    .eq-cite code {
+      background: rgba(14, 116, 144, 0.08);
+      padding: 0.05rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+
+    /* Inline KaTeX used within justified prose paragraphs */
+    .acad-body p .katex {
+      font-size: 1.02em;
+    }
+
+    @media (max-width: 620px) {
+      .eq-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+      }
+
+      .eq-box .eq-num {
+        align-self: flex-end;
+      }
     }
 
     /* Section 1: Title | Abstract */
@@ -1647,62 +1737,178 @@
         <h4>Potential Field &amp; Stochastic Movement</h4>
         <p>
           Street and water cells are excluded <em>explicitly</em>: rather than weighting them down within the
-          potential field, they are removed outright from the valid movement neighborhood
-          <em>N<sub>R</sub></em>(<em>x</em>)&nbsp;=&nbsp;{<em>y</em>&nbsp;&isin;&nbsp;&Gamma;&nbsp;:&nbsp;&#8214;<em>y</em>&minus;<em>x</em>&#8214;&nbsp;&le;&nbsp;<em>R</em>,
-          <em>c</em>(<em>y</em>)&nbsp;&notin;&nbsp;{street,&nbsp;water}}, leaving the potential field itself to
-          encode nothing but proximity to breeding sites through an exponential decay kernel:
-          &Pi;(<em>x</em>)&nbsp;=&nbsp;(1/&Pi;<sub>max</sub>)&nbsp;&Sigma;<sub>s</sub>&nbsp;exp(&minus;&#8214;<em>x</em>&minus;<em>s</em>&#8214;/&lambda;),
-          with &lambda;&nbsp;=&nbsp;10 and &Pi;<sub>max</sub> normalizing the field to [0,&nbsp;1] across the
-          whole grid. Every surviving adult then samples its next cell from a Markov transition kernel that
-          favors proximity to breeding sites and penalizes distance:
-          <em>P</em>(<em>y</em>|<em>x</em>)&nbsp;=&nbsp;<em>w&#771;</em>(<em>y</em>|<em>x</em>)&nbsp;/&nbsp;&Sigma;<sub>z</sub>&nbsp;<em>w&#771;</em>(<em>z</em>|<em>x</em>),
-          with
-          <em>w&#771;</em>(<em>y</em>|<em>x</em>)&nbsp;=&nbsp;(&Pi;(<em>y</em>)+&beta;<sub>0</sub>)/(&#8214;<em>y</em>&minus;<em>x</em>&#8214;+1).
-          The additive bias &beta;<sub>0</sub> in the numerator keeps movement exploratory even where
-          &Pi;&nbsp;&equiv;&nbsp;0 across the whole neighborhood, avoiding degenerate jump distributions.
+          potential field, they are removed outright from the valid movement neighborhood, leaving the
+          potential field itself to encode nothing but proximity to breeding sites through an exponential
+          decay kernel.
         </p>
+
+        <div class="eq-group">
+          <span class="eq-tag">Valid movement neighborhood</span>
+          <div class="eq-box">
+            <div class="eq-tex">\[
+              \mathcal{N}_R(x) = \bigl\{\, y \in \Gamma \;\big|\; \|y-x\| \le R,\;\; c(y) \notin
+              \{\text{street},\,\text{water}\} \,\bigr\}
+              \]</div>
+            <span class="eq-num">(1)</span>
+          </div>
+          <p class="eq-cite">
+            Street and water cells are removed outright from <code>N&#8342;(x)</code> — never weighted down,
+            excluded.
+          </p>
+        </div>
+
+        <div class="eq-group">
+          <span class="eq-tag">Potential field &Pi;(x)</span>
+          <div class="eq-box">
+            <div class="eq-tex">\[
+              \Pi(x) = \frac{1}{\Pi_{\max}} \sum_{s \in \mathcal{S}} \exp\!\left(-\frac{\|x-s\|}{\lambda}\right), \qquad
+              \lambda = 10
+              \]</div>
+            <span class="eq-num">(2)</span>
+          </div>
+          <p class="eq-cite">
+            An exponential decay kernel over breeding sites <code>S</code>, with &Pi;<sub>max</sub>
+            normalizing the field to [0,&nbsp;1] across the whole grid.
+          </p>
+        </div>
+
+        <div class="eq-group">
+          <span class="eq-tag">Stochastic movement kernel</span>
+          <div class="eq-box">
+            <div class="eq-tex">\[
+              P(y \mid x) = \frac{\tilde{w}(y \mid x)}{\displaystyle\sum_{z} \tilde{w}(z \mid x)}, \qquad
+              \tilde{w}(y \mid x) = \frac{\Pi(y) + \beta_0}{\|y-x\| + 1}
+              \]</div>
+            <span class="eq-num">(3)</span>
+          </div>
+          <p class="eq-cite">
+            Every surviving adult samples its next cell from this Markov transition kernel, which favors
+            proximity to breeding sites and penalizes distance. The additive bias &beta;<sub>0</sub> in the
+            numerator keeps movement exploratory even where &Pi;&nbsp;&equiv;&nbsp;0 across the whole
+            neighborhood, avoiding degenerate jump distributions.
+          </p>
+        </div>
 
         <h4>Juvenile Dynamics</h4>
         <p>
-          Juveniles exist only at breeding sites. At each site <em>s<sub>k</sub></em>, the population evolves as
-          <em>J<sub>k</sub></em>(<em>t</em>+&Delta;t)&nbsp;=&nbsp;<em>J<sub>k</sub></em>(<em>t</em>)&nbsp;+&nbsp;<em>X</em><sub>births,k</sub>&nbsp;&minus;&nbsp;<em>X</em><sub>mat,k</sub>&nbsp;&minus;&nbsp;<em>X</em><sub>death,k</sub>,
-          where every transition is resolved as an independent Bernoulli trial per agent and, since the
-          per-class probabilities are homogeneous within a site, aggregates into a Binomial count. Births draw
-          only on gravid females within the oviposition radius of <em>s<sub>k</sub></em>:
-          <em>X</em><sub>births,k</sub>&nbsp;~&nbsp;Binomial(F<sub>G</sub><sup>(k)</sup>,&nbsp;1&minus;e<sup>&minus;f&Delta;t</sup>).
-          Maturation follows
-          <em>X</em><sub>mat,k</sub>&nbsp;~&nbsp;Binomial(<em>J<sub>k</sub></em>(<em>t</em>),&nbsp;1&minus;e<sup>&minus;&gamma;&Delta;t</sup>),
-          with each maturing juvenile becoming male or unmated female with equal probability&nbsp;&frac12;.
-          Density-dependent mortality follows
-          <em>X</em><sub>death,k</sub>&nbsp;~&nbsp;Binomial(<em>J<sub>k</sub></em>(<em>t</em>),&nbsp;1&minus;e<sup>&minus;(&mu;<sub>J</sub>+&alpha;&rho;<sub>k</sub>)&Delta;t</sup>),
-          with local density
-          &rho;<sub>k</sub>&nbsp;=&nbsp;<em>J<sub>k</sub></em>(<em>t</em>)/(<em>K</em><sub>c</sub>&middot;<em>A</em><sub>d</sub>)
-          and neighborhood area <em>A</em><sub>d</sub>&nbsp;=&nbsp;(2<em>r</em><sub>d</sub>+1)&sup2;. Maturation and
-          death are treated as <strong>mutually exclusive</strong> within a single time step &mdash; this is the
-          mechanism through which an emergent carrying capacity is tested, rather than one fixed as a global
-          constant.
+          Juveniles exist only at breeding sites. At each site <em>s<sub>k</sub></em>, every transition is
+          resolved as an independent Bernoulli trial per agent and, since the per-class probabilities are
+          homogeneous within a site, aggregates into a Binomial count.
         </p>
+
+        <div class="eq-group">
+          <span class="eq-tag">Temporal evolution of the juvenile population in s&#8342;</span>
+          <div class="eq-box">
+            <div class="eq-tex">\[
+              J_k(t+\Delta t) = J_k(t) + X_{\text{births},k} - X_{\text{mat},k} - X_{\text{death},k}
+              \]</div>
+            <span class="eq-num">(4)</span>
+          </div>
+        </div>
+
+        <div class="eq-group">
+          <span class="eq-tag">Births</span>
+          <div class="eq-box">
+            <div class="eq-tex">\[
+              X_{\text{births},k} \sim \mathrm{Binomial}\!\left(F_G^{(k)},\; 1 - e^{-f\,\Delta t}\right)
+              \]</div>
+            <span class="eq-num">(5)</span>
+          </div>
+          <p class="eq-cite">
+            Draws only on gravid females <code>F&#7480;⁽ᵏ⁾</code> within the oviposition radius of
+            <em>s<sub>k</sub></em>.
+          </p>
+        </div>
+
+        <div class="eq-group">
+          <span class="eq-tag">Maturation</span>
+          <div class="eq-box">
+            <div class="eq-tex">\[
+              X_{\text{mat},k} \sim \mathrm{Binomial}\!\left(J_k(t),\; 1 - e^{-\gamma\,\Delta t}\right)
+              \]</div>
+            <span class="eq-num">(6)</span>
+          </div>
+          <p class="eq-cite">
+            Each maturing juvenile becomes male or unmated female with equal probability&nbsp;&frac12;.
+          </p>
+        </div>
+
+        <div class="eq-group">
+          <span class="eq-tag">Density-dependent mortality</span>
+          <div class="eq-box">
+            <div class="eq-tex">\[
+              X_{\text{death},k} \sim \mathrm{Binomial}\!\left(J_k(t),\; 1 - e^{-(\mu_J + \alpha \rho_k)\,\Delta
+              t}\right)
+              \]</div>
+            <span class="eq-num">(7)</span>
+          </div>
+          <div class="eq-box">
+            <div class="eq-tex">\[
+              \rho_k = \frac{J_k(t)}{K_c \cdot A_d}, \qquad A_d = (2 r_d + 1)^2
+              \]</div>
+            <span class="eq-num">(8)</span>
+          </div>
+          <p class="eq-cite">
+            <em>&rho;<sub>k</sub></em> is the local juvenile density and <em>A<sub>d</sub></em> the
+            neighborhood area. Maturation and death are treated as <strong>mutually exclusive</strong> within
+            a single time step — this is the mechanism through which an emergent carrying capacity is
+            tested, rather than one fixed as a global constant.
+          </p>
+        </div>
 
         <h4>Adult Dynamics &amp; Mating</h4>
         <p>
-          Every live adult resolves its demographic transition before moving. An adult male dies with
-          probability
-          <em>P</em>(<em>M</em>&rarr;<em>D</em>)&nbsp;=&nbsp;1&minus;e<sup>&minus;&mu;<sub>M</sub>&Delta;t</sup>.
-          An unmated female is evaluated for survival first,
-          <em>P</em>(F<sub>U</sub>&rarr;<em>D</em>)&nbsp;=&nbsp;1&minus;e<sup>&minus;&mu;<sub>F</sub>&Delta;t</sup>;
-          if she survives, she counts the males within her mate-search radius,
-          <em>M<sub>rm</sub></em>(<em>x<sub>i</sub></em>)&nbsp;=&nbsp;#{<em>j</em>&nbsp;:&nbsp;<em>s<sub>j</sub></em>=<em>M</em>,&nbsp;&#8214;<em>x<sub>j</sub></em>&minus;<em>x<sub>i</sub></em>&#8214;&nbsp;&le;&nbsp;<em>r</em><sub>m</sub>},
-          giving an effective mating intensity
-          &lambda;<sub>m</sub>&nbsp;=&nbsp;&beta;&middot;<em>M<sub>rm</sub></em>(<em>x<sub>i</sub></em>)
-          and transition probability
-          <em>P</em>(F<sub>U</sub>&rarr;F<sub>G</sub>&nbsp;|&nbsp;survives)&nbsp;=&nbsp;1&minus;e<sup>&minus;&lambda;<sub>m</sub>&Delta;t</sup>.
-          A gravid female is likewise evaluated for survival,
-          <em>P</em>(F<sub>G</sub>&rarr;<em>D</em>)&nbsp;=&nbsp;1&minus;e<sup>&minus;&mu;<sub>F</sub>&Delta;t</sup>,
-          and,
-          if she survives, may oviposit in the same step with probability&nbsp;1&minus;e<sup>&minus;f&Delta;t</sup>.
-          Encounters and mating are therefore resolved entirely within a finite local radius &mdash; no global
-          count over the population is ever computed.
+          Every live adult resolves its demographic transition before moving. Encounters and mating are
+          resolved entirely within a finite local radius — no global count over the population is ever
+          computed.
         </p>
+
+        <div class="eq-group">
+          <span class="eq-tag">Adult male</span>
+          <div class="eq-box">
+            <div class="eq-tex">\[
+              P(M \to D) = 1 - e^{-\mu_M \, \Delta t}
+              \]</div>
+            <span class="eq-num">(9)</span>
+          </div>
+        </div>
+
+        <div class="eq-group">
+          <span class="eq-tag">Unmated female F&#7480;</span>
+          <div class="eq-box">
+            <div class="eq-tex">\[
+              \begin{aligned}
+              P(F_U \to D) &= 1 - e^{-\mu_F \, \Delta t} \\[4pt]
+              M_{r_m}(x_i) &= \#\bigl\{\, j : s_j = M,\; \|x_j - x_i\| \le r_m \,\bigr\} \\[4pt]
+              \lambda_m &= \beta \cdot M_{r_m}(x_i) \\[4pt]
+              P(F_U \to F_G \mid \text{survives}) &= 1 - e^{-\lambda_m \, \Delta t}
+              \end{aligned}
+              \]</div>
+            <span class="eq-num">(10)</span>
+          </div>
+          <p class="eq-cite">
+            An unmated female is evaluated for survival first; if she survives, she counts the males within
+            her mate-search radius <em>r<sub>m</sub></em>, giving an effective mating intensity
+            &lambda;<sub>m</sub> and a transition probability to gravid.
+          </p>
+        </div>
+
+        <div class="eq-group">
+          <span class="eq-tag">Gravid female F&#7580;</span>
+          <div class="eq-box">
+            <div class="eq-tex">\[
+              \begin{aligned}
+              P(F_G \to D) &= 1 - e^{-\mu_F \, \Delta t} \\[4pt]
+              P(\text{oviposits} \mid \text{survives}) &= 1 - e^{-f \, \Delta t}
+              \end{aligned}
+              \]</div>
+            <span class="eq-num">(11)</span>
+          </div>
+          <p class="eq-cite">
+            A gravid female is likewise evaluated for survival first; if she survives, she may oviposit in
+            the same step.
+          </p>
+        </div>
 
         <div class="acad-figure">
           <img src="../static/Researh/ABMmosquito/diagrama_transiciones_abm12.png"
@@ -1777,6 +1983,22 @@
     document.getElementById('hamburger').addEventListener('click', () => {
       document.getElementById('hamburger').classList.toggle('open');
       document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+
+  <script>
+    // Render every LaTeX equation in the ABM section (Section IV) with KaTeX
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '\\[', right: '\\]', display: true },
+            { left: '\\(', right: '\\)', display: false }
+          ],
+          throwOnError: false
+        });
+      }
     });
   </script>
 </body>
