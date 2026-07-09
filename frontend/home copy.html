@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
     /* Page-specific overrides for home.html only — does not touch style.css.
        Two-column hero: photo + bio on the left, an elegant "Explore" panel
@@ -28,20 +29,38 @@
     }
 
     .intro-hero .hero-desc {
-      text-align: center;
+      text-align: justify;
+    }
+
+    .hero-social-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 4px;
+    }
+
+    .hero-social-buttons .btn-outline:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .intro-hero.hero-split {
+      align-items: stretch;
+      gap: 0 48px;
     }
 
     .intro-hero .hero-right {
       justify-content: center;
+      border-left: 1px solid var(--border);
+      padding-left: 56px;
     }
 
-    /* Explore panel */
+    /* Explore panel — no card, just the shared page background */
     .explore-panel {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 34px 32px;
-      box-shadow: var(--shadow-sm);
+      background: transparent;
+      padding: 0;
     }
 
     .explore-panel .section-label,
@@ -56,36 +75,27 @@
     .explore-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .explore-item {
       display: flex;
       align-items: center;
       gap: 16px;
-      padding: 16px 16px;
+      padding: 16px 20px;
+      background: var(--card-bg);
       border-radius: var(--radius-md);
-      border: 1px solid transparent;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
       text-decoration: none;
-      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .explore-item:hover {
-      background: var(--primary-light);
-      border-color: var(--border-blue);
-      transform: translateX(4px);
-    }
-
-    .explore-item-icon {
-      width: 42px;
-      height: 42px;
-      flex-shrink: 0;
-      border-radius: 50%;
-      background: var(--primary-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
+      background: var(--primary);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-blue);
+      transform: translateY(-2px);
     }
 
     .explore-item-text {
@@ -99,18 +109,27 @@
       font-size: 15.5px;
       font-weight: 700;
       color: var(--dark);
+      transition: color 0.25s ease;
     }
 
     .explore-item-desc {
       font-size: 12.5px;
       color: var(--text-sub);
       line-height: 1.5;
+      transition: color 0.25s ease;
+      text-align: justify;
     }
 
     .explore-item-arrow {
       font-size: 16px;
       color: var(--primary);
-      transition: transform 0.25s ease;
+      transition: transform 0.25s ease, color 0.25s ease;
+    }
+
+    .explore-item:hover .explore-item-title,
+    .explore-item:hover .explore-item-desc,
+    .explore-item:hover .explore-item-arrow {
+      color: #ffffff;
     }
 
     .explore-item:hover .explore-item-arrow {
@@ -120,6 +139,133 @@
     @media (max-width: 860px) {
       .explore-panel {
         padding: 28px 24px;
+      }
+    }
+
+    /* "See PDF certification" link — same style as .pub-row-link in research.html */
+    .pub-mini-link {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .pub-mini-link:hover {
+      text-decoration: underline;
+    }
+
+    /* ── EXTRACURRICULAR: same row format as .cong-list in research.html ── */
+    .extra-list {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .extra-row {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+    }
+
+    .extra-row+.extra-row {
+      border-top: 1px solid var(--border);
+    }
+
+    .extra-row-media {
+      flex: 0 0 290px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .extra-row-image {
+      width: 100%;
+      height: 210px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+
+    .extra-row-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .extra-row-image--placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--border);
+      font-size: 2.4rem;
+    }
+
+    /* zigzag: even rows have the image on the right */
+    .extra-list .extra-row:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .extra-row-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .extra-row-top {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .extra-row-year {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--dark);
+    }
+
+    .extra-row-type {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 0.22rem 0.6rem;
+      border-radius: 20px;
+    }
+
+    .extra-row-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.4;
+      margin: 0 0 0.35rem;
+    }
+
+    .extra-row-venue {
+      font-size: 0.85rem;
+      color: var(--text);
+      margin: 0;
+    }
+
+    @media (max-width: 600px) {
+
+      .extra-list .extra-row,
+      .extra-list .extra-row:nth-child(even) {
+        flex-direction: column;
+      }
+
+      .extra-row-media {
+        width: 100%;
+        flex: none;
+      }
+
+      .extra-row-image {
+        width: 100%;
+        height: 180px;
       }
     }
   </style>
@@ -163,6 +309,19 @@
           <strong>artificial intelligence, computer vision, mathematical modeling, and simulation</strong>.
           I'm interested in research and development of computational methods to solve complex engineering problems.
         </p>
+
+        <div class="hero-social-buttons">
+          <a href="https://github.com/Spin7" target="_blank" rel="noopener" class="btn-outline">
+            <i class="fab fa-github"></i>GitHub &rarr;
+          </a>
+          <a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank" rel="noopener" class="btn-outline">
+            <i class="fab fa-linkedin"></i>LinkedIn &rarr;
+          </a>
+          <a href="https://youtube.com/@lucaspin_7?si=Vfjj9czuOq_lIwLN" target="_blank" rel="noopener"
+            class="btn-outline">
+            <i class="fab fa-youtube"></i>YouTube &rarr;
+          </a>
+        </div>
       </div>
     </div>
 
@@ -174,7 +333,6 @@
 
         <div class="explore-list">
           <a href="projects.html" class="explore-item">
-            <span class="explore-item-icon">🛠️</span>
             <span class="explore-item-text">
               <span class="explore-item-title">Projects</span>
               <span class="explore-item-desc">Hexapod robots, intelligent traps, and computer vision systems.</span>
@@ -183,7 +341,6 @@
           </a>
 
           <a href="research.html" class="explore-item">
-            <span class="explore-item-icon">🔬</span>
             <span class="explore-item-text">
               <span class="explore-item-title">Research</span>
               <span class="explore-item-desc">Publications in AI, agent-based simulation, and IoT for public
@@ -193,7 +350,6 @@
           </a>
 
           <a href="teaching.html" class="explore-item">
-            <span class="explore-item-icon">📚</span>
             <span class="explore-item-text">
               <span class="explore-item-title">Teaching</span>
               <span class="explore-item-desc">Linear Algebra courses and educational materials at UNA.</span>
@@ -383,14 +539,7 @@
           <div>
             <p class="pub-mini-title">Algebraic Geometric Methods in Information Theory</p>
             <p class="pub-mini-venue">CIMPA Short Course · Santa Fe, Argentina</p>
-          </div>
-        </div>
-        <div class="pub-mini">
-          <span class="pub-mini-year">2025</span>
-          <div>
-            <p class="pub-mini-title">Spatio-Temporal Analysis of Mosquito Populations Through Agent-Based Simulation
-            </p>
-            <p class="pub-mini-venue">Abstract &amp; Poster · CNMAC 2025 · Rio de Janeiro, Brazil</p>
+            <a href="#" class="pub-mini-link">See PDF certification →</a>
           </div>
         </div>
         <div class="pub-mini">
@@ -398,6 +547,7 @@
           <div>
             <p class="pub-mini-title">Stochastic Modeling and Generation of Random Variables</p>
             <p class="pub-mini-venue">CNMAC Short Course · Rio de Janeiro, Brazil</p>
+            <a href="#" class="pub-mini-link">See PDF certification →</a>
           </div>
         </div>
         <div class="pub-mini">
@@ -405,6 +555,7 @@
           <div>
             <p class="pub-mini-title">Number Theory</p>
             <p class="pub-mini-venue">EMALCA Short Course · Encarnación, Paraguay</p>
+            <a href="#" class="pub-mini-link">See PDF certification →</a>
           </div>
         </div>
       </div>
@@ -415,22 +566,42 @@
   <section class="extra-section">
     <p class="section-label">Beyond the lab</p>
     <h2 class="section-title">Extracurricular Activities</h2>
-    <div class="extra-grid">
-      <div class="extra-card">
-        <span class="extra-icon">🏛️</span>
-        <p class="extra-title">Vice President</p>
-        <p class="extra-desc">Student Center of the Faculty of Engineering (CEI) · 2024–2025</p>
+    <div class="extra-list">
+
+      <div class="extra-row">
+        <div class="extra-row-media">
+          <div class="extra-row-image">
+            <img src="static/Home/CEI2025.jpg" alt="Vice President, Student Center of the Faculty of Engineering (CEI)"
+              loading="lazy">
+          </div>
+        </div>
+        <div class="extra-row-content">
+          <div class="extra-row-top">
+            <span class="extra-row-year">2024–2025</span>
+            <span class="extra-row-type">Leadership</span>
+          </div>
+          <h3 class="extra-row-title">Vice President</h3>
+          <p class="extra-row-venue">Student Center of the Faculty of Engineering (CEI) · Universidad Nacional de
+            Asunción</p>
+        </div>
       </div>
-      <div class="extra-card">
-        <span class="extra-icon">🤖</span>
-        <p class="extra-title">Robotics Club</p>
-        <p class="extra-desc">Member · 2024–2025 · Participant at SumoBots RCX-CPBR16, São Paulo, Brazil</p>
+
+      <div class="extra-row">
+        <div class="extra-row-media">
+          <div class="extra-row-image">
+            <img src="static/Home/ROBOTICSCLUB.jpg" alt="Robotics Club member, SumoBots RCX-CPBR16" loading="lazy">
+          </div>
+        </div>
+        <div class="extra-row-content">
+          <div class="extra-row-top">
+            <span class="extra-row-year">2024–2025</span>
+            <span class="extra-row-type">Robotics</span>
+          </div>
+          <h3 class="extra-row-title">Robotics Club — Member</h3>
+          <p class="extra-row-venue">Participant at SumoBots RCX-CPBR16 · São Paulo, Brazil</p>
+        </div>
       </div>
-      <div class="extra-card">
-        <span class="extra-icon">🚀</span>
-        <p class="extra-title">Space Science Club</p>
-        <p class="extra-desc">Member · 2024</p>
-      </div>
+
     </div>
   </section>
 
