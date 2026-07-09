@@ -11,26 +11,116 @@
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Page-specific override for home.html only — does not touch style.css.
-       Stacks the hero content (heading/role/desc/buttons) below the photo. */
-    .hero.hero-split.stack-hero {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto auto;
-      gap: 36px 0;
+    /* Page-specific overrides for home.html only — does not touch style.css.
+       Two-column hero: photo + bio on the left, an elegant "Explore" panel
+       linking to the other pages on the right. */
+    .intro-hero .hero-left {
+      flex-direction: column;
+      gap: 26px;
       text-align: center;
-      justify-items: center;
     }
 
-    .stack-hero .hero-right {
+    .intro-hero .hero-bio {
+      display: flex;
+      flex-direction: column;
       align-items: center;
+      gap: 16px;
     }
 
-    .stack-hero .hero-desc {
-      max-width: 480px;
+    .intro-hero .hero-desc {
+      text-align: center;
     }
 
-    .stack-hero .hero-buttons {
+    .intro-hero .hero-right {
       justify-content: center;
+    }
+
+    /* Explore panel */
+    .explore-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 34px 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .explore-panel .section-label,
+    .explore-panel .section-title {
+      text-align: left;
+    }
+
+    .explore-panel .section-title {
+      margin-bottom: 26px;
+    }
+
+    .explore-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .explore-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      text-decoration: none;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .explore-item:hover {
+      background: var(--primary-light);
+      border-color: var(--border-blue);
+      transform: translateX(4px);
+    }
+
+    .explore-item-icon {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .explore-item-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .explore-item-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .explore-item-desc {
+      font-size: 12.5px;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    .explore-item-arrow {
+      font-size: 16px;
+      color: var(--primary);
+      transition: transform 0.25s ease;
+    }
+
+    .explore-item:hover .explore-item-arrow {
+      transform: translateX(4px);
+    }
+
+    @media (max-width: 860px) {
+      .explore-panel {
+        padding: 28px 24px;
+      }
     }
   </style>
 </head>
@@ -55,30 +145,62 @@
   </nav>
 
   <!-- ===== HERO ===== -->
-  <section class="hero hero-split stack-hero">
+  <section class="hero hero-split intro-hero">
 
-    <!-- LEFT: Photo -->
+    <!-- LEFT: Photo + Bio -->
     <div class="hero-left">
       <img src="static/LucasPin_photos/Lucas_Pin.jpg" alt="Lucas Pin" class="hero-photo">
+
+      <div class="hero-bio">
+        <h1>Hi, I'm <span>Lucas Pin</span></h1>
+
+        <p class="hero-role">Mechatronic Engineer · Researcher · Educator</p>
+
+        <div class="hero-divider"></div>
+
+        <p class="hero-desc">
+          I'm a Mechatronic Engineer with experience in
+          <strong>artificial intelligence, computer vision, mathematical modeling, and simulation</strong>.
+          I'm interested in research and development of computational methods to solve complex engineering problems.
+        </p>
+      </div>
     </div>
 
-    <!-- RIGHT: Content -->
+    <!-- RIGHT: Explore panel -->
     <div class="hero-right">
-      <h1>Hi, I'm <span>Lucas Pin</span></h1>
+      <div class="explore-panel">
+        <p class="section-label">Explore</p>
+        <h2 class="section-title">What you'll find here</h2>
 
-      <p class="hero-role">Mechatronic Engineer · Researcher · Educator</p>
+        <div class="explore-list">
+          <a href="projects.html" class="explore-item">
+            <span class="explore-item-icon">🛠️</span>
+            <span class="explore-item-text">
+              <span class="explore-item-title">Projects</span>
+              <span class="explore-item-desc">Hexapod robots, intelligent traps, and computer vision systems.</span>
+            </span>
+            <span class="explore-item-arrow">→</span>
+          </a>
 
-      <div class="hero-divider"></div>
+          <a href="research.html" class="explore-item">
+            <span class="explore-item-icon">🔬</span>
+            <span class="explore-item-text">
+              <span class="explore-item-title">Research</span>
+              <span class="explore-item-desc">Publications in AI, agent-based simulation, and IoT for public
+                health.</span>
+            </span>
+            <span class="explore-item-arrow">→</span>
+          </a>
 
-      <p class="hero-desc">
-        I'm a Mechatronic Engineer with experience in
-        <strong>artificial intelligence, computer vision, mathematical modeling, and simulation</strong>.
-        I'm interested in research and development of computational methods to solve complex engineering problems.
-      </p>
-
-      <div class="hero-buttons">
-        <a href="research.html" class="btn-primary">View Research</a>
-        <a href="projects.html" class="btn-outline">See Projects</a>
+          <a href="teaching.html" class="explore-item">
+            <span class="explore-item-icon">📚</span>
+            <span class="explore-item-text">
+              <span class="explore-item-title">Teaching</span>
+              <span class="explore-item-desc">Linear Algebra courses and educational materials at UNA.</span>
+            </span>
+            <span class="explore-item-arrow">→</span>
+          </a>
+        </div>
       </div>
     </div>
 
@@ -309,44 +431,6 @@
         <p class="extra-title">Space Science Club</p>
         <p class="extra-desc">Member · 2024</p>
       </div>
-    </div>
-  </section>
-
-  <!-- ===== PAGES OVERVIEW ===== -->
-  <section class="pages-overview-section">
-    <p class="section-label">Explore</p>
-    <h2 class="section-title">What you'll find here</h2>
-    <p class="section-sub">
-      Navigate through my portfolio to learn more about my work, research, and teaching activities.
-    </p>
-
-    <div class="pages-grid">
-      <a href="projects.html" class="page-card">
-        <div class="page-card-tag">🛠 Engineering</div>
-        <div class="page-card-title">Projects</div>
-        <div class="page-card-desc">
-          Hexapod robots, intelligent traps, computer vision systems, and more — from concept to deployment.
-        </div>
-        <div class="page-card-arrow">→</div>
-      </a>
-
-      <a href="research.html" class="page-card">
-        <div class="page-card-tag">🔬 Science</div>
-        <div class="page-card-title">Research</div>
-        <div class="page-card-desc">
-          Publications and ongoing work in AI, agent-based simulation, and IoT for public health.
-        </div>
-        <div class="page-card-arrow">→</div>
-      </a>
-
-      <a href="teaching.html" class="page-card">
-        <div class="page-card-tag">📚 Education</div>
-        <div class="page-card-title">Teaching</div>
-        <div class="page-card-desc">
-          Linear Algebra courses and educational materials I develop and deliver at UNA.
-        </div>
-        <div class="page-card-arrow">→</div>
-      </a>
     </div>
   </section>
 
