@@ -31,17 +31,21 @@
       text-align: center;
     }
 
-    .intro-hero .hero-right {
-      justify-content: center;
+    .intro-hero.hero-split {
+      align-items: stretch;
+      gap: 0 48px;
     }
 
-    /* Explore panel */
+    .intro-hero .hero-right {
+      justify-content: center;
+      border-left: 1px solid var(--border);
+      padding-left: 56px;
+    }
+
+    /* Explore panel — no card, just the shared page background */
     .explore-panel {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 34px 32px;
-      box-shadow: var(--shadow-sm);
+      background: transparent;
+      padding: 0;
     }
 
     .explore-panel .section-label,
