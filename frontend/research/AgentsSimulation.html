@@ -88,6 +88,29 @@
       }
     }
 
+    /* Figure paired with a table, side by side */
+    .acad-figtable-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.3fr;
+      gap: 1.6rem;
+      align-items: start;
+      margin: 1.6rem 0;
+    }
+
+    .acad-figtable-grid .acad-figure {
+      margin: 0;
+    }
+
+    .acad-figtable-grid .acad-table-wrap {
+      margin: 0;
+    }
+
+    @media (max-width: 800px) {
+      .acad-figtable-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .acad-body ol {
       margin: 0 0 1.1rem 1.3rem;
       padding: 0;
@@ -1340,58 +1363,70 @@
           lowest precedence.
         </p>
 
-        <div class="acad-table-wrap">
-          <table class="acad-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Class</th>
-                <th>Color</th>
-                <th>Ecological rationale</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>0</td>
-                <td>Empty Space</td>
-                <td>Cream</td>
-                <td>Unclassified open ground</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Road</td>
-                <td>Gray</td>
-                <td>Open, sun-exposed &mdash; avoided by <em>Ae.&nbsp;aegypti</em></td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Vegetation</td>
-                <td>Green</td>
-                <td>Shaded corridors preferred for movement</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Water</td>
-                <td>Blue</td>
-                <td>Stagnant water &mdash; oviposition sites</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>Building</td>
-                <td>Brown</td>
-                <td>Physical movement barrier</td>
-              </tr>
-              <tr class="ours-row">
-                <td>5</td>
-                <td>Trap</td>
-                <td>Magenta</td>
-                <td>Real device location, top overwrite priority</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="acad-figtable-grid">
+          <div class="acad-figure">
+            <img src="../static/Researh/ABMmosquito/creacion_grid.png"
+              alt="Schematic of cell-polygon intersection used to compute the coverage fraction during grid rasterization">
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;1.</strong> Cell-polygon
+              intersection: the active cell&nbsp;[<em>r</em>,&nbsp;<em>c</em>] (outlined) is tested against the
+              overlapping OSM geometry (dashed) to compute <em>cover</em>, the fraction of its area covered.</p>
+          </div>
+
+          <div>
+            <div class="acad-table-wrap">
+              <table class="acad-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Class</th>
+                    <th>Color</th>
+                    <th>Ecological rationale</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>0</td>
+                    <td>Empty Space</td>
+                    <td>Cream</td>
+                    <td>Unclassified open ground</td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>Road</td>
+                    <td>Gray</td>
+                    <td>Open, sun-exposed &mdash; avoided by <em>Ae.&nbsp;aegypti</em></td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Vegetation</td>
+                    <td>Green</td>
+                    <td>Shaded corridors preferred for movement</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Water</td>
+                    <td>Blue</td>
+                    <td>Stagnant water &mdash; oviposition sites</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Building</td>
+                    <td>Brown</td>
+                    <td>Physical movement barrier</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td>5</td>
+                    <td>Trap</td>
+                    <td>Magenta</td>
+                    <td>Real device location, top overwrite priority</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="acad-fig-caption" style="text-align:left; margin-top:0.6rem;"><strong>Table&nbsp;III.</strong>
+              Grid cell categories, encoded as a <code>uint8</code> matrix of size <em>N</em>&times;<em>N</em>.</p>
+          </div>
         </div>
-        <p class="acad-fig-caption" style="text-align:left; margin-top:-1rem;"><strong>Table&nbsp;III.</strong>
-          Grid cell categories, encoded as a <code>uint8</code> matrix of size <em>N</em>&times;<em>N</em>.</p>
 
         <h4>Coordinate Projection &amp; Trap Integration</h4>
         <p>
@@ -1418,7 +1453,7 @@
               <i class="fas fa-satellite"></i>
               <span class="ph-text">Reemplazar con satellite_reference.png &mdash; Esri WorldImagery</span>
             </div>
-            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;1.</strong> Satellite
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;2.</strong> Satellite
               reference image of the study area (Esri WorldImagery).</p>
           </div>
           <div class="acad-figure">
@@ -1426,7 +1461,7 @@
               <i class="fas fa-table-cells"></i>
               <span class="ph-text">Reemplazar con grid_visualization.png &mdash; Grid Map 333&times;333</span>
             </div>
-            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;2.</strong> Generated Grid
+            <p class="acad-fig-caption" style="text-align:left;"><strong>Fig.&nbsp;3.</strong> Generated Grid
               Map (333&times;333 cells, &Delta;s&nbsp;=&nbsp;3&nbsp;m) with integrated trap positions.</p>
           </div>
         </div>
