@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
     /* Page-specific overrides for home.html only — does not touch style.css.
        Two-column hero: photo + bio on the left, an elegant "Explore" panel
@@ -29,6 +30,14 @@
 
     .intro-hero .hero-desc {
       text-align: justify;
+    }
+
+    .hero-social-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 4px;
     }
 
     .intro-hero.hero-split {
@@ -181,6 +190,19 @@
           <strong>artificial intelligence, computer vision, mathematical modeling, and simulation</strong>.
           I'm interested in research and development of computational methods to solve complex engineering problems.
         </p>
+
+        <div class="hero-social-buttons">
+          <a href="https://github.com/Spin7" target="_blank" rel="noopener" class="btn-outline">
+            <i class="fab fa-github"></i>GitHub &rarr;
+          </a>
+          <a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank" rel="noopener" class="btn-outline">
+            <i class="fab fa-linkedin"></i>LinkedIn &rarr;
+          </a>
+          <a href="https://youtube.com/@lucaspin_7?si=Vfjj9czuOq_lIwLN" target="_blank" rel="noopener"
+            class="btn-outline">
+            <i class="fab fa-youtube"></i>YouTube &rarr;
+          </a>
+        </div>
       </div>
     </div>
 
