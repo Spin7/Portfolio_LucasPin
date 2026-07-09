@@ -70,7 +70,7 @@
       display: flex;
       align-items: center;
       gap: 16px;
-      padding: 16px 16px;
+      padding: 16px 20px;
       border-radius: var(--radius-md);
       border: 1px solid transparent;
       text-decoration: none;
@@ -78,20 +78,9 @@
     }
 
     .explore-item:hover {
-      background: var(--primary-light);
-      border-color: var(--border-blue);
+      background: var(--primary);
+      border-color: var(--primary);
       transform: translateX(4px);
-    }
-
-    .explore-item-index {
-      width: 30px;
-      flex-shrink: 0;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      color: var(--primary);
-      opacity: 0.5;
-      font-variant-numeric: tabular-nums;
     }
 
     .explore-item-text {
@@ -105,18 +94,26 @@
       font-size: 15.5px;
       font-weight: 700;
       color: var(--dark);
+      transition: color 0.25s ease;
     }
 
     .explore-item-desc {
       font-size: 12.5px;
       color: var(--text-sub);
       line-height: 1.5;
+      transition: color 0.25s ease;
     }
 
     .explore-item-arrow {
       font-size: 16px;
       color: var(--primary);
-      transition: transform 0.25s ease;
+      transition: transform 0.25s ease, color 0.25s ease;
+    }
+
+    .explore-item:hover .explore-item-title,
+    .explore-item:hover .explore-item-desc,
+    .explore-item:hover .explore-item-arrow {
+      color: #ffffff;
     }
 
     .explore-item:hover .explore-item-arrow {
@@ -180,7 +177,6 @@
 
         <div class="explore-list">
           <a href="projects.html" class="explore-item">
-            <span class="explore-item-index">01</span>
             <span class="explore-item-text">
               <span class="explore-item-title">Projects</span>
               <span class="explore-item-desc">Hexapod robots, intelligent traps, and computer vision systems.</span>
@@ -189,7 +185,6 @@
           </a>
 
           <a href="research.html" class="explore-item">
-            <span class="explore-item-index">02</span>
             <span class="explore-item-text">
               <span class="explore-item-title">Research</span>
               <span class="explore-item-desc">Publications in AI, agent-based simulation, and IoT for public
@@ -199,7 +194,6 @@
           </a>
 
           <a href="teaching.html" class="explore-item">
-            <span class="explore-item-index">03</span>
             <span class="explore-item-text">
               <span class="explore-item-title">Teaching</span>
               <span class="explore-item-desc">Linear Algebra courses and educational materials at UNA.</span>
