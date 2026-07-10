@@ -98,6 +98,23 @@
       transform: translateY(-2px);
     }
 
+    .explore-item-thumb {
+      flex: 0 0 56px;
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+
+    .explore-item-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .explore-item-text {
       flex: 1;
       display: flex;
@@ -355,6 +372,9 @@
 
         <div class="explore-list">
           <a href="projects.html" class="explore-item">
+            <span class="explore-item-thumb">
+              <img src="static/Home/Projects.jpg" alt="Projects" loading="lazy">
+            </span>
             <span class="explore-item-text">
               <span class="explore-item-title">Projects</span>
               <span class="explore-item-desc">Hexapod robots, intelligent traps, and computer vision systems.</span>
@@ -363,6 +383,9 @@
           </a>
 
           <a href="research.html" class="explore-item">
+            <span class="explore-item-thumb">
+              <img src="static/Home/Researh.jpg" alt="Research" loading="lazy">
+            </span>
             <span class="explore-item-text">
               <span class="explore-item-title">Research</span>
               <span class="explore-item-desc">Publications in AI, agent-based simulation, and IoT for public
@@ -372,6 +395,9 @@
           </a>
 
           <a href="teaching.html" class="explore-item">
+            <span class="explore-item-thumb">
+              <img src="static/Home/teaching.jpg" alt="Teaching" loading="lazy">
+            </span>
             <span class="explore-item-text">
               <span class="explore-item-title">Teaching</span>
               <span class="explore-item-desc">Linear Algebra courses and educational materials at UNA.</span>
