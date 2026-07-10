@@ -192,71 +192,112 @@
       margin: 0 0 1.75rem;
     }
 
-    /* ── MATERIALS ── */
+    /* ── MATERIALS LIST ── */
     .materials-title {
       font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--primary);
-      margin: 0 0 0.75rem;
+      margin: 0 0 1rem;
     }
 
-    .materials-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 0.75rem;
-    }
-
-    .material-link {
+    .materials-list {
       display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      padding: 0.75rem 1rem;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .lecture-row {
+      display: flex;
+      gap: 1.25rem;
       background: #fff;
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
+      overflow: hidden;
       text-decoration: none;
       color: var(--dark);
-      font-size: 0.88rem;
-      font-weight: 600;
-      transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
     }
 
-    .material-link:hover {
+    .lecture-row:hover {
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(10, 40, 80, 0.07);
       transform: translateY(-2px);
-      color: var(--primary);
     }
 
-    .material-link-icon {
+    .lecture-thumb {
       flex-shrink: 0;
-      width: 32px;
-      height: 32px;
-      border-radius: var(--radius-sm);
-      background: var(--primary-light);
-      color: var(--primary);
+      width: 110px;
+      background: var(--bg);
+      border-right: 1px solid var(--border);
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.85rem;
     }
 
-    .material-link-text {
+    .lecture-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .lecture-row:hover .lecture-thumb img {
+      transform: scale(1.04);
+    }
+
+    .lecture-body {
       flex: 1;
-      line-height: 1.3;
+      padding: 0.9rem 1rem 0.9rem 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
     }
 
-    .material-link-arrow {
-      font-size: 0.65rem;
-      color: var(--border);
-      transition: color 0.18s ease, transform 0.18s ease;
-    }
-
-    .material-link:hover .material-link-arrow {
+    .lecture-number {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: var(--primary);
-      transform: translateX(3px);
+      margin: 0 0 0.2rem;
+    }
+
+    .lecture-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.35;
+      margin: 0 0 0.35rem;
+    }
+
+    .lecture-desc {
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: var(--text);
+      margin: 0 0 0.6rem;
+    }
+
+    .lecture-open {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .lecture-open i {
+      font-size: 0.62rem;
+      transition: transform 0.18s ease;
+    }
+
+    .lecture-row:hover .lecture-open i {
+      transform: translateX(4px);
     }
 
     @media (max-width: 600px) {
@@ -272,8 +313,8 @@
         flex-direction: column;
       }
 
-      .materials-grid {
-        grid-template-columns: 1fr;
+      .lecture-thumb {
+        width: 80px;
       }
     }
   </style>
@@ -357,28 +398,55 @@
         </p>
 
         <!-- Materials -->
-        <p class="materials-title"><i class="fas fa-folder-open" style="margin-right:0.35rem;"></i>Course Materials</p>
-        <div class="materials-grid">
+        <p class="materials-title"><i class="fas fa-folder-open" style="margin-right:0.35rem;"></i>Lecture Notes</p>
+        <div class="materials-list">
 
+          <!-- Lecture 1 -->
           <a href="https://drive.google.com/file/d/1nVyp0czKJGfYQj8jr8xjLaBRkRmPBvPH/view?usp=drive_link"
-            target="_blank" rel="noopener" class="material-link" id="mat-clase-1">
-            <span class="material-link-icon"><i class="fas fa-file-pdf"></i></span>
-            <span class="material-link-text">Clase 1 — Espacios Vectoriales y Subespacios</span>
-            <i class="fas fa-arrow-right material-link-arrow"></i>
+            target="_blank" rel="noopener" class="lecture-row" id="lec-1">
+            <div class="lecture-thumb">
+              <img
+                src="https://drive.google.com/thumbnail?id=1nVyp0czKJGfYQj8jr8xjLaBRkRmPBvPH&sz=w400"
+                alt="Lecture 1 — Vector Spaces and Subspaces" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 1</p>
+              <h4 class="lecture-title">Vector Spaces and Subspaces</h4>
+              <p class="lecture-desc">Introduces the fundamental theory of vector spaces: axioms, common examples, and how to identify subspaces within them.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
           </a>
 
+          <!-- Lecture 2 -->
           <a href="https://drive.google.com/file/d/1bEzgIjCeL5nStBDYnVTX2FD4EObi0zRM/view?usp=drive_link"
-            target="_blank" rel="noopener" class="material-link" id="mat-clase-2">
-            <span class="material-link-icon"><i class="fas fa-file-pdf"></i></span>
-            <span class="material-link-text">Clase 2 — Combinación Lineal, Bases y Dimensión</span>
-            <i class="fas fa-arrow-right material-link-arrow"></i>
+            target="_blank" rel="noopener" class="lecture-row" id="lec-2">
+            <div class="lecture-thumb">
+              <img
+                src="https://drive.google.com/thumbnail?id=1bEzgIjCeL5nStBDYnVTX2FD4EObi0zRM&sz=w400"
+                alt="Lecture 2 — Linear Combinations, Bases and Dimension" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 2</p>
+              <h4 class="lecture-title">Linear Combinations, Spanning Sets, Bases &amp; Dimension</h4>
+              <p class="lecture-desc">Develops the tools to describe a vector space: linear combinations, linear independence, spanning sets, bases, and dimension.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
           </a>
 
+          <!-- Lecture 3 -->
           <a href="https://drive.google.com/file/d/1RCdVwLIXXCGNO9nSQeYA8CJHerPaAoMg/view?usp=drive_link"
-            target="_blank" rel="noopener" class="material-link" id="mat-clase-3">
-            <span class="material-link-icon"><i class="fas fa-file-pdf"></i></span>
-            <span class="material-link-text">Clase 3 — Suma de Subespacios, Coordenadas e Isomorfismo</span>
-            <i class="fas fa-arrow-right material-link-arrow"></i>
+            target="_blank" rel="noopener" class="lecture-row" id="lec-3">
+            <div class="lecture-thumb">
+              <img
+                src="https://drive.google.com/thumbnail?id=1RCdVwLIXXCGNO9nSQeYA8CJHerPaAoMg&sz=w400"
+                alt="Lecture 3 — Sum of Subspaces, Coordinates and Isomorphism" loading="lazy">
+            </div>
+            <div class="lecture-body">
+              <p class="lecture-number">Lecture 3</p>
+              <h4 class="lecture-title">Sum of Subspaces, Coordinates &amp; Isomorphism</h4>
+              <p class="lecture-desc">Explores subspace sums and direct sums, coordinate representations relative to a basis, and the concept of isomorphism between vector spaces.</p>
+              <span class="lecture-open">Open slides <i class="fas fa-arrow-right"></i></span>
+            </div>
           </a>
 
         </div>
