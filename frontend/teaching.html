@@ -313,8 +313,26 @@
         flex-direction: column;
       }
 
+      /* Stack: thumbnail on top, text below */
+      .lecture-row {
+        flex-direction: column;
+        gap: 0;
+      }
+
       .lecture-thumb {
-        width: 110px;
+        width: 100%;
+        height: 180px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .lecture-thumb img {
+        object-fit: cover;
+        object-position: center top;
+      }
+
+      .lecture-body {
+        padding: 0.9rem 1rem;
       }
     }
   </style>
