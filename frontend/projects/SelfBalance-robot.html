@@ -1417,6 +1417,19 @@ end</pre>
             <li><strong>2&times; DC Motors</strong> &mdash; wheel actuation</li>
             <li><strong>LiPo Battery (125 g)</strong> &mdash; compact power supply</li>
           </ul>
+
+          <h3 style="font-size:1rem;font-weight:800;color:var(--dark);margin:1.3rem 0 0.5rem;">Control Loop</h3>
+          <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:1rem;">
+            The control loop runs at a nominal <strong>10 ms period</strong> enforced by a
+            <code
+              style="background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;font-family:monospace;">millis()</code>
+            timer gate. The control action <em>u</em> is computed and applied only when 10 ms have elapsed.
+          </p>
+          <div class="code-block">
+            <pre>// Control law (Arduino C++)
+u = -( x*k1 + v_lineal*k2 + Pitch_angle*k3 + Pitch_rate*k4 );
+// k = [-4.7152, -3.3278, -17.0580, -1.8229]</pre>
+          </div>
         </div>
 
         <div class="design-img-col">
@@ -1432,19 +1445,6 @@ end</pre>
       </div>
 
       <div style="max-width:780px; margin-bottom:2.5rem;">
-        <h3 style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">Control Loop</h3>
-        <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:1rem;">
-          The control loop runs at a nominal <strong>10 ms period</strong> enforced by a
-          <code
-            style="background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;font-family:monospace;">millis()</code>
-          timer gate. The control action <em>u</em> is computed and applied only when 10 ms have elapsed.
-        </p>
-        <div class="code-block">
-          <pre>// Control law (Arduino C++)
-u = -( x*k1 + v_lineal*k2 + Pitch_angle*k3 + Pitch_rate*k4 );
-// k = [-4.7152, -3.3278, -17.0580, -1.8229]</pre>
-        </div>
-
         <h3 style="font-size:1rem;font-weight:800;color:var(--dark);margin:1.5rem 0 0.5rem;">Startup Sequence</h3>
         <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:1.5rem;">
           1. Serial port opened at 115200 baud &nbsp;&middot;&nbsp;
