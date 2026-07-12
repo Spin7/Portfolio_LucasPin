@@ -9,13 +9,14 @@
     content="Two-wheeled self-balancing robot (inverted pendulum on wheels) controlled by a discrete LQR state-feedback controller on an Arduino Uno. Full pipeline: Lagrange-Euler modelling → MATLAB simulation → embedded C++ implementation.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-    <!-- Favicon -->
+  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='rgb(10,40,80)'/><text x='16' y='22' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='14' fill='white'>LP</text></svg>">
   <link rel="apple-touch-icon" href="../static/lp-og-preview.png">
   <meta property="og:image" content="https://lucas-pin.vercel.app/static/lp-og-preview.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://lucas-pin.vercel.app/static/lp-og-preview.png"><link rel="stylesheet" href="../style.css">
+  <meta name="twitter:image" content="https://lucas-pin.vercel.app/static/lp-og-preview.png">
+  <link rel="stylesheet" href="../style.css">
   <style>
     /* ── DESIGN TOKENS (page-level) ── */
     :root {
@@ -746,8 +747,8 @@
   <!-- MathJax for equation rendering -->
   <script>
     MathJax = {
-      tex: { inlineMath: [['\\(','\\)'], ['$','$']], displayMath: [['\\[','\\]'], ['$$','$$']], tags: 'ams' },
-      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]'], ['$$', '$$']], tags: 'ams' },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
@@ -830,7 +831,8 @@
           </div>
           <div class="proj-meta-item">
             <span class="proj-meta-label">Advisors</span>
-            <span class="proj-meta-val">Dr. Ing. Leonardo Comparatore &middot; MSc. Christian Medina &middot; MSc. Paola Maidana</span>
+            <span class="proj-meta-val">Dr. Ing. Leonardo Comparatore &middot; MSc. Christian Medina &middot; MSc. Paola
+              Maidana</span>
           </div>
           <div class="proj-meta-item">
             <span class="proj-meta-label">Collaborators</span>
@@ -867,7 +869,8 @@
         <div class="stat-item">
           <span class="stat-num">4</span>
           <span class="stat-unit">States</span>
-          <span class="stat-desc">x &middot; x&#775; &middot; &theta; &middot; &theta;&#775; &mdash; full state feedback</span>
+          <span class="stat-desc">x &middot; x&#775; &middot; &theta; &middot; &theta;&#775; &mdash; full state
+            feedback</span>
         </div>
         <div class="stat-item">
           <span class="stat-num">2&ndash;3</span>
@@ -989,12 +992,12 @@
         </p>
         <div class="math-eq">
           \[
-            T_\text{wheels}
-            = 2\!\left[
-                \frac{1}{2}\cdot\frac{m_r}{2}\,\dot x^2
-              + \frac{1}{2}\cdot I_r\!\left(\frac{\dot x}{r}\right)^{\!2}
-              \right]
-            = \frac{3}{4}\,m_r\,\dot x^2
+          T_\text{wheels}
+          = 2\!\left[
+          \frac{1}{2}\cdot\frac{m_r}{2}\,\dot x^2
+          + \frac{1}{2}\cdot I_r\!\left(\frac{\dot x}{r}\right)^{\!2}
+          \right]
+          = \frac{3}{4}\,m_r\,\dot x^2
           \]
         </div>
 
@@ -1005,7 +1008,7 @@
         </p>
         <div class="math-eq">
           \[
-            v_i^2 = \dot x^2 + 2h_i\,\dot x\,\dot\theta\cos\theta + h_i^2\,\dot\theta^2
+          v_i^2 = \dot x^2 + 2h_i\,\dot x\,\dot\theta\cos\theta + h_i^2\,\dot\theta^2
           \]
         </div>
         <p class="math-p">
@@ -1013,12 +1016,12 @@
         </p>
         <div class="math-eq">
           \[
-            T_\text{prisms}
-            = \frac{1}{2}\!\left(
-                m_T\,\dot x^2
-              + 2M_h\,\dot x\,\dot\theta\cos\theta
-              + I_h\,\dot\theta^2
-              \right)
+          T_\text{prisms}
+          = \frac{1}{2}\!\left(
+          m_T\,\dot x^2
+          + 2M_h\,\dot x\,\dot\theta\cos\theta
+          + I_h\,\dot\theta^2
+          \right)
           \]
         </div>
 
@@ -1026,25 +1029,25 @@
         <p class="math-p">Defining \(M = m_T + \tfrac{3}{2}m_r\):</p>
         <div class="math-eq">
           \[
-            T = \frac{1}{2}M\,\dot x^2
-              + M_h\,\dot x\,\dot\theta\cos\theta
-              + \frac{1}{2}I_h\,\dot\theta^2
+          T = \frac{1}{2}M\,\dot x^2
+          + M_h\,\dot x\,\dot\theta\cos\theta
+          + \frac{1}{2}I_h\,\dot\theta^2
           \]
         </div>
         <p class="math-p">Potential energy (gravitational, \(C_1 = g\,M_h\)):</p>
         <div class="math-eq">
           \[
-            V = \sum_{i=1}^{3} m_i\,h_i\,g\cos\theta = C_1\cos\theta
+          V = \sum_{i=1}^{3} m_i\,h_i\,g\cos\theta = C_1\cos\theta
           \]
         </div>
         <p class="math-p">The Lagrangian \(\mathcal{L} = T - V\):</p>
         <div class="math-eq">
           \[
-            \mathcal{L}
-            = \frac{1}{2}M\,\dot x^2
-            + M_h\,\dot x\,\dot\theta\cos\theta
-            + \frac{1}{2}I_h\,\dot\theta^2
-            - C_1\cos\theta
+          \mathcal{L}
+          = \frac{1}{2}M\,\dot x^2
+          + M_h\,\dot x\,\dot\theta\cos\theta
+          + \frac{1}{2}I_h\,\dot\theta^2
+          - C_1\cos\theta
           \]
         </div>
 
@@ -1058,10 +1061,10 @@
         <div class="math-eq boxed-eq">
           \[
           \begin{aligned}
-            (1)\quad & M\ddot x + M_h\cos\theta\,\ddot\theta
-              = F - b\dot x + M_h\sin\theta\,\dot\theta^2 \\[8pt]
-            (2)\quad & I_h\ddot\theta + M_h\cos\theta\,\ddot x
-              = C_1\sin\theta - c\dot\theta
+          (1)\quad & M\ddot x + M_h\cos\theta\,\ddot\theta
+          = F - b\dot x + M_h\sin\theta\,\dot\theta^2 \\[8pt]
+          (2)\quad & I_h\ddot\theta + M_h\cos\theta\,\ddot x
+          = C_1\sin\theta - c\dot\theta
           \end{aligned}
           \]
         </div>
@@ -1074,8 +1077,8 @@
         <div class="math-eq boxed-eq">
           \[
           \begin{aligned}
-            (1')\quad & M\ddot x + M_h\ddot\theta = F - b\dot x \\[8pt]
-            (2')\quad & I_h\ddot\theta + M_h\ddot x = C_1\theta - c\dot\theta
+          (1')\quad & M\ddot x + M_h\ddot\theta = F - b\dot x \\[8pt]
+          (2')\quad & I_h\ddot\theta + M_h\ddot x = C_1\theta - c\dot\theta
           \end{aligned}
           \]
         </div>
@@ -1089,16 +1092,16 @@
         <div class="math-eq">
           \[
           \begin{aligned}
-            \ddot x &=
-              -\frac{I_h b}{\Delta}\,\dot x
-              +\frac{M_h C_1}{\Delta}\,\theta
-              -\frac{M_h c}{\Delta}\,\dot\theta
-              +\frac{I_h}{\Delta}\,u \\[8pt]
-            \ddot\theta &=
-              +\frac{M_h b}{\Delta}\,\dot x
-              +\frac{M C_1}{\Delta}\,\theta
-              -\frac{M c}{\Delta}\,\dot\theta
-              -\frac{M_h}{\Delta}\,u
+          \ddot x &=
+          -\frac{I_h b}{\Delta}\,\dot x
+          +\frac{M_h C_1}{\Delta}\,\theta
+          -\frac{M_h c}{\Delta}\,\dot\theta
+          +\frac{I_h}{\Delta}\,u \\[8pt]
+          \ddot\theta &=
+          +\frac{M_h b}{\Delta}\,\dot x
+          +\frac{M C_1}{\Delta}\,\theta
+          -\frac{M c}{\Delta}\,\dot\theta
+          -\frac{M_h}{\Delta}\,u
           \end{aligned}
           \]
         </div>
@@ -1109,18 +1112,18 @@
           \[
           A =
           \begin{bmatrix}
-            0 & 1 & 0 & 0 \\[6pt]
-            0 & -\dfrac{I_h b}{\Delta} & \dfrac{M_h C_1}{\Delta} & -\dfrac{M_h c}{\Delta} \\[12pt]
-            0 & 0 & 0 & 1 \\[6pt]
-            0 & \dfrac{M_h b}{\Delta} & \dfrac{M C_1}{\Delta} & -\dfrac{M c}{\Delta}
+          0 & 1 & 0 & 0 \\[6pt]
+          0 & -\dfrac{I_h b}{\Delta} & \dfrac{M_h C_1}{\Delta} & -\dfrac{M_h c}{\Delta} \\[12pt]
+          0 & 0 & 0 & 1 \\[6pt]
+          0 & \dfrac{M_h b}{\Delta} & \dfrac{M C_1}{\Delta} & -\dfrac{M c}{\Delta}
           \end{bmatrix}
           \qquad
           B =
           \begin{bmatrix}
-            0 \\[6pt]
-            \dfrac{I_h}{\Delta} \\[12pt]
-            0 \\[6pt]
-            -\dfrac{M_h}{\Delta}
+          0 \\[6pt]
+          \dfrac{I_h}{\Delta} \\[12pt]
+          0 \\[6pt]
+          -\dfrac{M_h}{\Delta}
           \end{bmatrix}
           \]
         </div>
@@ -1210,18 +1213,40 @@ u &lt; -1  -> both motors FORWARD
             </table>
           </div>
 
-          <div style="background:var(--bg);border-radius:var(--radius-md);padding:1.2rem;border:1px solid var(--border);">
-            <p style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text);margin-bottom:0.8rem;">
+          <div
+            style="background:var(--bg);border-radius:var(--radius-md);padding:1.2rem;border:1px solid var(--border);">
+            <p
+              style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text);margin-bottom:0.8rem;">
               MATLAB Simulation &mdash; &theta;<sub>0</sub> = 10&deg;</p>
             <table class="proj-table">
               <thead>
-                <tr><th>State</th><th>Description</th><th>Converges to</th></tr>
+                <tr>
+                  <th>State</th>
+                  <th>Description</th>
+                  <th>Converges to</th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td>x<sub>1</sub></td><td>Linear position</td><td>0 m</td></tr>
-                <tr><td>x<sub>2</sub></td><td>Linear velocity</td><td>0 m/s</td></tr>
-                <tr><td>x<sub>3</sub></td><td>Pitch angle</td><td>0 rad</td></tr>
-                <tr><td>x<sub>4</sub></td><td>Pitch angular rate</td><td>0 rad/s</td></tr>
+                <tr>
+                  <td>x<sub>1</sub></td>
+                  <td>Linear position</td>
+                  <td>0 m</td>
+                </tr>
+                <tr>
+                  <td>x<sub>2</sub></td>
+                  <td>Linear velocity</td>
+                  <td>0 m/s</td>
+                </tr>
+                <tr>
+                  <td>x<sub>3</sub></td>
+                  <td>Pitch angle</td>
+                  <td>0 rad</td>
+                </tr>
+                <tr>
+                  <td>x<sub>4</sub></td>
+                  <td>Pitch angular rate</td>
+                  <td>0 rad/s</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -1371,81 +1396,6 @@ end</pre>
   </section>
 
   <!-- ══════════════════════════════════════
-       HARDWARE & SENSORS
-       ══════════════════════════════════════ -->
-  <section class="tech-section" style="background:var(--bg); border-bottom: 2px solid var(--border);">
-    <div class="section-inner">
-      <div class="section-label">
-        <span class="section-label-line"></span>
-        <span class="section-label-text">Hardware &amp; Sensors</span>
-        <span class="section-label-line"></span>
-      </div>
-
-      <div class="design-grid">
-        <div class="design-text">
-          <h3>Hardware Architecture</h3>
-          <ul>
-            <li><strong>Arduino Uno</strong> &mdash; main microcontroller running the 10 ms control loop</li>
-            <li><strong>MPU-6050</strong> &mdash; 6-DOF IMU via I&sup2;C @ 400 kHz; pitch angle and rate</li>
-            <li><strong>2&times; Optical Tachometers</strong> &mdash; interrupt-driven, 20 pulses/rev</li>
-            <li><strong>L298N Dual H-Bridge</strong> &mdash; accepts PWM, drives both DC motors</li>
-            <li><strong>2&times; DC Motors</strong> &mdash; wheel actuation</li>
-            <li><strong>LiPo Battery (125 g)</strong> &mdash; compact power supply</li>
-          </ul>
-
-          <h3>Pin Mapping (Arduino Uno)</h3>
-          <div class="proj-table-wrap">
-            <table class="proj-table">
-              <thead>
-                <tr><th>Signal</th><th>Arduino Pin</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>Tachometer A (interrupt)</td><td>D2</td></tr>
-                <tr><td>Tachometer B (interrupt)</td><td>D3</td></tr>
-                <tr><td>Motor A PWM (ENA)</td><td>D5</td></tr>
-                <tr><td>Motor A IN1</td><td>D8</td></tr>
-                <tr><td>Motor A IN2</td><td>D9</td></tr>
-                <tr><td>Motor B PWM (ENB)</td><td>D6</td></tr>
-                <tr><td>Motor B IN3</td><td>D10</td></tr>
-                <tr><td>Motor B IN4</td><td>D11</td></tr>
-                <tr><td>MPU-6050 SDA</td><td>A4</td></tr>
-                <tr><td>MPU-6050 SCL</td><td>A5</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="design-img-col">
-          <div style="background:#0f172a;border-radius:var(--radius-md);padding:1.4rem;font-family:'Fira Code','Courier New',monospace;font-size:0.71rem;color:#94a3b8;line-height:1.65;">
-            <p style="color:#38bdf8;font-weight:700;margin:0 0 0.8rem;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;">Software Architecture</p>
-            <pre style="margin:0;color:#cbd5e1;white-space:pre;">+------------------------------------------+
-|     main_SelfBalanceRobot.ino            |
-|                                          |
-|  [Gyro_MPU]  [Taco x2]  [VelIntegrat.]  |
-|  MPU-6050    Encoders    x = int(v)      |
-|  Kalman 1D   ISR-driven                  |
-|   theta,dth   omega          x           |
-|       +----------+-----------+           |
-|             State X=[x,dx,th,dth]        |
-|        +-------------------------+       |
-|        |     LQR Control Law     |       |
-|        |      u = -K * X         |       |
-|        | K=[-4.71,-3.33,         |       |
-|        |   -17.06,-1.82]         |       |
-|        +----------+--------------+       |
-|               PWM (0-230)                |
-|        +----------+--------------+       |
-|        |  L298N dual H-bridge    |       |
-|        |  Motor A  /  Motor B    |       |
-|        +-------------------------+       |
-+------------------------------------------+</pre>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════
        EMBEDDED IMPLEMENTATION
        ══════════════════════════════════════ -->
   <section class="tech-section" style="background:#fff; border-bottom: 2px solid var(--border);">
@@ -1456,11 +1406,37 @@ end</pre>
         <span class="section-label-line"></span>
       </div>
 
+      <div class="design-grid" style="margin-bottom:2.5rem;">
+        <div class="design-text">
+          <h3>Hardware Architecture</h3>
+          <ul>
+            <li><strong>Arduino Uno</strong> &mdash; main microcontroller running the 10 ms control loop</li>
+            <li><strong>MPU-6050</strong> &mdash; 6-DOF IMU via I&sup2;C @ 400 kHz; pitch angle and rate</li>
+            <li><strong>2&times; Optical Tachometers</strong> &mdash; interrupt-driven, 20 pulses/rev</li>
+            <li><strong>L298N Dual H-Bridge</strong> &mdash; accepts PWM, drives both DC motors</li>
+            <li><strong>2&times; DC Motors</strong> &mdash; wheel actuation</li>
+            <li><strong>LiPo Battery (125 g)</strong> &mdash; compact power supply</li>
+          </ul>
+        </div>
+
+        <div class="design-img-col">
+          <div class="design-img-wrap">
+            <img src="../static/Projects/SelfBalanceRobot/Paco1.jpg"
+              alt="Physical prototype of the self-balancing robot Paco"
+              style="width:100%;height:auto;display:block;background:#f8f9fb;">
+            <p class="design-caption" style="text-align:center;padding:0.6rem 0.5rem 0;">
+              The physical prototype &mdash; &ldquo;Paco&rdquo;
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div style="max-width:780px; margin-bottom:2.5rem;">
         <h3 style="font-size:1rem;font-weight:800;color:var(--dark);margin:0 0 0.5rem;">Control Loop</h3>
         <p style="font-size:0.9rem;color:var(--text);line-height:1.8;margin-bottom:1rem;">
           The control loop runs at a nominal <strong>10 ms period</strong> enforced by a
-          <code style="background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;font-family:monospace;">millis()</code>
+          <code
+            style="background:var(--primary-light);color:var(--primary);padding:0.1em 0.4em;border-radius:4px;font-family:monospace;">millis()</code>
           timer gate. The control action <em>u</em> is computed and applied only when 10 ms have elapsed.
         </p>
         <div class="code-block">
@@ -1549,8 +1525,8 @@ u = -( x*k1 + v_lineal*k2 + Pitch_angle*k3 + Pitch_rate*k4 );
       <div class="video-duo" style="grid-template-columns:1fr;max-width:680px;margin:0 auto;margin-bottom:0;">
         <div class="video-card">
           <a class="video-thumb-wrap" href="https://youtu.be/RLYL08lZvbI" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/RLYL08lZvbI/hqdefault.jpg"
-              alt="Self-Balancing Robot Paco Full Demo" loading="lazy">
+            <img src="https://img.youtube.com/vi/RLYL08lZvbI/hqdefault.jpg" alt="Self-Balancing Robot Paco Full Demo"
+              loading="lazy">
             <span class="video-part-badge">Full Demo</span>
             <span class="video-play-btn">
               <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
