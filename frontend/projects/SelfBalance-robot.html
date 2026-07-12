@@ -1283,14 +1283,14 @@ u &lt; -1  -> both motors FORWARD
       </div>
 
       <p class="math-p" style="max-width:820px;margin-bottom:2rem;">
-        The script <strong>Discomp_SelfBalanceRobot.m</strong> implements the complete design pipeline in four
-        sequential sections: discretisation of the continuous plant, structural verification (controllability
-        and observability), LQR gain computation, and closed-loop time-domain simulation from a 10&deg; initial
-        tilt. All four state trajectories are plotted to verify controller performance.
+        The simulation was developed in <strong>MATLAB</strong>, covering the full design pipeline from the
+        continuous plant model to a validated discrete controller: discretisation, structural verification,
+        gain computation, and closed-loop time-domain simulation. The resulting state trajectories are plotted
+        to verify controller performance.
       </p>
 
       <!-- Step 1: Discretisation -->
-      <h3 class="math-h3" style="margin-top:0;">§&thinsp;2 — Discretisation (ZOH, T<sub>s</sub> = 10 ms)</h3>
+      <h3 class="math-h3" style="margin-top:0;">Discretisation (ZOH, T<sub>s</sub> = 10 ms)</h3>
       <p class="math-p">
         The continuous-time plant \((A,B,C,D)\) is converted to a discrete-time model \((G,H)\) using
         <strong>Zero-Order Hold</strong> (ZOH), which faithfully represents the constant-between-samples
@@ -1306,7 +1306,7 @@ H = sys_D.B;   % Discrete input matrix</pre>
       </div>
 
       <!-- Step 2: Controllability & Observability -->
-      <h3 class="math-h3">§&thinsp;3 — Controllability &amp; Observability Check</h3>
+      <h3 class="math-h3">Controllability &amp; Observability Check</h3>
       <p class="math-p">
         Before proceeding to controller design, the script verifies that the discrete system is
         <strong>completely controllable</strong> (all states can be driven to any target) and
@@ -1329,7 +1329,7 @@ end</pre>
       </p>
 
       <!-- Step 3: LQR Design -->
-      <h3 class="math-h3">§&thinsp;4 — State Feedback Design (Discrete LQR)</h3>
+      <h3 class="math-h3">State Feedback Design (Discrete LQR)</h3>
       <p class="math-p">
         The optimal gain matrix \(K\) is obtained by minimising the infinite-horizon quadratic cost
         \(J = \sum_k (\mathbf{X}^T Q\,\mathbf{X} + u^T R\,u)\). High weights on
@@ -1350,7 +1350,7 @@ K = dlqr(G, H, Q, R);
       </p>
 
       <!-- Step 4: Simulation -->
-      <h3 class="math-h3">§&thinsp;5 — Closed-Loop Simulation</h3>
+      <h3 class="math-h3">Closed-Loop Simulation</h3>
       <p class="math-p">
         The closed-loop difference equation
         \(\mathbf{X}[k+1] = G\,\mathbf{X}[k] + H\,u[k]\), \(u[k] = -K\,\mathbf{X}[k]\)
