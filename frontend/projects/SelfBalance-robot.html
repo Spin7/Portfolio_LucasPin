@@ -18,6 +18,13 @@
   <meta name="twitter:image" content="https://lucas-pin.vercel.app/static/lp-og-preview.png">
   <link rel="stylesheet" href="../style.css">
   <style>
+    /* ── MOBILE HORIZONTAL SCROLL FIX ── */
+    html,
+    body {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
     /* ── DESIGN TOKENS (page-level) ── */
     :root {
       --acc1: #0e7490;
@@ -38,6 +45,12 @@
       grid-template-columns: 1fr 1fr;
       gap: 48px;
       align-items: start;
+      min-width: 0;
+    }
+
+    .proj-hero-left,
+    .proj-hero-right {
+      min-width: 0;
     }
 
     .proj-category-tag {
@@ -387,6 +400,7 @@
       gap: 1rem;
       position: sticky;
       top: 80px;
+      min-width: 0;
     }
 
     .design-img-wrap {
