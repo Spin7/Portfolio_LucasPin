@@ -669,8 +669,61 @@
         grid-template-columns: 1fr 1fr;
       }
     }
+
+    /* ── MATH DERIVATION SECTION ── */
+    .math-derivation {
+      max-width: 820px;
+    }
+
+    .math-h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin: 1.8rem 0 0.5rem;
+    }
+
+    .math-h3:first-child {
+      margin-top: 0;
+    }
+
+    .math-p {
+      font-size: 0.88rem;
+      color: var(--text);
+      line-height: 1.8;
+      margin-bottom: 0.5rem;
+    }
+
+    .math-ul {
+      margin: 0.3rem 0 0.8rem 1.4rem;
+      font-size: 0.86rem;
+      color: var(--text);
+      line-height: 1.75;
+    }
+
+    .math-eq {
+      margin: 0.8rem 0 1rem;
+      padding: 0.5rem 0;
+      overflow-x: auto;
+      font-size: 0.95rem;
+    }
+
+    .boxed-eq {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem 1.2rem;
+    }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <!-- MathJax for equation rendering -->
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['\\(','\\)'], ['$','$']], displayMath: [['\\[','\\]'], ['$$','$$']], tags: 'ams' },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
 </head>
 
 <body>
@@ -865,62 +918,191 @@
         <span class="section-label-line"></span>
       </div>
 
-      <div class="design-grid">
-        <div class="design-text">
-          <h3>Coupled Rigid-Body System</h3>
-          <p>
-            The robot body is approximated as two <strong>hollow cylinders</strong> (wheels, rolling without
-            slipping) and <strong>three rigid prismatic layers</strong> stacked above the wheel axle:
+      <!-- 2D Diagram -->
+      <div style="margin-bottom:2.5rem;">
+        <div class="design-img-wrap" style="max-width:720px;margin:0 auto;">
+          <img src="../static/Projects/SelfBalanceRobot/Model_2D.jpg"
+            alt="2D free-body diagram of the self-balancing robot"
+            style="width:100%;height:auto;display:block;background:#f8f9fb;">
+          <p class="design-caption" style="text-align:center;padding:0.6rem 0.5rem 0;">
+            Fig.&nbsp;1 &mdash; Simplified 2D scheme. Generalised coordinates:
+            <em>x</em> (horizontal axle position) and <em>&theta;</em> (pendulum angle from vertical).
           </p>
-          <ul>
-            <li><strong>Prism 1</strong> &mdash; Battery + DC Motors + Tachometers (h = 0.001 m, m = 0.283 kg)</li>
-            <li><strong>Prism 2</strong> &mdash; Arduino Uno + L298N driver (h = 0.052 m, m = 0.050 kg)</li>
-            <li><strong>Prism 3</strong> &mdash; MPU-6050 IMU (h = 0.100 m, m = 0.002 kg)</li>
-          </ul>
-          <p>
-            Using <strong>two generalised coordinates</strong> &mdash; horizontal axle position
-            <em>x</em> and pendulum angle <em>&theta;</em> &mdash; the Lagrange-Euler formulation yields the
-            nonlinear equations of motion, linearised around <em>&theta; = 0</em> via small-angle approximation.
-          </p>
-
-          <h3>Equations of Motion (Linearised)</h3>
-          <div class="code-block">
-            <pre>M * x'' + M_h * theta'' = F - b*x'
-I_h * theta'' + M_h * x'' = C1*theta</pre>
-          </div>
-          <p>
-            where <em>M</em> = total inertia, <em>M_h</em> = first moment of mass, <em>I_h</em> = second moment,
-            <em>C1 = g &middot; M_h</em>, and <em>b</em> is linear friction.
-          </p>
-
-          <h3>State-Space &amp; Discretisation (ZOH, T<sub>s</sub> = 10 ms)</h3>
-          <p>State vector <strong>X = [x, x&#775;, &theta;, &theta;&#775;]</strong>. Numerical matrices:</p>
-          <div class="code-block">
-            <pre>A =
-[ 0       1.0000    0        0      ]
-[ 0      -0.2847    1.6946   0      ]
-[ 0       0         0        1.0000 ]
-[ 0       5.6270  227.1964   0      ]
-
-B = [0, 2.8469, 0, -56.2702]'</pre>
-          </div>
-          <p>
-            ZOH discretisation produces discrete matrices <strong>G</strong> and <strong>H</strong>.
-            The system is verified <strong>fully controllable and observable</strong>.
-          </p>
-        </div>
-
-        <div class="design-img-col">
-          <div class="design-img-wrap">
-            <img src="../static/Projects/SelfBalanceRobot/Paco1.jpg" alt="Self-Balancing Robot Paco side view">
-            <p class="design-caption">Physical prototype &ldquo;Paco&rdquo; &mdash; three-layer body above wheel axle</p>
-          </div>
-          <div class="design-img-wrap">
-            <img src="../static/Projects/SelfBalanceRobot/Paco2.jpg" alt="Self-Balancing Robot Paco front view">
-            <p class="design-caption">Front view showing L298N driver, Arduino Uno, and MPU-6050 layers</p>
-          </div>
         </div>
       </div>
+
+      <!-- Full mathematical derivation -->
+      <div class="math-derivation">
+
+        <h3 class="math-h3">Plant Description</h3>
+        <p class="math-p">
+          The robot is modelled as a system of <strong>coupled rigid bodies</strong>: two hollow cylinders
+          (wheels) that roll without slipping, plus three rigid prismatic layers stacked above the wheel axle
+          (reference \(y=0\)):
+        </p>
+        <ul class="math-ul">
+          <li><strong>Prism 1</strong> &mdash; Battery + Motors + Tachometers &nbsp;|&nbsp;
+            \(m_1 = 0.283\;\text{kg}\), \(h_1 = 0.001\;\text{m}\)</li>
+          <li><strong>Prism 2</strong> &mdash; Arduino Uno + L298N driver &nbsp;|&nbsp;
+            \(m_2 = 0.050\;\text{kg}\), \(h_2 = 0.052\;\text{m}\)</li>
+          <li><strong>Prism 3</strong> &mdash; MPU-6050 IMU &nbsp;|&nbsp;
+            \(m_3 = 0.002\;\text{kg}\), \(h_3 = 0.100\;\text{m}\)</li>
+        </ul>
+        <p class="math-p">
+          The two <strong>generalised coordinates</strong> are \(q_1 = x\) (horizontal position of the wheel
+          axle) and \(q_2 = \theta\) (pendulum angle measured from the vertical), reducing the 3-D dynamics
+          to a tractable 2-D problem.
+        </p>
+
+        <h3 class="math-h3">Kinetic Energy &mdash; Wheels</h3>
+        <p class="math-p">
+          Each wheel (mass \(m_r/2\)) rolls without slipping (\(\dot x = r\dot\varphi\)).
+          Translational plus rotational contributions
+          (\(I_r = \tfrac{1}{2}\cdot\tfrac{m_r}{2}(r^2+r_\text{int}^2)\)):
+        </p>
+        <div class="math-eq">
+          \[
+            T_\text{wheels}
+            = 2\!\left[
+                \frac{1}{2}\cdot\frac{m_r}{2}\,\dot x^2
+              + \frac{1}{2}\cdot I_r\!\left(\frac{\dot x}{r}\right)^{\!2}
+              \right]
+            = \frac{3}{4}\,m_r\,\dot x^2
+          \]
+        </div>
+
+        <h3 class="math-h3">Kinetic Energy &mdash; Prismatic Layers</h3>
+        <p class="math-p">
+          For prism \(i\): position \(x_i = x + h_i\sin\theta\), \(y_i = h_i\cos\theta\),
+          so the squared centre-of-mass speed is:
+        </p>
+        <div class="math-eq">
+          \[
+            v_i^2 = \dot x^2 + 2h_i\,\dot x\,\dot\theta\cos\theta + h_i^2\,\dot\theta^2
+          \]
+        </div>
+        <p class="math-p">
+          With \(m_T = \sum m_i\), \(M_h = \sum m_i h_i\), \(I_h = \sum m_i h_i^2\):
+        </p>
+        <div class="math-eq">
+          \[
+            T_\text{prisms}
+            = \frac{1}{2}\!\left(
+                m_T\,\dot x^2
+              + 2M_h\,\dot x\,\dot\theta\cos\theta
+              + I_h\,\dot\theta^2
+              \right)
+          \]
+        </div>
+
+        <h3 class="math-h3">Total Kinetic Energy &amp; Lagrangian</h3>
+        <p class="math-p">Defining \(M = m_T + \tfrac{3}{2}m_r\):</p>
+        <div class="math-eq">
+          \[
+            T = \frac{1}{2}M\,\dot x^2
+              + M_h\,\dot x\,\dot\theta\cos\theta
+              + \frac{1}{2}I_h\,\dot\theta^2
+          \]
+        </div>
+        <p class="math-p">Potential energy (gravitational, \(C_1 = g\,M_h\)):</p>
+        <div class="math-eq">
+          \[
+            V = \sum_{i=1}^{3} m_i\,h_i\,g\cos\theta = C_1\cos\theta
+          \]
+        </div>
+        <p class="math-p">The Lagrangian \(\mathcal{L} = T - V\):</p>
+        <div class="math-eq">
+          \[
+            \mathcal{L}
+            = \frac{1}{2}M\,\dot x^2
+            + M_h\,\dot x\,\dot\theta\cos\theta
+            + \frac{1}{2}I_h\,\dot\theta^2
+            - C_1\cos\theta
+          \]
+        </div>
+
+        <h3 class="math-h3">Euler-Lagrange Equations</h3>
+        <p class="math-p">
+          Applying
+          \(\dfrac{d}{dt}\!\left(\dfrac{\partial\mathcal{L}}{\partial\dot q_k}\right)
+          -\dfrac{\partial\mathcal{L}}{\partial q_k} = Q_k\)
+          for each coordinate (linear friction \(b\), angular friction \(c\)):
+        </p>
+        <div class="math-eq boxed-eq">
+          \[
+          \begin{aligned}
+            (1)\quad & M\ddot x + M_h\cos\theta\,\ddot\theta
+              = F - b\dot x + M_h\sin\theta\,\dot\theta^2 \\[8pt]
+            (2)\quad & I_h\ddot\theta + M_h\cos\theta\,\ddot x
+              = C_1\sin\theta - c\dot\theta
+          \end{aligned}
+          \]
+        </div>
+
+        <h3 class="math-h3">Linearisation around \(\theta = 0\)</h3>
+        <p class="math-p">
+          Small-angle approximations
+          \(\cos\theta \approx 1\), \(\sin\theta \approx \theta\), \(\dot\theta^2 \approx 0\):
+        </p>
+        <div class="math-eq boxed-eq">
+          \[
+          \begin{aligned}
+            (1')\quad & M\ddot x + M_h\ddot\theta = F - b\dot x \\[8pt]
+            (2')\quad & I_h\ddot\theta + M_h\ddot x = C_1\theta - c\dot\theta
+          \end{aligned}
+          \]
+        </div>
+
+        <h3 class="math-h3">State-Space Representation</h3>
+        <p class="math-p">
+          State vector \(\mathbf{X} = \begin{bmatrix} x & \dot x & \theta & \dot\theta \end{bmatrix}^T\).
+          Solving \((1')\)&ndash;\((2')\) for \(\ddot x\) and \(\ddot\theta\)
+          (with \(\Delta = MI_h - M_h^2\), \(u = F\)):
+        </p>
+        <div class="math-eq">
+          \[
+          \begin{aligned}
+            \ddot x &=
+              -\frac{I_h b}{\Delta}\,\dot x
+              +\frac{M_h C_1}{\Delta}\,\theta
+              -\frac{M_h c}{\Delta}\,\dot\theta
+              +\frac{I_h}{\Delta}\,u \\[8pt]
+            \ddot\theta &=
+              +\frac{M_h b}{\Delta}\,\dot x
+              +\frac{M C_1}{\Delta}\,\theta
+              -\frac{M c}{\Delta}\,\dot\theta
+              -\frac{M_h}{\Delta}\,u
+          \end{aligned}
+          \]
+        </div>
+        <p class="math-p">
+          The continuous-time model \(\dot{\mathbf{X}} = A\mathbf{X} + Bu\):
+        </p>
+        <div class="math-eq">
+          \[
+          A =
+          \begin{bmatrix}
+            0 & 1 & 0 & 0 \\[6pt]
+            0 & -\dfrac{I_h b}{\Delta} & \dfrac{M_h C_1}{\Delta} & -\dfrac{M_h c}{\Delta} \\[12pt]
+            0 & 0 & 0 & 1 \\[6pt]
+            0 & \dfrac{M_h b}{\Delta} & \dfrac{M C_1}{\Delta} & -\dfrac{M c}{\Delta}
+          \end{bmatrix}
+          \qquad
+          B =
+          \begin{bmatrix}
+            0 \\[6pt]
+            \dfrac{I_h}{\Delta} \\[12pt]
+            0 \\[6pt]
+            -\dfrac{M_h}{\Delta}
+          \end{bmatrix}
+          \]
+        </div>
+        <p class="math-p">
+          Substituting the physical parameters and discretising by ZOH at \(T_s = 10\text{ ms}\)
+          yields the discrete matrices \(G\) and \(H\) used in the LQR design.
+        </p>
+
+      </div><!-- /math-derivation -->
     </div>
   </section>
 
