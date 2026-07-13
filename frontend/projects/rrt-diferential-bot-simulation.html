@@ -949,75 +949,127 @@
       </div>
 
       <!-- Architecture diagram -->
+      <style>
+        .arch-diagram { display:flex; flex-direction:column; align-items:center; gap:0; padding: 2rem 1rem; background: var(--bg); border:1px solid var(--border); border-radius: var(--radius-lg); }
+        .arch-diagram-title { font-size:0.68rem; font-weight:800; text-transform:uppercase; letter-spacing:0.14em; color:var(--text); margin-bottom:1.8rem; }
+        .arch-row { display:flex; align-items:center; justify-content:center; gap:1.5rem; }
+        .arch-box {
+          background:#fff;
+          border:2px solid var(--primary);
+          border-radius:12px;
+          overflow:hidden;
+          box-shadow: 0 4px 18px rgba(14,116,144,0.10);
+          min-width:150px;
+          text-align:center;
+        }
+        .arch-box-head {
+          background: rgba(14,116,144,0.08);
+          border-bottom:1.5px solid rgba(14,116,144,0.18);
+          padding:0.5rem 1rem;
+          font-size:0.68rem;
+          font-weight:800;
+          letter-spacing:0.08em;
+          text-transform:uppercase;
+          color:var(--primary);
+        }
+        .arch-box-body {
+          padding:0.65rem 1rem 0.75rem;
+          font-size:0.8rem;
+          color:var(--dark);
+          line-height:1.55;
+        }
+        .arch-box-body em { font-size:0.72rem; color:var(--text); }
+        .arch-chips { display:flex; gap:0.45rem; justify-content:center; flex-wrap:wrap; padding:0.6rem 1rem 0.8rem; }
+        .arch-chip {
+          background:rgba(14,116,144,0.10);
+          color:var(--primary);
+          font-size:0.71rem;
+          font-weight:700;
+          padding:0.28rem 0.65rem;
+          border-radius:6px;
+          border:1px solid rgba(14,116,144,0.22);
+        }
+        /* Arrows */
+        .arch-arrow-h { display:flex; flex-direction:column; align-items:center; gap:3px; }
+        .arch-arrow-h-label { font-size:0.63rem; color:var(--text); white-space:nowrap; }
+        .arch-arrow-h-line { display:flex; align-items:center; }
+        .arch-arrow-h-line .line { width:52px; height:2px; background:var(--primary); }
+        .arch-arrow-h-line .tip { width:0; height:0; border-top:5px solid transparent; border-bottom:5px solid transparent; border-left:7px solid var(--primary); }
+        .arch-arrow-v { display:flex; flex-direction:column; align-items:center; gap:2px; }
+        .arch-arrow-v-label { font-size:0.63rem; color:var(--text); white-space:nowrap; }
+        .arch-arrow-v .stem { width:2px; height:20px; background:var(--primary); }
+        .arch-arrow-v .tip { width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:7px solid var(--primary); }
+        /* L-shape connector: sensor → controller */
+        .arch-connector { position:relative; display:flex; align-items:flex-end; }
+      </style>
+
       <div style="margin-bottom:2rem;">
-        <p class="arch-flow-title" style="text-align:center;padding:0 0 1.2rem;font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--text);">System Architecture</p>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
+        <div class="arch-diagram">
+          <p class="arch-diagram-title">System Architecture</p>
 
-          <!-- Sensors row -->
-          <div style="display:flex;align-items:flex-start;gap:2rem;">
-            <div style="background:#fff;border:2px solid var(--primary);border-radius:10px;padding:0.7rem 1.2rem;text-align:center;min-width:140px;">
-              <div style="font-size:0.72rem;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem;">Sensors</div>
-              <div style="font-size:0.78rem;color:var(--dark);line-height:1.5;">GPS &nbsp;·&nbsp; IMU<br>Ultrasonic</div>
+          <!-- Row 1: Sensors ──GPS+IMU──→ State Estimator -->
+          <div class="arch-row">
+            <div class="arch-box" style="min-width:155px;">
+              <div class="arch-box-head">Sensors</div>
+              <div class="arch-box-body">GPS &nbsp;·&nbsp; IMU<br>Ultrasonic</div>
             </div>
-            <!-- Arrow right -->
-            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:1.4rem;gap:0.1rem;">
-              <div style="font-size:0.65rem;color:var(--text);white-space:nowrap;">GPS + IMU</div>
-              <div style="display:flex;align-items:center;gap:0;">
-                <div style="width:60px;height:2px;background:var(--primary);"></div>
-                <div style="width:0;height:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:8px solid var(--primary);"></div>
-              </div>
+
+            <div class="arch-arrow-h">
+              <span class="arch-arrow-h-label">GPS + IMU</span>
+              <div class="arch-arrow-h-line"><div class="line"></div><div class="tip"></div></div>
             </div>
-            <div style="background:#fff;border:2px solid var(--primary);border-radius:10px;padding:0.7rem 1.2rem;text-align:center;min-width:140px;">
-              <div style="font-size:0.72rem;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem;">State Estimator</div>
-              <div style="font-size:0.78rem;color:var(--dark);line-height:1.5;">Kalman Filter<br><em style="font-size:0.72rem;color:var(--text);">x, y, vx, vy</em></div>
+
+            <div class="arch-box" style="min-width:155px;">
+              <div class="arch-box-head">State Estimator</div>
+              <div class="arch-box-body">Kalman Filter<br><em>x, y, vx, vy</em></div>
             </div>
           </div>
 
-          <!-- Down arrows from Sensors and Estimator -->
-          <div style="display:flex;align-items:flex-start;gap:2rem;">
-            <!-- Obstacle arrow from Sensors -->
-            <div style="display:flex;flex-direction:column;align-items:center;min-width:140px;padding-top:0;">
-              <div style="width:2px;height:32px;background:var(--primary);"></div>
-              <div style="font-size:0.65rem;color:var(--text);white-space:nowrap;margin-bottom:2px;">obstacle dist.</div>
+          <!-- Row 2: Vertical connectors -->
+          <div class="arch-row" style="align-items:flex-start; gap:1.5rem; padding:0;">
+            <!-- Sensor → (horizontal + down) connector -->
+            <div style="display:flex;flex-direction:column;align-items:center;min-width:155px;">
+              <div style="width:2px;height:28px;background:var(--primary);"></div>
+              <span style="font-size:0.63rem;color:var(--text);white-space:nowrap;">obstacle dist.</span>
+              <div style="width:2px;height:10px;background:var(--primary);"></div>
             </div>
-            <!-- Spacer for arrow label -->
-            <div style="min-width:calc(60px + 8px + 2rem);"></div>
-            <!-- Fused state arrow from Estimator -->
-            <div style="display:flex;flex-direction:column;align-items:center;min-width:140px;">
-              <div style="width:2px;height:18px;background:var(--primary);"></div>
-              <div style="font-size:0.65rem;color:var(--text);white-space:nowrap;">fused state</div>
-              <div style="width:2px;height:18px;background:var(--primary);"></div>
+            <!-- spacer matching arrow width -->
+            <div style="min-width:calc(52px + 7px + 1.5rem);"></div>
+            <!-- Estimator → fused state -->
+            <div style="display:flex;flex-direction:column;align-items:center;min-width:155px;">
+              <div style="width:2px;height:16px;background:var(--primary);"></div>
+              <span style="font-size:0.63rem;color:var(--text);white-space:nowrap;">fused state</span>
+              <div style="width:2px;height:16px;background:var(--primary);"></div>
             </div>
           </div>
 
-          <!-- Controller box centred between the two input arrows -->
-          <div style="display:flex;align-items:center;gap:0;">
-            <!-- Horizontal arrow from sensor column -->
-            <div style="display:flex;align-items:center;">
-              <div style="width:80px;height:2px;background:var(--primary);"></div>
-              <div style="width:0;height:0;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:8px solid var(--primary);"></div>
+          <!-- Row 3: horizontal arrow (from sensor col) + Controller box -->
+          <div class="arch-row">
+            <div class="arch-arrow-h-line" style="margin-right:0;">
+              <div class="line" style="width:70px;"></div>
+              <div class="tip"></div>
             </div>
-            <!-- Controller box -->
-            <div style="background:#fff;border:2px solid var(--primary);border-radius:10px;padding:0.8rem 1.2rem;text-align:center;min-width:180px;">
-              <div style="font-size:0.72rem;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">Controller</div>
-              <div style="display:flex;gap:0.5rem;justify-content:center;">
-                <div style="background:var(--primary-light);border-radius:6px;padding:0.3rem 0.6rem;font-size:0.72rem;font-weight:700;color:var(--primary);">RRT Planner</div>
-                <div style="background:var(--primary-light);border-radius:6px;padding:0.3rem 0.6rem;font-size:0.72rem;font-weight:700;color:var(--primary);">Heading Control</div>
+            <div class="arch-box" style="min-width:220px;">
+              <div class="arch-box-head">Controller</div>
+              <div class="arch-chips">
+                <span class="arch-chip">RRT Planner</span>
+                <span class="arch-chip">Heading Control</span>
               </div>
             </div>
           </div>
 
-          <!-- Down arrow to Actuation -->
-          <div style="display:flex;flex-direction:column;align-items:center;">
-            <div style="width:2px;height:18px;background:var(--primary);"></div>
-            <div style="font-size:0.65rem;color:var(--text);white-space:nowrap;">wheel speeds</div>
-            <div style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:8px solid var(--primary);"></div>
+          <!-- Row 4: down arrow -->
+          <div class="arch-arrow-v">
+            <div class="stem" style="height:16px;"></div>
+            <span class="arch-arrow-v-label">wheel speeds</span>
+            <div class="stem" style="height:10px;"></div>
+            <div class="tip"></div>
           </div>
 
-          <!-- Actuation box -->
-          <div style="background:#fff;border:2px solid var(--primary);border-radius:10px;padding:0.7rem 1.2rem;text-align:center;min-width:180px;">
-            <div style="font-size:0.72rem;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem;">Actuation</div>
-            <div style="font-size:0.78rem;color:var(--dark);">Differential-Drive Bot<br><em style="font-size:0.72rem;color:var(--text);">Pymunk physics body</em></div>
+          <!-- Row 5: Actuation box -->
+          <div class="arch-box" style="min-width:220px;">
+            <div class="arch-box-head">Actuation</div>
+            <div class="arch-box-body">Differential-Drive Bot<br><em>Pymunk physics body</em></div>
           </div>
 
         </div>
