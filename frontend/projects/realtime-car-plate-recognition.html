@@ -813,44 +813,37 @@
           <thead>
             <tr>
               <th>Layer</th>
-              <th>Component</th>
               <th>Role</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Detection</strong></td>
-              <td>YOLOv8 &middot; ONNX Runtime &middot; <code>detector.py</code></td>
               <td>Letterbox &rarr; ONNX inference &rarr; NumPy NMS &rarr; xyxy boxes in original frame coords</td>
             </tr>
             <tr>
               <td><strong>Crop preprocessing</strong></td>
-              <td>OpenCV &middot; <code>make_high_quality_crop</code></td>
               <td>Lateral margin + ~10% vertical trim; perspective rectification via <code>minAreaRect</code></td>
             </tr>
             <tr>
               <td><strong>OCR</strong></td>
-              <td>EasyOCR &middot; <code>ocr_engine.py</code></td>
               <td>4 grayscale variants (2&times; upscale) &rarr; weighted vote + 7-char length bonus &rarr;
                 <code>fix_plate_by_position</code>
               </td>
             </tr>
             <tr>
               <td><strong>Tracking</strong></td>
-              <td>Centroid matching &middot; <code>tracker.py</code></td>
               <td>Dynamic radius association &rarr; deque history &rarr; majority vote &rarr; ghost tracks with fade-out
               </td>
             </tr>
             <tr>
               <td><strong>Format correction</strong></td>
-              <td>Position-aware maps &middot; LLLLNNN</td>
               <td>Letter positions: <code>0&rarr;O  1&rarr;I  5&rarr;S</code> &nbsp;&middot;&nbsp; Digit positions:
                 <code>O&rarr;0  I&rarr;1  Z&rarr;2</code>
               </td>
             </tr>
             <tr>
               <td><strong>Training</strong></td>
-              <td>Ultralytics &middot; Optuna &middot; <code>Yolo_Trainer.ipynb</code></td>
               <td>15-parameter Optuna search (10 trials) maximising mAP50 &rarr; 270-epoch final run</td>
             </tr>
           </tbody>
