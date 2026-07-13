@@ -745,7 +745,7 @@
           <span class="pill">CUDA</span>
         </div>
         <div class="proj-links-block">
-          <a href="https://github.com/Spin7" target="_blank" class="btn-outline">
+          <a href="https://github.com/Spin7/Realtime-car-plates-recognition.git" target="_blank" class="btn-outline">
             <i class="fab fa-github"></i>
             GitHub &rarr;
           </a>
@@ -832,7 +832,8 @@
               <td><strong>OCR</strong></td>
               <td>EasyOCR &middot; <code>ocr_engine.py</code></td>
               <td>4 grayscale variants (2&times; upscale) &rarr; weighted vote + 7-char length bonus &rarr;
-                <code>fix_plate_by_position</code></td>
+                <code>fix_plate_by_position</code>
+              </td>
             </tr>
             <tr>
               <td><strong>Tracking</strong></td>
@@ -844,7 +845,8 @@
               <td><strong>Format correction</strong></td>
               <td>Position-aware maps &middot; LLLLNNN</td>
               <td>Letter positions: <code>0&rarr;O  1&rarr;I  5&rarr;S</code> &nbsp;&middot;&nbsp; Digit positions:
-                <code>O&rarr;0  I&rarr;1  Z&rarr;2</code></td>
+                <code>O&rarr;0  I&rarr;1  Z&rarr;2</code>
+              </td>
             </tr>
             <tr>
               <td><strong>Training</strong></td>
@@ -952,7 +954,7 @@
             <strong>multi-variant OCR pipeline</strong> powered by <strong>EasyOCR</strong>.
             Because plate images in real traffic suffer from motion blur, low contrast, and
             variable lighting, each crop is preprocessed into <strong>four distinct grayscale
-            variants</strong> before being read:
+              variants</strong> before being read:
           </p>
           <ul>
             <li><strong>CLAHE + denoising</strong> &mdash; enhances local contrast while
