@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DifferentialBot RRT Simulator &mdash; Lucas Pin</title>
+  <meta name="description"
+    content="2D simulation of a differential-drive robot performing autonomous navigation using the RRT path planning algorithm, built with PyGame and Pymunk. Features Kalman Filter sensor fusion, PID heading control, ultrasonic obstacle detection, and live occupancy mapping.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='rgb(10,40,80)'/><text x='16' y='22' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='14' fill='white'>LP</text></svg>">
+  <link rel="apple-touch-icon" href="../static/lp-og-preview.png">
+  <meta property="og:image" content="https://lucas-pin.vercel.app/static/lp-og-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://lucas-pin.vercel.app/static/lp-og-preview.png">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* ── DESIGN TOKENS (page-level) ── */
+    :root {
+      --acc1: #0e7490;
+      --acc1-light: #ecfeff;
+    }
+
+    /* ── HERO ── */
+    .proj-hero {
+      padding-top: 24px;
+      background: #fff;
+    }
+
+    .proj-hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 32px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .proj-category-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+
+    .proj-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 900;
+      color: var(--dark);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .proj-status-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .project-status {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.28rem 0.7rem;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .project-status--done {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .proj-year {
+      font-size: 0.82rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .proj-cover {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+      margin-top: 0.5rem;
+    }
+
+    .proj-cover-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .proj-hero-right {
+      padding-top: 0.5rem;
+    }
+
+    .proj-section-heading {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 0.75rem;
+    }
+
+    .proj-overview {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.75;
+      margin-bottom: 1.4rem;
+    }
+
+    .proj-tech-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.28rem 0.7rem;
+      border-radius: 20px;
+      background: var(--primary-light);
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    .proj-links-block {
+      margin-bottom: 1.4rem;
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1.1rem;
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      transition: background 0.18s, color 0.18s;
+    }
+
+    .btn-outline:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .proj-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .proj-meta-item {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.85rem;
+    }
+
+    .proj-meta-label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .proj-meta-val {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    /* ── SHARED SECTION UTILITIES ── */
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 48px 0 28px;
+    }
+
+    .section-label-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section-label-text {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .section-intro {
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.75;
+      max-width: 720px;
+      margin-bottom: 2rem;
+    }
+
+    /* ── TECH SECTION ── */
+    .tech-section {
+      background: #fff;
+      padding: 0 0 64px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .stat-banner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-item {
+      background: #fff;
+      padding: 1.6rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.3rem;
+    }
+
+    .stat-num {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1;
+    }
+
+    .stat-unit {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text);
+    }
+
+    .stat-desc {
+      font-size: 0.78rem;
+      color: var(--text);
+      line-height: 1.4;
+      max-width: 130px;
+    }
+
+    .arch-flow {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .arch-flow-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+
+    .arch-flow code {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.77rem;
+      background: rgba(14, 116, 144, 0.08);
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+      color: var(--primary);
+    }
+
+    .proj-table-wrap {
+      overflow-x: auto;
+    }
+
+    .proj-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+    }
+
+    .proj-table th {
+      text-align: left;
+      padding: 0.6rem 1rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .proj-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--dark);
+      vertical-align: middle;
+    }
+
+    .proj-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .proj-table tr:hover td {
+      background: var(--bg);
+    }
+
+    /* ── DESIGN SECTION ── */
+    .design-section {
+      background: var(--bg);
+      padding: 0 0 64px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .design-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .design-text h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 0.6rem;
+      margin-top: 1.3rem;
+    }
+
+    .design-text h3:first-child {
+      margin-top: 0;
+    }
+
+    .design-text p {
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.75;
+      margin-bottom: 0.6rem;
+    }
+
+    .design-text ul {
+      margin: 0 0 0.8rem 1.2rem;
+      font-size: 0.84rem;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .design-img-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: sticky;
+      top: 80px;
+    }
+
+    .design-img-wrap {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    .design-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .design-caption {
+      font-size: 0.72rem;
+      color: var(--text);
+      text-align: center;
+      padding: 0.5rem 0.5rem 0;
+    }
+
+    /* ── GALLERY ── */
+    .gallery-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .gallery-item {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      background: #000;
+      position: relative;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.04);
+      opacity: 0.9;
+    }
+
+    .gallery-placeholder {
+      width: 100%;
+      height: 300px;
+      background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--acc1);
+    }
+
+    .gallery-placeholder .ph-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 0 1rem;
+      opacity: 0.8;
+    }
+
+    /* ── VIDEO ── */
+    .video-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .video-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+    }
+
+    .video-thumb-wrap {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      background: #000;
+      text-decoration: none;
+    }
+
+    .video-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .video-card:hover .video-thumb-wrap img {
+      transform: scale(1.04);
+      opacity: 0.85;
+    }
+
+    .video-play-btn {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .video-play-btn svg {
+      width: 56px;
+      height: 56px;
+      filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.55));
+      transition: transform 0.2s ease;
+    }
+
+    .video-card:hover .video-play-btn svg {
+      transform: scale(1.14);
+    }
+
+    .video-part-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(14, 116, 144, 0.88);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.22rem 0.6rem;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(4px);
+    }
+
+    .video-card-body {
+      padding: 1rem 1.1rem 1.2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .video-card-title {
+      font-size: 0.91rem;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1.4;
+    }
+
+    .video-card-desc {
+      font-size: 0.81rem;
+      color: var(--text);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .video-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.25rem;
+    }
+
+    .video-card-tag {
+      font-size: 0.67rem;
+      font-weight: 600;
+      padding: 0.18rem 0.48rem;
+      border-radius: 4px;
+      background: var(--primary-light);
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    .video-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.77rem;
+      font-weight: 600;
+      color: #cc0000;
+      text-decoration: none;
+      margin-top: 0.3rem;
+      transition: opacity 0.15s;
+    }
+
+    .video-card-link:hover {
+      opacity: 0.7;
+    }
+
+    /* ── DEMO SECTION ── */
+    .demo-section {
+      background: #fff;
+      padding: 0 0 64px;
+    }
+
+    /* ── BREADCRUMB OVERRIDE ── */
+    .proj-breadcrumb {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      display: block !important;
+    }
+
+    .breadcrumb-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 72px 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .breadcrumb-title {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 900;
+      color: var(--dark);
+      line-height: 1.1;
+      text-decoration: none;
+      display: inline-block;
+      transition: color 0.15s;
+    }
+
+    .breadcrumb-title:hover {
+      color: var(--primary);
+    }
+
+    .breadcrumb-sub {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .breadcrumb-sub .sep {
+      opacity: 0.4;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .proj-hero-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .stat-banner {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .design-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .design-img-col {
+        position: static;
+      }
+
+      .gallery-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .video-duo {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .section-inner {
+        padding: 0 16px;
+      }
+
+      .stat-banner {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="../home.html" class="nav-logo"><span class="nav-logo-icon">LP</span>Lucas Pin</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navLinks">
+      <a href="../home.html">Home</a>
+      <a href="../projects.html" class="active">Projects</a>
+      <a href="../research.html">Research</a>
+      <a href="../teaching.html">Teaching</a>
+    </div>
+  </nav>
+
+  <div class="proj-breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="../projects.html" class="breadcrumb-title">Projects</a>
+      <span class="breadcrumb-sub">
+        <span class="sep">/</span>
+        DifferentialBot RRT Simulator
+      </span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       HERO
+       ══════════════════════════════════════ -->
+  <section class="proj-hero">
+    <div class="proj-hero-inner">
+      <div class="proj-hero-left">
+        <span class="proj-category-tag">Robotics &middot; Path Planning &middot; Simulation</span>
+        <h1 class="proj-title">DifferentialBot RRT Simulator</h1>
+        <div class="proj-status-row">
+          <span class="project-status project-status--done">Year: 2026</span>
+        </div>
+        <div class="proj-cover">
+          <img src="../static/Projects/RRTsimulation/Sim_initial_path.png"
+            alt="DifferentialBot RRT Simulator &mdash; robot mid-navigation following the RRT path through a hallway map"
+            class="proj-cover-img">
+        </div>
+      </div>
+      <div class="proj-hero-right">
+        <h2 class="proj-section-heading">Overview</h2>
+        <p class="proj-overview">
+          A <strong>2D autonomous navigation simulator</strong> for a <strong>differential-drive robot</strong>
+          built in <strong>PyGame</strong> and <strong>Pymunk</strong>. The robot explores a hallway-style map,
+          detects obstacles with a cone-shaped <strong>ultrasonic sensor</strong>, constructs a live
+          <strong>occupancy map</strong>, and navigates using a path computed by the
+          <strong>Rapidly-exploring Random Tree (RRT)</strong> algorithm.
+          A <strong>Kalman Filter</strong> fuses GPS and IMU readings into a smooth state estimate, and a
+          <strong>heading-based PID controller</strong> translates each waypoint into precise left/right
+          wheel speed commands. When the robot senses a close obstacle it backs up and triggers an
+          automatic <strong>path replan</strong> &mdash; closing the full sense&ndash;plan&ndash;act loop.
+          The code is structured for hardware portability, with commented-out
+          <strong>MicroPython stubs</strong> (Raspberry Pi Pico + L298N) ready for real deployment.
+        </p>
+        <div class="proj-tech-row">
+          <span class="pill">Python</span>
+          <span class="pill">PyGame</span>
+          <span class="pill">Pymunk</span>
+          <span class="pill">NumPy</span>
+          <span class="pill">RRT</span>
+          <span class="pill">Kalman Filter</span>
+          <span class="pill">PID Control</span>
+          <span class="pill">Differential Drive</span>
+          <span class="pill">Occupancy Mapping</span>
+          <span class="pill">MicroPython</span>
+        </div>
+        <div class="proj-links-block">
+          <a href="https://github.com/Spin7/DifferentialBot-RRT-Simulator" target="_blank"
+            class="btn-outline">
+            <i class="fab fa-github"></i>
+            GitHub &rarr;
+          </a>
+        </div>
+        <div class="proj-meta-grid">
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Institution</span>
+            <span class="proj-meta-val">Universidad Nacional de Asunci&oacute;n</span>
+          </div>
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Context</span>
+            <span class="proj-meta-val">Mobile Robotics &middot; Faculty of Engineering</span>
+          </div>
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Planner</span>
+            <span class="proj-meta-val">RRT &middot; up to 3&thinsp;000 iterations</span>
+          </div>
+          <div class="proj-meta-item">
+            <span class="proj-meta-label">Estimator</span>
+            <span class="proj-meta-val">Kalman Filter &middot; GPS + IMU fusion</span>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       TECHNOLOGY STACK
+       ══════════════════════════════════════ -->
+  <section class="tech-section">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">Technology Stack</span>
+        <span class="section-label-line"></span>
+      </div>
+
+      <!-- Key numbers -->
+      <div class="stat-banner">
+        <div class="stat-item">
+          <span class="stat-num">10</span>
+          <span class="stat-unit">Modules</span>
+          <span class="stat-desc">Clean separation of planning, control, sensing &amp; physics</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">3 000</span>
+          <span class="stat-unit">Max RRT steps</span>
+          <span class="stat-desc">Collision-free path from start to goal in dense environments</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">4</span>
+          <span class="stat-unit">State vars</span>
+          <span class="stat-desc">Kalman Filter tracks x, y, vx, vy in real time</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">4</span>
+          <span class="stat-unit">Map layouts</span>
+          <span class="stat-desc">Hallway, L-corridors, sparse walls &amp; open field</span>
+        </div>
+      </div>
+
+      <!-- Module table -->
+      <div class="proj-table-wrap" style="margin-bottom:2.5rem;">
+        <table class="proj-table">
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>File</th>
+              <th>Responsibility</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Simulation entry point</strong></td>
+              <td><code>main.py</code></td>
+              <td>PyGame loop, rendering, HUD, Pause/Resume UI</td>
+            </tr>
+            <tr>
+              <td><strong>Path Planner</strong></td>
+              <td><code>RRT_Search.py</code></td>
+              <td>RRT node tree, random sampling, steering, path filtering</td>
+            </tr>
+            <tr>
+              <td><strong>High-Level Controller</strong></td>
+              <td><code>Control.py</code></td>
+              <td>Waypoint tracking, obstacle proximity, replan trigger</td>
+            </tr>
+            <tr>
+              <td><strong>PID Controller</strong></td>
+              <td><code>PIDController.py</code></td>
+              <td>Heading error &rarr; differential wheel speed commands</td>
+            </tr>
+            <tr>
+              <td><strong>State Estimator</strong></td>
+              <td><code>KalmanFilter.py</code></td>
+              <td>Constant-velocity predict + GPS/IMU update fusing</td>
+            </tr>
+            <tr>
+              <td><strong>Sensors</strong></td>
+              <td><code>SensorModules.py</code></td>
+              <td>GPS, IMU and cone-shaped ultrasonic sensor simulation</td>
+            </tr>
+            <tr>
+              <td><strong>Occupancy Map</strong></td>
+              <td><code>Mapping.py</code></td>
+              <td>Records obstacle detections; path-comparison utilities</td>
+            </tr>
+            <tr>
+              <td><strong>Obstacle Layouts</strong></td>
+              <td><code>Obstacles.py</code></td>
+              <td>4 swappable hallway / corridor / open-field definitions</td>
+            </tr>
+            <tr>
+              <td><strong>Trail Renderer</strong></td>
+              <td><code>Lines.py</code></td>
+              <td>Draws GPS trace, Kalman estimate trace, RRT path dots</td>
+            </tr>
+            <tr>
+              <td><strong>Motor Driver</strong></td>
+              <td><code>WheelMotorDrivers.py</code></td>
+              <td>Applies wheel speeds to Pymunk body; Pico GPIO stubs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Data-flow pipeline -->
+      <div class="arch-flow">
+        <p class="arch-flow-title">Data flow &mdash; each simulation frame</p>
+        <p style="font-size:0.84rem;color:var(--text);line-height:1.8;margin:0;">
+          <strong>1. Sense</strong> &mdash; <code>UARTReceiver</code> pulls fresh GPS coordinates, IMU angle &amp;
+          ultrasonic distance &nbsp;&middot;&nbsp;
+          <strong>2. Estimate</strong> &mdash; <code>KalmanFilter</code> predicts &amp; updates the state
+          &nbsp;&middot;&nbsp;
+          <strong>3. React</strong> &mdash; <code>Controller</code> checks proximity &rarr; backward motion +
+          replan if needed &nbsp;&middot;&nbsp;
+          <strong>4. Plan</strong> &mdash; <code>RRT_Search</code> generates a collision-free path from current
+          position to goal &nbsp;&middot;&nbsp;
+          <strong>5. Control</strong> &mdash; <code>PIDController</code> computes left/right speeds toward next
+          waypoint &nbsp;&middot;&nbsp;
+          <strong>6. Act</strong> &mdash; <code>WheelMotorDrivers</code> applies commands to the Pymunk body &nbsp;&middot;&nbsp;
+          <strong>7. Map</strong> &mdash; <code>Mapping</code> records new detections into the occupancy grid
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       ALGORITHM DEEP DIVE
+       ══════════════════════════════════════ -->
+  <section class="design-section">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">Algorithm Deep Dive</span>
+        <span class="section-label-line"></span>
+      </div>
+
+      <div class="design-grid" style="margin-bottom: 3rem;">
+        <div class="design-text">
+          <h3>RRT &mdash; Rapidly-exploring Random Tree</h3>
+          <p>
+            The planner incrementally builds a tree rooted at the robot's current grid position.
+            At each iteration it samples a random point in map space, finds the nearest existing
+            node, and steers toward it by <code>distance_at_node</code> grid units.
+            A new node is added only if the segment is collision-free (not in
+            <code>Map.obstacles_coordinates</code>).
+            Once a node lands within 2 grid units of the goal, the path is extracted by traversing
+            parent pointers back to the root &mdash; then smoothed before being handed to the controller.
+          </p>
+          <ul>
+            <li><strong>Max iterations</strong> &mdash; 3 000 (configurable in <code>RRT_Search.py</code>)</li>
+            <li><strong>Step size</strong> &mdash; 2 grid units &asymp; 20 px (set in <code>Control.py</code>)</li>
+            <li><strong>Replanning</strong> &mdash; triggered automatically when the ultrasonic sensor
+              detects an obstacle closer than the threshold</li>
+            <li><strong>Collision check</strong> &mdash; queries the live occupancy map so the planner
+              respects obstacles discovered at runtime</li>
+          </ul>
+
+          <h3>Kalman Filter &mdash; Sensor Fusion</h3>
+          <p>
+            A 4-state Kalman Filter (<em>x, y, vx, vy</em>) runs every frame using a
+            constant-velocity motion model. The predict step propagates the state forward;
+            the update step fuses GPS (position) and IMU (velocity/angle) measurements with
+            separate, tunable noise covariances. The filtered estimate is used by the controller
+            and rendered as a second trail on screen for visual comparison against raw GPS.
+          </p>
+          <ul>
+            <li><strong>Process variance</strong> &mdash; <code>1e-4</code> (model confidence)</li>
+            <li><strong>GPS measurement variance</strong> &mdash; <code>1e-2</code></li>
+            <li><strong>IMU measurement variance</strong> &mdash; <code>1e-2</code></li>
+          </ul>
+
+          <h3>PID Heading Controller</h3>
+          <p>
+            The controller computes the <code>atan2</code> angle to the next RRT waypoint and
+            compares it with the robot's current heading. The error drives a bang-bang + full-speed
+            strategy: if error &gt; &pi;/15 rad the robot spins left; if error &lt; &minus;&pi;/15 rad
+            it spins right; otherwise it drives straight at full speed.
+            This keeps the robot tightly aligned to each waypoint without oscillation in the physics engine.
+          </p>
+        </div>
+        <div class="design-img-col">
+          <div class="design-img-wrap">
+            <img src="../static/Projects/RRTsimulation/Sim_initial_path.png"
+              alt="Robot following the initial RRT-planned path through the hallway map">
+            <p class="design-caption">Initial RRT path &mdash; cyan dots mark planned waypoints through the hallway</p>
+          </div>
+          <div class="design-img-wrap">
+            <img src="../static/Projects/RRTsimulation/Sim_recalculate_path.png"
+              alt="Robot replanning its path after detecting an obstacle with the ultrasonic sensor">
+            <p class="design-caption">Path replan &mdash; new RRT tree generated after ultrasonic obstacle detection</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Architecture diagram -->
+      <div class="arch-flow" style="margin-bottom:2rem;">
+        <p class="arch-flow-title">System Architecture</p>
+        <div style="overflow-x:auto;">
+          <pre style="font-family:'Fira Code','Courier New',monospace;font-size:0.77rem;color:var(--text);line-height:1.7;margin:0;">
+&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;     GPS + IMU     &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
+&#x2502; SensorModules&#x2502; &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x25BA; &#x2502;  KalmanFilter   &#x2502;
+&#x2502;  GPS / IMU   &#x2502;                   &#x2502;  (x,y,vx,vy)    &#x2502;
+&#x2502;  Ultrasonic  &#x2502;                   &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x252C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x252C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;                            &#x2502; fused state
+       &#x2502; distance to obstacle               &#x25BC;
+       &#x2502;                          &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
+       &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x25BA;&#x2502;    Controller    &#x2502;
+                                  &#x2502;  (Control.py)    &#x2502;
+                                  &#x2502;  &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;  &#x2502;
+                                  &#x2502;  &#x2502; RRT Search &#x2502;  &#x2502;
+                                  &#x2502;  &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;  &#x2502;
+                                  &#x2502;  &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;  &#x2502;
+                                  &#x2502;  &#x2502;    PID     &#x2502;  &#x2502;
+                                  &#x2502;  &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;  &#x2502;
+                                  &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x252C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
+                                           &#x2502; wheel speeds
+                                           &#x25BC;
+                                  &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
+                                  &#x2502; WheelMotorDrivers&#x2502;
+                                  &#x2502;  Bot (Pymunk)    &#x2502;
+                                  &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</pre>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       CONFIGURATION & MAP LAYOUTS
+       ══════════════════════════════════════ -->
+  <section class="tech-section" style="background:#fff; border-bottom: 2px solid var(--border);">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">Configuration &amp; Map Layouts</span>
+        <span class="section-label-line"></span>
+      </div>
+
+      <p class="section-intro">
+        Key simulation parameters are set in <code>main.py</code> and the individual module constructors.
+        All values can be tuned without touching the algorithm logic &mdash; making experimentation fast.
+      </p>
+
+      <!-- Parameters table -->
+      <div class="proj-table-wrap" style="margin-bottom:2.5rem;">
+        <table class="proj-table">
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Location</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>destination</code></td>
+              <td><code>main.py</code></td>
+              <td><code>(61, 37)</code></td>
+              <td>Goal position in grid units</td>
+            </tr>
+            <tr>
+              <td><code>tile_size</code></td>
+              <td><code>main.py</code></td>
+              <td><code>10 px</code></td>
+              <td>Grid cell size (pixels per unit)</td>
+            </tr>
+            <tr>
+              <td><code>MAP_WIDTH / HEIGHT</code></td>
+              <td><code>main.py</code></td>
+              <td><code>800 &times; 600</code></td>
+              <td>Simulation canvas resolution</td>
+            </tr>
+            <tr>
+              <td><code>max_iterations</code></td>
+              <td><code>RRT_Search.py</code></td>
+              <td><code>3 000</code></td>
+              <td>Maximum RRT tree expansion steps</td>
+            </tr>
+            <tr>
+              <td><code>distance_at_node</code></td>
+              <td><code>Control.py</code></td>
+              <td><code>2</code></td>
+              <td>RRT step size in grid units</td>
+            </tr>
+            <tr>
+              <td><code>process_variance</code></td>
+              <td><code>KalmanFilter.py</code></td>
+              <td><code>1e-4</code></td>
+              <td>Kalman process noise (model confidence)</td>
+            </tr>
+            <tr>
+              <td><code>measurement_variance_gps</code></td>
+              <td><code>KalmanFilter.py</code></td>
+              <td><code>1e-2</code></td>
+              <td>GPS sensor noise covariance</td>
+            </tr>
+            <tr>
+              <td><code>measurement_variance_imu</code></td>
+              <td><code>KalmanFilter.py</code></td>
+              <td><code>1e-2</code></td>
+              <td>IMU sensor noise covariance</td>
+            </tr>
+            <tr>
+              <td><code>Obstacle layout</code></td>
+              <td><code>Obstacles.py</code></td>
+              <td><code>hallway_obstacles</code></td>
+              <td>Swap for <code>obstacles1</code>, <code>obstacles2</code>, <code>obstacles3</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Map layouts table -->
+      <div class="proj-table-wrap" style="margin-bottom:2rem;">
+        <table class="proj-table">
+          <thead>
+            <tr>
+              <th>Function</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>hallway_obstacles</code> <em>(default)</em></td>
+              <td>Hallway map with horizontal/vertical walls and multiple doorway gaps</td>
+            </tr>
+            <tr>
+              <td><code>obstacles1</code></td>
+              <td>L-shaped corridors with horizontal barriers</td>
+            </tr>
+            <tr>
+              <td><code>obstacles2</code></td>
+              <td>Empty map &mdash; no obstacles (useful for verifying pure RRT + PID behavior)</td>
+            </tr>
+            <tr>
+              <td><code>obstacles3</code></td>
+              <td>Sparse walls &mdash; good for testing open-field RRT performance</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Hardware deployment callout -->
+      <div class="arch-flow">
+        <p class="arch-flow-title">Hardware Deployment &mdash; Raspberry Pi Pico</p>
+        <p style="font-size:0.84rem;color:var(--text);line-height:1.8;margin:0;">
+          The codebase is structured for real-hardware portability. Both <code>WheelMotorDrivers.py</code> and
+          <code>UARTReceiver.py</code> contain commented-out <strong>MicroPython</strong> blocks for Raspberry Pi Pico
+          GPIO control via an <strong>L298N motor driver</strong> (PWM pins). To deploy:
+          (1)&nbsp;uncomment the <code>from machine import Pin</code> block in <code>WheelMotorDrivers.py</code>,
+          (2)&nbsp;implement real UART reads in <code>UARTReceiver.py</code>'s <code>refresh_data()</code> method, and
+          (3)&nbsp;replace sensor simulation calls with actual hardware reads in <code>SensorModules.py</code>.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 Lucas Pin</span>
+
+      <div class="footer-links">
+        <a href="https://github.com/Spin7" target="_blank" aria-label="GitHub">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+
+        <a href="https://www.linkedin.com/in/lucas-pin-0015393a8/" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i> LinkedIn
+        </a>
+
+        <a href="https://youtube.com/@lucaspin_7?si=Vfjj9czuOq_lIwLN" target="_blank" aria-label="YouTube">
+          <i class="fab fa-youtube"></i> YouTube
+        </a>
+
+        <a href="mailto:lucaspinf@gmail.com" aria-label="Email">
+          <i class="fas fa-envelope"></i> Email
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('hamburger').classList.toggle('open');
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+</body>
+
+</html>
