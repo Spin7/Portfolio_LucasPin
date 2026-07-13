@@ -949,129 +949,88 @@
       </div>
 
       <!-- Architecture diagram -->
-      <style>
-        .arch-diagram { display:flex; flex-direction:column; align-items:center; gap:0; padding: 2rem 1rem; background: var(--bg); border:1px solid var(--border); border-radius: var(--radius-lg); }
-        .arch-diagram-title { font-size:0.68rem; font-weight:800; text-transform:uppercase; letter-spacing:0.14em; color:var(--text); margin-bottom:1.8rem; }
-        .arch-row { display:flex; align-items:center; justify-content:center; gap:1.5rem; }
-        .arch-box {
-          background:#fff;
-          border:2px solid var(--primary);
-          border-radius:12px;
-          overflow:hidden;
-          box-shadow: 0 4px 18px rgba(14,116,144,0.10);
-          min-width:150px;
-          text-align:center;
-        }
-        .arch-box-head {
-          background: rgba(14,116,144,0.08);
-          border-bottom:1.5px solid rgba(14,116,144,0.18);
-          padding:0.5rem 1rem;
-          font-size:0.68rem;
-          font-weight:800;
-          letter-spacing:0.08em;
-          text-transform:uppercase;
-          color:var(--primary);
-        }
-        .arch-box-body {
-          padding:0.65rem 1rem 0.75rem;
-          font-size:0.8rem;
-          color:var(--dark);
-          line-height:1.55;
-        }
-        .arch-box-body em { font-size:0.72rem; color:var(--text); }
-        .arch-chips { display:flex; gap:0.45rem; justify-content:center; flex-wrap:wrap; padding:0.6rem 1rem 0.8rem; }
-        .arch-chip {
-          background:rgba(14,116,144,0.10);
-          color:var(--primary);
-          font-size:0.71rem;
-          font-weight:700;
-          padding:0.28rem 0.65rem;
-          border-radius:6px;
-          border:1px solid rgba(14,116,144,0.22);
-        }
-        /* Arrows */
-        .arch-arrow-h { display:flex; flex-direction:column; align-items:center; gap:3px; }
-        .arch-arrow-h-label { font-size:0.63rem; color:var(--text); white-space:nowrap; }
-        .arch-arrow-h-line { display:flex; align-items:center; }
-        .arch-arrow-h-line .line { width:52px; height:2px; background:var(--primary); }
-        .arch-arrow-h-line .tip { width:0; height:0; border-top:5px solid transparent; border-bottom:5px solid transparent; border-left:7px solid var(--primary); }
-        .arch-arrow-v { display:flex; flex-direction:column; align-items:center; gap:2px; }
-        .arch-arrow-v-label { font-size:0.63rem; color:var(--text); white-space:nowrap; }
-        .arch-arrow-v .stem { width:2px; height:20px; background:var(--primary); }
-        .arch-arrow-v .tip { width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:7px solid var(--primary); }
-        /* L-shape connector: sensor → controller */
-        .arch-connector { position:relative; display:flex; align-items:flex-end; }
-      </style>
-
       <div style="margin-bottom:2rem;">
         <div class="arch-diagram">
           <p class="arch-diagram-title">System Architecture</p>
+          <svg viewBox="0 0 550 490" xmlns="http://www.w3.org/2000/svg"
+               style="width:100%;max-width:540px;display:block;margin:0 auto;overflow:visible;"
+               font-family="Inter, system-ui, sans-serif">
+            <defs>
+              <!-- Arrowhead marker -->
+              <marker id="ah" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+                <polygon points="0 0, 9 3.5, 0 7" fill="#0e7490"/>
+              </marker>
+              <!-- Drop shadow -->
+              <filter id="bsh" x="-10%" y="-10%" width="125%" height="135%">
+                <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0e7490" flood-opacity="0.09"/>
+              </filter>
+              <!-- ClipPaths for tinted header strips -->
+              <clipPath id="cp-s"><rect x="20" y="15" width="205" height="95" rx="12"/></clipPath>
+              <clipPath id="cp-se"><rect x="320" y="15" width="215" height="95" rx="12"/></clipPath>
+              <clipPath id="cp-c"><rect x="320" y="230" width="215" height="105" rx="12"/></clipPath>
+              <clipPath id="cp-a"><rect x="320" y="400" width="215" height="88" rx="12"/></clipPath>
+            </defs>
 
-          <!-- Row 1: Sensors ──GPS+IMU──→ State Estimator -->
-          <div class="arch-row">
-            <div class="arch-box" style="min-width:155px;">
-              <div class="arch-box-head">Sensors</div>
-              <div class="arch-box-body">GPS &nbsp;·&nbsp; IMU<br>Ultrasonic</div>
-            </div>
+            <!-- ╔══ SENSORS ══╗ -->
+            <g filter="url(#bsh)">
+              <rect x="20" y="15" width="205" height="95" rx="12" fill="#fff" stroke="#0e7490" stroke-width="2"/>
+            </g>
+            <rect x="20" y="15" width="205" height="38" fill="rgba(14,116,144,0.09)" clip-path="url(#cp-s)"/>
+            <line x1="20" y1="53" x2="225" y2="53" stroke="rgba(14,116,144,0.22)" stroke-width="1"/>
+            <text x="122" y="39" text-anchor="middle" font-size="10" font-weight="800" fill="#0e7490" letter-spacing="1.8">SENSORS</text>
+            <text x="122" y="72" text-anchor="middle" font-size="12.5" fill="#1e293b">GPS &amp; IMU</text>
+            <text x="122" y="90" text-anchor="middle" font-size="12.5" fill="#1e293b">Ultrasonic</text>
 
-            <div class="arch-arrow-h">
-              <span class="arch-arrow-h-label">GPS + IMU</span>
-              <div class="arch-arrow-h-line"><div class="line"></div><div class="tip"></div></div>
-            </div>
+            <!-- ╔══ STATE ESTIMATOR ══╗ -->
+            <g filter="url(#bsh)">
+              <rect x="320" y="15" width="215" height="95" rx="12" fill="#fff" stroke="#0e7490" stroke-width="2"/>
+            </g>
+            <rect x="320" y="15" width="215" height="38" fill="rgba(14,116,144,0.09)" clip-path="url(#cp-se)"/>
+            <line x1="320" y1="53" x2="535" y2="53" stroke="rgba(14,116,144,0.22)" stroke-width="1"/>
+            <text x="427" y="39" text-anchor="middle" font-size="10" font-weight="800" fill="#0e7490" letter-spacing="1.8">STATE ESTIMATOR</text>
+            <text x="427" y="72" text-anchor="middle" font-size="12.5" fill="#1e293b">Kalman Filter</text>
+            <text x="427" y="90" text-anchor="middle" font-size="11.5" font-style="italic" fill="#64748b">x, y, vx, vy</text>
 
-            <div class="arch-box" style="min-width:155px;">
-              <div class="arch-box-head">State Estimator</div>
-              <div class="arch-box-body">Kalman Filter<br><em>x, y, vx, vy</em></div>
-            </div>
-          </div>
+            <!-- ╔══ CONTROLLER ══╗ -->
+            <g filter="url(#bsh)">
+              <rect x="320" y="230" width="215" height="105" rx="12" fill="#fff" stroke="#0e7490" stroke-width="2"/>
+            </g>
+            <rect x="320" y="230" width="215" height="38" fill="rgba(14,116,144,0.09)" clip-path="url(#cp-c)"/>
+            <line x1="320" y1="268" x2="535" y2="268" stroke="rgba(14,116,144,0.22)" stroke-width="1"/>
+            <text x="427" y="254" text-anchor="middle" font-size="10" font-weight="800" fill="#0e7490" letter-spacing="1.8">CONTROLLER</text>
+            <!-- Chips -->
+            <rect x="333" y="278" width="82" height="26" rx="6" fill="rgba(14,116,144,0.10)" stroke="rgba(14,116,144,0.22)" stroke-width="1"/>
+            <text x="374" y="295" text-anchor="middle" font-size="10" font-weight="700" fill="#0e7490">RRT Planner</text>
+            <rect x="424" y="278" width="100" height="26" rx="6" fill="rgba(14,116,144,0.10)" stroke="rgba(14,116,144,0.22)" stroke-width="1"/>
+            <text x="474" y="295" text-anchor="middle" font-size="10" font-weight="700" fill="#0e7490">Heading Control</text>
 
-          <!-- Row 2: Vertical connectors -->
-          <div class="arch-row" style="align-items:flex-start; gap:1.5rem; padding:0;">
-            <!-- Sensor → (horizontal + down) connector -->
-            <div style="display:flex;flex-direction:column;align-items:center;min-width:155px;">
-              <div style="width:2px;height:28px;background:var(--primary);"></div>
-              <span style="font-size:0.63rem;color:var(--text);white-space:nowrap;">obstacle dist.</span>
-              <div style="width:2px;height:10px;background:var(--primary);"></div>
-            </div>
-            <!-- spacer matching arrow width -->
-            <div style="min-width:calc(52px + 7px + 1.5rem);"></div>
-            <!-- Estimator → fused state -->
-            <div style="display:flex;flex-direction:column;align-items:center;min-width:155px;">
-              <div style="width:2px;height:16px;background:var(--primary);"></div>
-              <span style="font-size:0.63rem;color:var(--text);white-space:nowrap;">fused state</span>
-              <div style="width:2px;height:16px;background:var(--primary);"></div>
-            </div>
-          </div>
+            <!-- ╔══ ACTUATION ══╗ -->
+            <g filter="url(#bsh)">
+              <rect x="320" y="400" width="215" height="88" rx="12" fill="#fff" stroke="#0e7490" stroke-width="2"/>
+            </g>
+            <rect x="320" y="400" width="215" height="38" fill="rgba(14,116,144,0.09)" clip-path="url(#cp-a)"/>
+            <line x1="320" y1="438" x2="535" y2="438" stroke="rgba(14,116,144,0.22)" stroke-width="1"/>
+            <text x="427" y="424" text-anchor="middle" font-size="10" font-weight="800" fill="#0e7490" letter-spacing="1.8">ACTUATION</text>
+            <text x="427" y="456" text-anchor="middle" font-size="12.5" fill="#1e293b">Differential-Drive Bot</text>
+            <text x="427" y="473" text-anchor="middle" font-size="11" font-style="italic" fill="#64748b">Pymunk physics body</text>
 
-          <!-- Row 3: horizontal arrow (from sensor col) + Controller box -->
-          <div class="arch-row">
-            <div class="arch-arrow-h-line" style="margin-right:0;">
-              <div class="line" style="width:70px;"></div>
-              <div class="tip"></div>
-            </div>
-            <div class="arch-box" style="min-width:220px;">
-              <div class="arch-box-head">Controller</div>
-              <div class="arch-chips">
-                <span class="arch-chip">RRT Planner</span>
-                <span class="arch-chip">Heading Control</span>
-              </div>
-            </div>
-          </div>
+            <!-- ══ ARROWS ══ -->
+            <!-- GPS + IMU: Sensors right → SE left -->
+            <line x1="225" y1="62" x2="319" y2="62" stroke="#0e7490" stroke-width="2" marker-end="url(#ah)"/>
+            <text x="272" y="55" text-anchor="middle" font-size="10" fill="#64748b">GPS + IMU</text>
 
-          <!-- Row 4: down arrow -->
-          <div class="arch-arrow-v">
-            <div class="stem" style="height:16px;"></div>
-            <span class="arch-arrow-v-label">wheel speeds</span>
-            <div class="stem" style="height:10px;"></div>
-            <div class="tip"></div>
-          </div>
+            <!-- fused state: SE bottom → Controller top (straight vertical) -->
+            <line x1="427" y1="110" x2="427" y2="229" stroke="#0e7490" stroke-width="2" marker-end="url(#ah)"/>
+            <text x="443" y="174" text-anchor="start" font-size="10" fill="#64748b">fused state</text>
 
-          <!-- Row 5: Actuation box -->
-          <div class="arch-box" style="min-width:220px;">
-            <div class="arch-box-head">Actuation</div>
-            <div class="arch-box-body">Differential-Drive Bot<br><em>Pymunk physics body</em></div>
-          </div>
+            <!-- obstacle dist: L-shape — Sensors bottom → down → right → Controller left-centre -->
+            <polyline points="122,110 122,283 319,283" fill="none" stroke="#0e7490" stroke-width="2" marker-end="url(#ah)"/>
+            <text x="108" y="210" text-anchor="end" font-size="10" fill="#64748b">obstacle dist.</text>
 
+            <!-- wheel speeds: Controller bottom → Actuation top (straight vertical) -->
+            <line x1="427" y1="335" x2="427" y2="399" stroke="#0e7490" stroke-width="2" marker-end="url(#ah)"/>
+            <text x="443" y="371" text-anchor="start" font-size="10" fill="#64748b">wheel speeds</text>
+          </svg>
         </div>
       </div>
 
