@@ -875,113 +875,51 @@
   </section>
 
 
+
   <!-- ══════════════════════════════════════
-       STATIONS
+       YOLO FOR PLATE LOCALISATION
        ══════════════════════════════════════ -->
   <section class="design-section">
     <div class="section-inner">
       <div class="section-label">
         <span class="section-label-line"></span>
-        <span class="section-label-text">Stations</span>
+        <span class="section-label-text">YOLO for Plate Localisation</span>
         <span class="section-label-line"></span>
       </div>
 
-      <!-- Station 1 -->
-      <div class="design-grid" style="margin-bottom: 3rem;">
+      <div class="design-grid">
         <div class="design-text">
-          <h3>Station 1 &mdash; Wheel Feeder (UR3e &mdash; Robot 1)</h3>
+          <h3>YOLOv8 &mdash; Training &amp; Export</h3>
           <p>
-            A rotating wheel mechanism holds colored cubic workpieces arranged radially.
-            <strong>Robot 1</strong> (UR3e) picks one cube at a time from the wheel using a
-            <strong>vacuum gripper</strong>, placing it on a work table via
-            <strong>inverse-kinematics-based TCP positioning</strong>.
+            The detector is built on <strong>YOLOv8</strong>, trained from scratch on a
+            <strong>10&thinsp;125-image dataset</strong> sourced from Roboflow. An
+            <strong>Optuna hyperparameter search</strong> over 15 parameters (learning rate,
+            momentum, augmentation factors, loss weights…) ran for 10 trials maximising
+            <strong>mAP50</strong>, after which a final <strong>270-epoch training run</strong>
+            was executed with the best configuration found.
+          </p>
+          <h3>ONNX Export for Runtime Efficiency</h3>
+          <p>
+            After training, the model is exported to <strong>ONNX format</strong> (opset&nbsp;12,
+            input size 224&times;224&nbsp;px). This decouples inference from PyTorch entirely —
+            the detector runs via <strong>ONNX Runtime</strong> on either CPU or CUDA, making
+            the system lightweight and easy to deploy without a full deep-learning stack.
           </p>
           <ul>
-            <li><strong>Wheel advance</strong> &mdash; the feeder wheel rotates <strong>15°</strong> after each pick to
-              present the next piece.</li>
-            <li><strong>IK positioning</strong> &mdash; the robot's tool-center-point is solved dynamically against a
-              target frame at each pick and place location.</li>
-            <li><strong>Pick &amp; place</strong> &mdash; the vacuum gripper attaches the cube for transport and
-              releases it precisely onto the work table.</li>
-            <li><strong>Home return</strong> &mdash; the robot moves back to its safe home configuration after every
-              completed cycle.</li>
+            <li><strong>Letterbox preprocessing</strong> &mdash; frames are resized preserving
+              aspect ratio and padded to a square before inference.</li>
+            <li><strong>Pure-NumPy NMS</strong> &mdash; Non-Maximum Suppression is applied in
+              NumPy after decoding the raw output tensor, keeping the runtime dependency-free.</li>
+            <li><strong>Auto device selection</strong> &mdash; CUDA is detected at startup; the
+              system falls back to CPU transparently.</li>
           </ul>
         </div>
         <div class="design-img-col">
           <div class="design-img-wrap">
-            <img src="../static/Projects/3robotsRoboDK/Capture2.PNG"
-              alt="Station 1 — UR3e picking from the rotating wheel feeder">
-            <p class="design-caption">Station 1 &mdash; UR3e picking from the rotating wheel mechanism</p>
+            <img src="../static/Projects/RealtimeCarPlateRecognition/Yolo_carplates_detections.png"
+              alt="YOLOv8 license plate detections on real traffic footage">
+            <p class="design-caption">YOLOv8 plate detections &mdash; bounding boxes on live traffic video</p>
           </div>
-        </div>
-      </div>
-
-      <!-- Station 2 -->
-      <div class="design-grid" style="margin-bottom: 3rem;">
-        <div class="design-text">
-          <h3>Station 2 &mdash; Machining &amp; Conveyor Loading (ABB IRB 140 &mdash; Robot 2)</h3>
-          <p>
-            <strong>Robot 2</strong> (ABB IRB 140) operates with a <strong>dual-tool</strong> setup:
-            a <strong>gripper</strong> for pick-and-place operations and a <strong>milling spindle</strong>
-            (Teknomotor ER20) for machining, switching between them as the sequence demands.
-          </p>
-          <ul>
-            <li><strong>Pick</strong> &mdash; the gripper collects the workpiece from the feeding work table.</li>
-            <li><strong>Machine</strong> &mdash; the robot switches to the spindle and executes a <strong>5-waypoint
-                milling trajectory</strong> over the piece.</li>
-            <li><strong>Orientation randomization</strong> &mdash; a random rotation (0°–90°) is applied to the piece
-              before release, simulating real-world orientation variability on the belt.</li>
-            <li><strong>Conveyor drop</strong> &mdash; the robot re-grabs the machined piece and deposits it onto the
-              conveyor belt at the designated entry point.</li>
-          </ul>
-        </div>
-        <div class="design-img-col">
-          <div class="design-img-wrap">
-            <img src="../static/Projects/3robotsRoboDK/Capture4.PNG"
-              alt="Station 2 — ABB IRB 140 machining and loading the conveyor belt">
-            <p class="design-caption">Station 2 &mdash; ABB IRB 140 machining &amp; conveyor loading</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Station 3 -->
-      <div class="design-grid" style="margin-bottom: 3rem;">
-        <div class="design-text">
-          <h3>Station 3 &mdash; Vision-Guided Palletizer (UR3e &mdash; Robot 3)</h3>
-          <p>
-            <strong>Robot 3</strong> (UR3e) monitors virtual sensors along the conveyor and uses a
-            <strong>virtual camera combined with OpenCV</strong> to analyze each piece's color and
-            orientation before grasping it.
-          </p>
-          <ul>
-            <li><strong>Color detection</strong> &mdash; HSV color-space masking classifies each piece as Red, Green, or
-              Blue.</li>
-            <li><strong>Angle detection</strong> &mdash; a minimum bounding rectangle fit on the piece's contour returns
-              its orientation angle.</li>
-            <li><strong>Wrist compensation</strong> &mdash; the robot pre-rotates its wrist by the detected angle so the
-              gripper aligns perfectly with the piece before grasping.</li>
-            <li><strong>Automatic palletizing</strong> &mdash; pieces are sorted into <strong>3 color-coded
-                pallets</strong>, each filled in a <strong>4×4 grid</strong> with automatic layer advancement as rows
-              complete.</li>
-          </ul>
-        </div>
-        <div class="design-img-col">
-          <div class="design-img-wrap">
-            <img src="../static/Projects/3robotsRoboDK/Capture3.PNG"
-              alt="Station 3 — UR3e vision-guided palletizer sorting colored cubes">
-            <p class="design-caption">Station 3 &mdash; UR3e sorting pieces into color-coded pallets</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Stations overview image -->
-      <div style="margin-bottom: 2.5rem; display:flex; justify-content:center;">
-        <div class="design-img-wrap" style="max-width:620px; width:100%;">
-          <img src="../static/Projects/3robotsRoboDK/Stations.PNG"
-            alt="Overview of all 3 stations in the RoboDK manufacturing cell"
-            style="width:100%; height:auto; display:block;">
-          <p class="design-caption">Full cell overview &mdash; Station 1 (Feeder) &middot; Station 2 (Machining)
-            &middot; Station 3 (Palletizer)</p>
         </div>
       </div>
 
@@ -989,21 +927,81 @@
   </section>
 
   <!-- ══════════════════════════════════════
-       DEMO
+       OCR DETECTION
        ══════════════════════════════════════ -->
   <section class="tech-section" style="background:#fff; border-bottom: 2px solid var(--border);">
     <div class="section-inner">
       <div class="section-label">
         <span class="section-label-line"></span>
-        <span class="section-label-text">Demo</span>
+        <span class="section-label-text">OCR Detection</span>
         <span class="section-label-line"></span>
       </div>
 
+      <div class="design-grid">
+        <div class="design-text">
+          <h3>Multi-Variant OCR with Weighted Voting</h3>
+          <p>
+            Once a plate is localised, the crop is fed through a robust
+            <strong>multi-variant OCR pipeline</strong> powered by <strong>EasyOCR</strong>.
+            Because plate images in real traffic suffer from motion blur, low contrast, and
+            variable lighting, each crop is preprocessed into <strong>four distinct grayscale
+            variants</strong> before being read:
+          </p>
+          <ul>
+            <li><strong>CLAHE + denoising</strong> &mdash; enhances local contrast while
+              suppressing noise.</li>
+            <li><strong>Adaptive threshold</strong> &mdash; binarises the image locally,
+              handling uneven illumination.</li>
+            <li><strong>Grayscale–binary fusion</strong> &mdash; blends both representations
+              to balance detail and crispness.</li>
+            <li><strong>Otsu + dilation</strong> &mdash; global threshold followed by morphological
+              dilation to strengthen thin strokes.</li>
+          </ul>
+          <h3>Format Correction &amp; Perspective Rectification</h3>
+          <p>
+            All variants are upscaled 2&times; before OCR to improve character resolution.
+            Results are combined with a <strong>weighted vote + 7-character length bonus</strong>
+            to pick the best reading. A final <strong>position-aware correction step</strong>
+            maps common OCR confusions to the expected <strong>LLLLNNN</strong> format
+            (e.g. <code>0→O</code> in letter slots, <code>O→0</code> in digit slots).
+            Tilted plates are straightened via <strong>perspective rectification</strong> before
+            the variants are generated.
+          </p>
+        </div>
+        <div class="design-img-col">
+          <div class="design-img-wrap">
+            <img src="../static/Projects/RealtimeCarPlateRecognition/OSR_detection.png"
+              alt="OCR detection results — plate crops with recognised text overlaid">
+            <p class="design-caption">OCR output &mdash; recognised plate text with confidence overlay</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       VIDEO DEMO
+       ══════════════════════════════════════ -->
+  <section class="tech-section" style="background: var(--bg); border-bottom: 2px solid var(--border);">
+    <div class="section-inner">
+      <div class="section-label">
+        <span class="section-label-line"></span>
+        <span class="section-label-text">Video Demo</span>
+        <span class="section-label-line"></span>
+      </div>
+
+      <p class="section-intro">
+        The demo showcases the full pipeline running on real Asunción traffic footage: plates are
+        detected frame-by-frame, read by the OCR engine, confirmed through temporal tracking, and
+        displayed in a composite side-by-side UI with live FPS stats and a scrollable plate panel.
+      </p>
+
       <div class="video-duo" style="grid-template-columns:1fr;max-width:680px;margin:0 auto;">
         <div class="video-card">
-          <a class="video-thumb-wrap" href="https://youtu.be/gurtF5G5MJY" target="_blank" rel="noopener">
-            <img src="https://img.youtube.com/vi/gurtF5G5MJY/hqdefault.jpg"
-              alt="Multi-Robot Manufacturing Cell &mdash; Full Simulation Demo" loading="lazy">
+          <a class="video-thumb-wrap" href="https://youtu.be/le9dOvcr2To" target="_blank" rel="noopener">
+            <img src="https://img.youtube.com/vi/le9dOvcr2To/hqdefault.jpg"
+              alt="Realtime Car Plate Recognition — Full Pipeline Demo" loading="lazy">
             <span class="video-part-badge">Full Demo</span>
             <span class="video-play-btn">
               <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
@@ -1015,20 +1013,20 @@
             </span>
           </a>
           <div class="video-card-body">
-            <p class="video-card-title">Multi-Robot Manufacturing Cell &mdash; Full Simulation Demo</p>
+            <p class="video-card-title">Realtime Car Plate Recognition &mdash; Full Pipeline Demo</p>
             <p class="video-card-desc">
-              End-to-end simulation run: Robot 1 feeds colored cubes from the wheel, Robot 2 machines them and loads
-              the conveyor belt, Robot 3 detects color and orientation via OpenCV and sorts pieces into the correct
-              color-coded pallets &mdash; all orchestrated by a single master Python script.
+              End-to-end run on live Asunción traffic: YOLOv8 detects plates each frame, the
+              multi-variant OCR engine reads them, and the temporal tracker keeps confirmed text
+              stable on screen &mdash; all displayed in a composite UI with live FPS stats.
             </p>
             <div class="video-card-tags">
-              <span class="video-card-tag">RoboDK</span>
-              <span class="video-card-tag">Python</span>
+              <span class="video-card-tag">YOLOv8</span>
+              <span class="video-card-tag">ONNX Runtime</span>
+              <span class="video-card-tag">EasyOCR</span>
               <span class="video-card-tag">OpenCV</span>
-              <span class="video-card-tag">UR3e</span>
-              <span class="video-card-tag">ABB IRB 140</span>
+              <span class="video-card-tag">Python</span>
             </div>
-            <a href="https://youtu.be/gurtF5G5MJY" target="_blank" rel="noopener" class="video-card-link">
+            <a href="https://youtu.be/le9dOvcr2To" target="_blank" rel="noopener" class="video-card-link">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                 <path
                   d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
