@@ -1315,11 +1315,11 @@ H = sys_D.B;   % Discrete input matrix</pre>
       <!-- Step 2: Controllability & Observability -->
       <h3 class="math-h3">Controllability &amp; Observability Check</h3>
       <p class="math-p">
-        Before proceeding to controller design, the script verifies that the discrete system is
-        <strong>completely controllable</strong> (all states can be driven to any target) and
-        <strong>completely observable</strong> (all states can be inferred from the output \(y = x\)).
-        Both conditions are confirmed when the rank of the respective structural matrices equals the system
-        order \(n = 4\):
+        Before proceeding to controller design, the script verifies structural properties of the discrete
+        system. The system is confirmed to be <strong>completely controllable</strong> (all states can be
+        driven to any target, rank of controllability matrix = \(n = 4\)). However, the system was found to
+        be <strong>not minimally observable</strong> from any single output &mdash; no individual sensor
+        measurement alone is sufficient to reconstruct the full state vector:
       </p>
       <div class="code-block" style="margin-bottom:1.8rem;">
         <pre>if rank(ctrb(G, H)) &lt; n
@@ -1330,9 +1330,12 @@ if rank(obsv(G, C)) &lt; n
 end</pre>
       </div>
       <p class="math-p" style="margin-bottom:1.8rem;">
-        Both checks pass for the physical parameters of this robot, confirming that a state-feedback law
-        \(u = -K\mathbf{X}\) is well-defined and that the single output \(x\) is sufficient to reconstruct
-        the full state (should an observer be needed).
+        Because the system was <strong>not minimally observable</strong>, designing a state observer
+        (e.g., a Luenberger observer or Kalman filter) to reconstruct unmeasured states from a single output
+        was not feasible with the given plant structure. This motivated the decision to implement
+        <strong>direct full-state feedback</strong>: all four state variables
+        \((x,\,\dot x,\,\theta,\,\dot\theta)\) are estimated directly from the available sensors
+        (tachometers + IMU) and fed back to the LQR controller, with no observer in the loop.
       </p>
 
       <!-- Step 3: LQR Design -->
