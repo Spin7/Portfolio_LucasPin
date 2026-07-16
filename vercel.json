@@ -12,15 +12,15 @@
     { "source": "/teaching", "destination": "/teaching.html" },
     { "source": "/teaching1", "destination": "/teaching1.html" },
     { "source": "/teaching2", "destination": "/teaching2.html" },
-    { "source": "/projects/SelfBalance-robot", "destination": "/projects/SelfBalance-robot.html" },
-    { "source": "/projects/face-expression", "destination": "/projects/face-expression.html" },
+    { "source": "/projects/self-balance-robot", "destination": "/projects/self-balance-robot.html" },
+    { "source": "/projects/behavioral-face-tracking", "destination": "/projects/behavioral-face-tracking.html" },
     { "source": "/projects/gantry-robot", "destination": "/projects/gantry-robot.html" },
     { "source": "/projects/hexapod-robot", "destination": "/projects/hexapod-robot.html" },
     { "source": "/projects/realtime-car-plate-recognition", "destination": "/projects/realtime-car-plate-recognition.html" },
     { "source": "/projects/robodk-cell", "destination": "/projects/robodk-cell.html" },
     { "source": "/projects/rrt-diferential-bot-simulation", "destination": "/projects/rrt-diferential-bot-simulation.html" },
-    { "source": "/research/AgentsSimulation", "destination": "/research/AgentsSimulation.html" },
-    { "source": "/research/MechatronicsTrap", "destination": "/research/MechatronicsTrap.html" }
+    { "source": "/research/agent-simulation", "destination": "/research/agent-simulation.html" },
+    { "source": "/research/mechatronic-trap", "destination": "/research/mechatronic-trap.html" }
   ],
   "headers": [
     {
