@@ -1,7 +1,17 @@
 {
   "outputDirectory": "frontend",
   "rewrites": [
-    { "source": "/", "destination": "/home.html" }
+    { "source": "/", "destination": "/home.html" },
+    { "source": "/home", "destination": "/home.html" },
+    { "source": "/projects", "destination": "/projects.html" },
+    { "source": "/projects1", "destination": "/projects1.html" },
+    { "source": "/projects2", "destination": "/projects2.html" },
+    { "source": "/research", "destination": "/research.html" },
+    { "source": "/research1", "destination": "/research1.html" },
+    { "source": "/research2", "destination": "/research2.html" },
+    { "source": "/teaching", "destination": "/teaching.html" },
+    { "source": "/teaching1", "destination": "/teaching1.html" },
+    { "source": "/teaching2", "destination": "/teaching2.html" }
   ],
   "headers": [
     {
@@ -14,3 +24,4 @@
     }
   ]
 }
+
