@@ -26,7 +26,13 @@
     .proj-page-header {
       background: var(--bg);
       border-bottom: 2px solid var(--border);
-      padding: 96px 32px 56px;
+      padding: 84px 32px 48px;
+      min-height: 310px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
     }
 
@@ -354,6 +360,10 @@
 
     @media (max-width: 600px) {
 
+      .proj-page-header {
+        min-height: 260px;
+      }
+
       .cong-list .cong-row,
       .cong-list .cong-row:nth-child(even) {
         flex-direction: column;
@@ -370,75 +380,11 @@
       }
     }
 
-    /* ── ON-LOAD ENTRANCE: everything fades in together, staggered slightly
-       so it cascades down the page — no scroll trigger involved ── */
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(24px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .research-lines-title {
-      animation: fadeDown 0.6s ease both;
-    }
-
-    .research-line-item,
-    .pub-row,
-    .cong-row {
-      animation: fadeUp 0.6s ease both;
-    }
-
-    .proj-list-section:nth-of-type(1) .research-lines-title {
-      animation-delay: 0.25s;
-    }
-
-    .proj-list-section:nth-of-type(1) .research-line-item:nth-child(1) {
-      animation-delay: 0.33s;
-    }
-
-    .proj-list-section:nth-of-type(1) .research-line-item:nth-child(2) {
-      animation-delay: 0.41s;
-    }
-
-    .proj-list-section:nth-of-type(2) .research-lines-title {
-      animation-delay: 0.4s;
-    }
-
-    .proj-list-section:nth-of-type(2) .pub-row:nth-child(1) {
-      animation-delay: 0.48s;
-    }
-
-    .proj-list-section:nth-of-type(2) .pub-row:nth-child(2) {
-      animation-delay: 0.56s;
-    }
-
-    .proj-list-section:nth-of-type(3) .research-lines-title {
-      animation-delay: 0.55s;
-    }
-
-    .proj-list-section:nth-of-type(3) .cong-row:nth-child(1) {
-      animation-delay: 0.63s;
-    }
-
-    .proj-list-section:nth-of-type(3) .cong-row:nth-child(2) {
-      animation-delay: 0.71s;
-    }
-
     @media (prefers-reduced-motion: reduce) {
 
       .proj-page-eyebrow,
       .proj-page-title,
-      .proj-page-sub,
-      .research-lines-title,
-      .research-line-item,
-      .pub-row,
-      .cong-row {
+      .proj-page-sub {
         animation: none;
       }
     }
