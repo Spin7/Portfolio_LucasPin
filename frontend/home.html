@@ -52,6 +52,24 @@
       text-align: justify;
     }
 
+    .hero-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .hero-email i {
+      color: var(--primary);
+    }
+
+    .hero-email:hover {
+      color: var(--primary);
+    }
+
     .hero-social-buttons {
       display: flex;
       gap: 10px;
@@ -410,6 +428,10 @@
         <h1>Hi, I'm <span>Lucas Pin</span></h1>
 
         <p class="hero-role">Mechatronic Engineer</p>
+
+        <a href="mailto:lucaspinf@gmail.com" class="hero-email">
+          <i class="fas fa-envelope"></i> lucaspinf@gmail.com
+        </a>
 
         <div class="hero-divider"></div>
 
