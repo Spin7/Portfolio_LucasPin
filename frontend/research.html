@@ -388,6 +388,44 @@
         animation: none;
       }
     }
+
+    /* ── CITATION LIST ── */
+    .pub-citation-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .pub-citation-item {
+      display: flex;
+      gap: 2rem;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+
+    .pub-citation-year {
+      flex: 0 0 44px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--dark);
+      padding-top: 2px;
+    }
+
+    .pub-citation-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .pub-citation-text {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+    }
   </style>
 </head>
 
@@ -463,44 +501,41 @@
     <div class="research-lines">
       <h2 class="research-lines-title">Publications</h2>
 
-      <div class="pub-list">
+      <ul class="pub-citation-list">
 
-        <div class="pub-row">
-          <div class="pub-row-year">2026</div>
-          <div class="pub-row-body">
-            <h3 class="pub-row-title">An Agent-Based Model for Aedes aegypti Population Dynamics with Spatial
-              Heterogeneity</h3>
-            <p class="pub-row-meta">Book of Abstracts of the XLV National Congress of Applied and Computational
-              Mathematics · Sep 14, 2026</p>
+        <li class="pub-citation-item">
+          <span class="pub-citation-year">2026</span>
+          <div class="pub-citation-body">
+            <p class="pub-citation-text">L. Pin et al, "<strong>An Agent-Based Model for Aedes aegypti Population
+                Dynamics with Spatial Heterogeneity</strong>" — Abstract, Book of Abstracts, Proceedings of XLV
+              CNMAC 2026, Presidente Prudente, Brazil.</p>
             <a href="https://proceedings.science/cnmac-2026/papers/an-agent-based-model-for-aedes-aegypti-population-dynamics-with-spatial-heteroge?lang=en"
               target="_blank" rel="noopener" class="pub-row-link">See publication →</a>
           </div>
-        </div>
+        </li>
 
-        <div class="pub-row">
-          <div class="pub-row-year">2025</div>
-          <div class="pub-row-body">
-            <h3 class="pub-row-title">Towards Real-Time Mosquito Counting Using YOLO Models and Knowledge
-              Distillation</h3>
-            <p class="pub-row-meta">IEEE · Oct 9, 2025</p>
+        <li class="pub-citation-item">
+          <span class="pub-citation-year">2025</span>
+          <div class="pub-citation-body">
+            <p class="pub-citation-text">D. Balbuena et al, "<strong>Towards Real-Time Mosquito Counting Using YOLO
+                Models and Knowledge Distillation</strong>" — Paper, IEEE Xplore, Proceedings of CLEI 2025.</p>
             <a href="https://doi.org/10.1109/CLEI67442.2025.11420726" target="_blank" rel="noopener"
               class="pub-row-link">See publication →</a>
           </div>
-        </div>
+        </li>
 
-        <div class="pub-row">
-          <div class="pub-row-year">2025</div>
-          <div class="pub-row-body">
-            <h3 class="pub-row-title">Spatio-Temporal Analysis of Mosquito Populations Through Agent-Based
-              Simulation</h3>
-            <p class="pub-row-meta">Book of Abstracts of the XLIV National Congress of Applied and Computational
-              Mathematics · Sep 16, 2025</p>
+        <li class="pub-citation-item">
+          <span class="pub-citation-year">2025</span>
+          <div class="pub-citation-body">
+            <p class="pub-citation-text">L. Pin et al, "<strong>Spatio-Temporal Analysis of Mosquito Populations
+                Through Agent-Based Simulation</strong>" — Abstract, Book of Abstracts, Proceedings of XLIV CNMAC
+              2025, Rio de Janeiro, Brazil.</p>
             <a href="https://proceedings.science/cnmac-2025/papers/spatio-temporal-analysis-of-mosquito-populations-through-agent-based-simulation?lang=en"
               target="_blank" rel="noopener" class="pub-row-link">See publication →</a>
           </div>
-        </div>
+        </li>
 
-      </div>
+      </ul>
     </div>
   </section>
 
